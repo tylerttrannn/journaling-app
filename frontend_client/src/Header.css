@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  flex-direction: column; /* Arrange children vertically */
+  align-items: center; /* Center children horizontally */
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6; /* Bottom border */
+  position: relative; /* Needed for positioning children */
+  width: 100%; /* Ensure header spans full width */
+}
+
+.header h1 {
+  margin: 0;
+  padding: 10px 0; /* Padding to the title */
+  font-size: 36px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  margin-top: 10px; /* Adding space above buttons */
+}
+
+.header button {
+  margin: 0 10px; /* Add horizontal space between buttons */
+  padding: 10px 20px; /* Add padding to the buttons */
+  font-size: 16px; /* Adjust the font size */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.top-right {
+  position: absolute;
+  top: 10px; /* Distance from the top of the header */
+  right: 10px; /* Distance from the right edge of the header */
+  display: flex;
+  gap: 10px; /* Adds space between the buttons */
+}
