@@ -21,6 +21,14 @@ function Header() {
         <button>About</button>
         <button>Share</button>
       </div>
+
+      <div>
+        <button>Register</button>
+        <button>Login</button>
+      </div>
+
+      
+
     </div>
   );
 }

@@ -19,7 +19,6 @@ function Notes() {
     }, [notes]);
 
     
-
     const handleChange = (event) => {
         setText(event.target.value);
     };
