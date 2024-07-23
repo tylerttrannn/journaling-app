@@ -14,8 +14,6 @@ function Header() {
       });
   };
 
-
-
   return (
     <div className="header">
       <h1>Journaling website!</h1>
@@ -30,7 +28,10 @@ function Header() {
           <button>Register</button>
         </Link>
 
-        <button>Login</button>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+
       </div>
     </div>
   );
