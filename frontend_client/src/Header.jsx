@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import './Header.css';
 
 function Header() {
@@ -13,6 +14,8 @@ function Header() {
       });
   };
 
+
+
   return (
     <div className="header">
       <h1>Journaling website!</h1>
@@ -22,13 +25,13 @@ function Header() {
         <button>Share</button>
       </div>
 
-      <div>
-        <button>Register</button>
+      <div className = "user-container">
+        <Link to="/register">
+          <button>Register</button>
+        </Link>
+
         <button>Login</button>
       </div>
-
-      
-
     </div>
   );
 }

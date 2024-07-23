@@ -1,7 +1,8 @@
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -10,6 +11,7 @@ body, html {
 
 #root {
   width: 100%;
+  height: 100%; 
   display: flex;
   flex-direction: column;
   justify-content: flex-start; 
@@ -17,15 +19,56 @@ body, html {
 }
 
 .App {
-  width: 100%;
+  width: 100%; /* Use percentage to make it responsive */
+  max-width: 1200px; /* Optional: restrict maximum width */
+  height: auto; /* Adjust height to fit content */
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   position: relative; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center;     /* Center content horizontally */
 }
 
-.User {
-  position: absolute; 
-  top: 0px; 
-  right: -550px;
+.Notes {
+  width: 100%; /* Full width of its container */
+  max-width: 800px; /* Optional: restrict maximum width */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center;     /* Center content horizontally */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .App {
+    width: 95%;
+  }
+  .Notes {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .App {
+    width: 100%;
+    padding: 5px; /* Adjust padding for smaller screens */
+  }
+  .Notes {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .App {
+    padding: 2px; /* Further adjust padding */
+  }
+  .Notes {
+    max-width: 100%;
+    padding: 5px; /* Adjust padding for smaller screens */
+  }
 }

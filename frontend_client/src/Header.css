@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
 .header {
   display: flex;
   flex-direction: column; /* Arrange children vertically */
@@ -6,6 +12,7 @@
   border-bottom: 1px solid #dee2e6; /* Bottom border */
   position: relative; /* Needed for positioning children */
   width: 100%; /* Ensure header spans full width */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
 }
 
 .header h1 {
@@ -33,4 +40,12 @@
   right: 10px; /* Distance from the right edge of the header */
   display: flex;
   gap: 10px; /* Adds space between the buttons */
+}
+
+.user-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 10px;
 }
