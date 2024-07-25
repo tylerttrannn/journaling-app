@@ -17,28 +17,33 @@ function Register() {
             console.log("Passwords do not match!");
             return;
         }
-        
-        /** 
+
         try {
-            const response = await fetch('https://localhost:3000/add-user', {
-                method: 'POST',
+            // Convert the payload object (data) to a JSON string
+            const data = JSON.stringify(payload);
+            console.log(data);
+        
+            // Make an API call to the endpoint 'http://localhost:3000/add-user'
+            const response = await fetch('http://localhost:3000/add-user', {
+                method: 'POST', // specify it is a post request 
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json', // specifying the content type is json format
                 },
-                body: JSON.stringify(payload),
+                body: data, // Include the JSON in the request body 
             });
-
+        
             if (!response.ok) {
-                throw new Error("Network response is not okay");
+                throw new Error("Network response is not okay"); 
             }
-
+        
+            // console log 
             const result = await response.json();
-            console.log('Success', result);
-
+            console.log('Success', result); 
+        
         } catch (error) {
-            console.error('Error', error);
+            console.error('Error', error)
         }
-        */
+        
     };
 
     return (
