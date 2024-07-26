@@ -21,8 +21,18 @@ function Register() {
         try {
             // Convert the payload object (data) to a JSON string
             const data = JSON.stringify(payload);
-            console.log(data);
-        
+            const verifyUniqueEmail = await fetch(`http://localhost:3000/check-existing-user?email=${encodeURIComponent(payload['email'])}`, {
+                headers: {
+                    'Content-Type': 'application/json', // Content-Type header is optional for GET requests
+                },
+            }); 
+            const not_unique_email = await verifyUniqueEmail.json();
+
+            if(not_unique_email){
+                console.log("this email has been used before to register already!");
+                return; 
+            }
+            
             // Make an API call to the endpoint 'http://localhost:3000/add-user'
             const response = await fetch('http://localhost:3000/add-user', {
                 method: 'POST', // specify it is a post request 
@@ -31,11 +41,7 @@ function Register() {
                 },
                 body: data, // Include the JSON in the request body 
             });
-        
-            if (!response.ok) {
-                throw new Error("Network response is not okay"); 
-            }
-        
+
             // console log 
             const result = await response.json();
             console.log('Success', result); 

@@ -59,4 +59,22 @@ app.post('/add-user', async (req, res) => {
   }
 });
 
+app.get('/check-existing-user', async (req, res) => {
+  const { email } = req.query; // gets exactly only the email part 
+
+  try {
+    const checkUserQuery = 'SELECT * FROM public."Users" WHERE email = $1';
+    const { rows } = await pool.query(checkUserQuery, [email]);
+
+    if (rows.length > 0) {
+      res.status(200).json(true);
+    } else {
+      res.status(200).json(false);
+    }
+  } catch (error) {
+    console.error('Error checking user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
