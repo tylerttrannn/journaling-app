@@ -13,6 +13,13 @@ function Register() {
         // translates into plain js object (which is just in a like json format) 
         const payload = Object.fromEntries(formData);
 
+        // verifying if the email is in a common format 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(payload['email'])) {
+            console.log("Invalid email format!");
+            return;
+        }
+
         if (payload['password'] !== payload['confirm_password']) {
             console.log("Passwords do not match!");
             return;
@@ -26,6 +33,7 @@ function Register() {
                     'Content-Type': 'application/json', // Content-Type header is optional for GET requests
                 },
             }); 
+
             const not_unique_email = await verifyUniqueEmail.json();
 
             if(not_unique_email){
@@ -47,9 +55,9 @@ function Register() {
             console.log('Success', result); 
         
         } catch (error) {
+
             console.error('Error', error)
         }
-        
     };
 
     return (
