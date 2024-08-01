@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.css';
 
 function Register() {
+    const [errorMessage, setErrorMessage] = useState('');
+    const [succesMessage, setSucessMessage] = useState('')
 
     const submitForm = async (event) => {
         event.preventDefault();
+        setErrorMessage(''); // Clear any previous error messages
+        setSucessMessage('');
 
         // puts all the form data into one object
-        // event.target lets us know we are working with the form data 
         const formData = new FormData(event.target);
         // translates into plain js object (which is just in a like json format) 
         const payload = Object.fromEntries(formData);
@@ -16,12 +19,12 @@ function Register() {
         // verifying if the email is in a common format 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(payload['email'])) {
-            console.log("Invalid email format!");
+            setErrorMessage('Invalid email format!');
             return;
         }
 
         if (payload['password'] !== payload['confirm_password']) {
-            console.log("Passwords do not match!");
+            setErrorMessage('Passwords do not match!');
             return;
         }
 
@@ -39,7 +42,7 @@ function Register() {
             const not_unique_email = await verifyUniqueEmail.json();
 
             if(not_unique_email){
-                console.log("this email has been used before to register already!");
+                setErrorMessage('This email has already been used to register!');
                 return; 
             }
             
@@ -52,13 +55,12 @@ function Register() {
                 body: data, // Include the JSON in the request body 
             });
 
-            // console log 
-            const result = await response.json();
-            console.log('Success', result); 
+            // if nothing is raised registeration has been sucessful 
+            setSucessMessage('Sucess!')
         
         } catch (error) {
-
             console.error('Error', error)
+            setErrorMessage('An error occurred while processing your request.');
         }
     };
 
@@ -67,27 +69,43 @@ function Register() {
             <Link to="/">
                 <button className="home-button">Home</button>
             </Link>
+
             <div className="register-container">
                 <h1 className="register-title">Register</h1>
                 <form className="register-form" onSubmit={submitForm}>
                     <label className="register-label">First Name:</label>
-                    <input type="text" className="register-input" name="first_name" />
+                    <input type="text" className="register-input" name="first_name" required />
 
                     <label className="register-label">Last Name:</label>
-                    <input type="text" className="register-input" name="last_name" />
+                    <input type="text" className="register-input" name="last_name" required />
 
                     <label className="register-label">Email:</label>
-                    <input type="text" className="register-input" name="email" />
+                    <input type="text" className="register-input" name="email" required />
 
                     <label className="register-label">Password:</label>
-                    <input type="password" className="register-input" name="password" />
+                    <input type="password" className="register-input" name="password" required />
 
                     <label className="register-label">Confirm Password:</label>
-                    <input type="password" className="register-input" name="confirm_password" />
+                    <input type="password" className="register-input" name="confirm_password" required />
 
                     <button type="submit" className="register-button">Submit</button>
                 </form>
             </div>
+
+            {errorMessage && (
+                <div className="error">
+                    <p className="error-message">{errorMessage}</p>
+                </div>
+            )}
+
+            {succesMessage && (
+                <div className="success">
+                    <p className="success-message">{succesMessage}</p>
+                </div>
+            )}
+
+
+
         </>
     );
 }

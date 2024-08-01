@@ -52,6 +52,13 @@
     background-color: #0056b3;
 }
 
+.register-input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
 .home-button {
     padding: 10px;
     background-color: #ff6347;

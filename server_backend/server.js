@@ -8,6 +8,15 @@ app.use(cors());
 app.use(express.json()); // Use Express's built-in JSON parser
 app.set('view engine', 'ejs');
 
+/* <--- BASIC IDEA OF BACKEND ---> 
+
+FRONTEND SENDS A REQUEST 
+BACKEND REVIECVES THE REQUEST 
+BACKEND DOES SOME TASK GIVEN THE REQUEST AND INFO
+BACKEND RETURNS A RESPONSE TO FRONTEND
+
+*/
+
 // Console log and setup
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
@@ -44,7 +53,6 @@ app.post('/add-user', async (req, res) => {
     VALUES ($1, $2, $3, $4) 
     RETURNING *
   `;
-
   try {
 
     // encrypts the password to send to database 
@@ -93,7 +101,7 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid password' });
     }
 
-    res.status(200).json({ message: 'Login successful!' });
+    res.status(200).json({ success: 'Login successful!' });
   } 
   // general exception for if the server is potentialy down 
   catch (error) {
@@ -101,4 +109,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
 
