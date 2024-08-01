@@ -28,7 +28,9 @@ function Register() {
         try {
             // Convert the payload object (data) to a JSON string
             const data = JSON.stringify(payload);
+            // using get method to retrive inforamtion if this email exists 
             const verifyUniqueEmail = await fetch(`http://localhost:3000/check-existing-user?email=${encodeURIComponent(payload['email'])}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json', // Content-Type header is optional for GET requests
                 },
