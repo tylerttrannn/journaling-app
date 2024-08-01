@@ -14,18 +14,15 @@ function Login() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                // data is in format {username: tyler, password: password}
                 body: JSON.stringify(payload),
             });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
 
             const data = await response.json();
             console.log('Success:', data);
 
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erasdasdror:', error);
         }
     };
 

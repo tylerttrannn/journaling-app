@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db'); // Adjust the path if necessary
+const pool = require('./db'); // Adjust the path if necessary\
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors());
@@ -45,7 +46,13 @@ app.post('/add-user', async (req, res) => {
   `;
 
   try {
-    const result = await pool.query(insertUserQuery, [first_name, last_name, email, password]);
+
+    // encrypts the password to send to database 
+    const salt = await bcrypt.genSalt();
+    const hashedPassowrd = await bcrypt.hash(password, salt)
+    const result = await pool.query(insertUserQuery, [first_name, last_name, email, hashedPassowrd]);
+
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error('Error executing query:', err);
@@ -69,7 +76,29 @@ app.get('/check-existing-user', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  console.log('Email:', email);
-  console.log('Password:', password);
 
+  try {
+    const userQuery = 'SELECT * FROM public."Users" WHERE email = $1';
+    const { rows } = await pool.query(userQuery, [email]);
+
+    if (rows.length === 0) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    // should only be one user registered under an email 
+    const user = rows[0];
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Invalid password' });
+    }
+
+    res.status(200).json({ message: 'Login successful!' });
+  } 
+  // general exception for if the server is potentialy down 
+  catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
