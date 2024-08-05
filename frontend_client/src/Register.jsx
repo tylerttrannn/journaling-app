@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import './Register.css';
 
 function Register() {
     const [errorMessage, setErrorMessage] = useState('');
-    const [succesMessage, setSucessMessage] = useState('')
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
+
+    const auth = getAuth();
+    const db = getFirestore();
 
     const submitForm = async (event) => {
         event.preventDefault();
         setErrorMessage(''); // Clear any previous error messages
-        setSucessMessage('');
+        setSuccessMessage('');
 
         // puts all the form data into one object
         const formData = new FormData(event.target);
@@ -29,38 +35,24 @@ function Register() {
         }
 
         try {
-            // Convert the payload object (data) to a JSON string
-            const data = JSON.stringify(payload);
-            // using get method to retrive inforamtion if this email exists 
-            const verifyUniqueEmail = await fetch(`http://localhost:3000/check-existing-user?email=${encodeURIComponent(payload['email'])}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json', // Content-Type header is optional for GET requests
-                },
-            }); 
+            // Create user with email and password
+            const userCredential = await createUserWithEmailAndPassword(auth, payload['email'], payload['password']);
+            const user = userCredential.user;
 
-            const not_unique_email = await verifyUniqueEmail.json();
+            // Save additional user info in Firestore
 
-            if(not_unique_email){
-                setErrorMessage('This email has already been used to register!');
-                return; 
-            }
             
-            // Make an API call to the endpoint 'http://localhost:3000/add-user'
-            const response = await fetch('http://localhost:3000/add-user', {
-                method: 'POST', // specify it is a post request 
-                headers: {
-                    'Content-Type': 'application/json', // specifying the content type is json format
-                },
-                body: data, // Include the JSON in the request body 
+            await setDoc(doc(db, 'users', user.uid), {
+                firstName: payload['first_name'],
+                lastName: payload['last_name'],
+                email: payload['email']
             });
 
-            // if nothing is raised registeration has been sucessful 
-            setSucessMessage('Sucess!')
-        
+            setSuccessMessage('Registration successful!');
+            navigate('/'); // Redirect to the main page
         } catch (error) {
-            console.error('Error', error)
-            setErrorMessage('An error occurred while processing your request.');
+            // Handle Firebase errors
+            setErrorMessage(error.message);
         }
     };
 
@@ -98,14 +90,11 @@ function Register() {
                 </div>
             )}
 
-            {succesMessage && (
+            {successMessage && (
                 <div className="success">
-                    <p className="success-message">{succesMessage}</p>
+                    <p className="success-message">{successMessage}</p>
                 </div>
             )}
-
-
-
         </>
     );
 }

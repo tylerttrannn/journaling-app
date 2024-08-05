@@ -4,15 +4,19 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import './index.css';
 
 import App from './App.jsx';
+import FrontPage from './views/FrontPage/FrontPage.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 
 
-const router = createBrowserRouter([{
+
+const router = createBrowserRouter([
+ {
   path: '/',
-  element: <App/>,
+  element: <FrontPage/>,
   errorElement: <NotFoundPage/>
+
  },
 
  {
@@ -23,6 +27,12 @@ const router = createBrowserRouter([{
  {
   path: '/login',
   element: <Login/>
+ },
+
+ {
+  path: '/dashboard',
+  element: <App/>,
+
  }
  
 

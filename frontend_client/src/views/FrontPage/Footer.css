@@ -1,0 +1,13 @@
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .footer-container h1,
+  .footer-container p,
+  .footer-container .ui.button {
+    margin: 0 10px;
+  }
+  

@@ -1,45 +1,29 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from './firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import './Login.css';
 
 function Login() {
-
     const [errorMessage, setErrorMessage] = useState('');
-    const [succesMessage, setSucessMessage] = useState('');
-
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const verifyInfo = async (event) => {
         event.preventDefault();
         setErrorMessage('');
-        setSucessMessage('');
+        setSuccessMessage('');
 
         const formData = new FormData(event.target);
         const payload = Object.fromEntries(formData);
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                // data is in format {username: tyler, password: password}
-                body: JSON.stringify(payload),
-            });
-            
-            const loginResponse = await response.json();
-
-            if(loginResponse['error']){
-                setErrorMessage(loginResponse['error']);
-            }
-
-            if(loginResponse['success']){
-                setSucessMessage(loginResponse['success']);
-            }
-
-
+            await signInWithEmailAndPassword(auth, payload['email'], payload['password']);
+            setSuccessMessage('Login successful!');
+            navigate('/');
         } catch (error) {
-            console.error('Erasdasdror:', error);
-            setErrorMessage(error);
+            console.error('Error:', error);
+            setErrorMessage(error.message);
         }
     };
 
@@ -52,14 +36,16 @@ function Login() {
                 <h1 className="register-title">Login</h1>
                 <form className="register-form" onSubmit={verifyInfo}>
                     <label className="register-label">Email:</label>
-                    <input type="text" name="email" className = "register-input" required />
+                    <input type="text" name="email" className="register-input" required />
 
                     <label className="register-label">Password:</label>
-                    <input type="password" name="password" className = "register-input" required />
+                    <input type="password" name="password" className="register-input" required />
                     
                     <button type="submit" className="register-button">Submit</button>
                 </form>
             </div>
+            <label>Forgot Password?</label>
+
 
             {errorMessage && (
                 <div className="error">
@@ -67,11 +53,13 @@ function Login() {
                 </div>
             )}
 
-            {succesMessage && (
+            {successMessage && (
                 <div className="success">
-                    <p className="success-message">{succesMessage}</p>
+                    <p className="success-message">{successMessage}</p>
                 </div>
             )}
+
+
         </>
     );
 }
