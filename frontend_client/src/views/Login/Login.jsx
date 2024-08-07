@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from './firebase';
+import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import './Login.css';
 
@@ -20,7 +20,7 @@ function Login() {
         try {
             await signInWithEmailAndPassword(auth, payload['email'], payload['password']);
             setSuccessMessage('Login successful!');
-            navigate('/');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage(error.message);

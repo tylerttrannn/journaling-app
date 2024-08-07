@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import './Header.css';
@@ -9,6 +9,7 @@ function Header() {
   const [userName, setUserName] = useState('');
   const auth = getAuth();
   const db = getFirestore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -50,6 +51,7 @@ function Header() {
       await signOut(auth);
       setUser(null);
       setUserName('');
+      navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
