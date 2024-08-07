@@ -1,13 +1,12 @@
 .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  
-  .header-container h1,
-  .header-container p,
-  .header-container .ui.button {
-    margin: 0 10px;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.header-container h1,
+.header-container p,
+.header-container .ui.button {
+  margin: 0 10px;
+}

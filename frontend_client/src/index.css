@@ -1,5 +1,4 @@
 :root {
-
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -26,11 +25,12 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
   min-width: 320px;
   min-height: 100vh;
+  padding-top: 20px; /* Optional: Add padding if needed */
 }
-
 
 h1 {
   font-size: 3.2em;
@@ -68,5 +68,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-

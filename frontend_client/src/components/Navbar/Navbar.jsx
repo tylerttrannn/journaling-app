@@ -2,14 +2,36 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { sidebarData } from './sidebarData.jsx';  // Ensure the path is correct
+import { sidebarData } from './sidebarData.jsx'; 
+import { getAuth, signOut } from "firebase/auth";  
+import { useNavigate } from "react-router-dom";
+
+import './Navbar.css';
 
 
 import './Navbar.css';
 
 function Navbar() {
-    const [sidebar, setSidebar] = useState(false);
-    const showSidebar = () => setSidebar(!sidebar);
+    const navigate = useNavigate();
+    const [sidebar, setSidebar] = useState(true);
+    const showSidebar = () => setSidebar(sidebar);
+
+
+    const handleSignOut = () => {
+        const auth = getAuth();
+        signOut(auth).then(() => {
+            console.log("Sign-out successful.");
+            navigate('/');
+        }).catch((error) => {
+            console.error("Error signing out: ", error);
+        });
+    };
+
+    const handleItemClick = (action) => {
+        if (action === 'logout') {
+            handleSignOut();
+        }
+    };
 
     return (
         <>
@@ -35,7 +57,7 @@ function Navbar() {
                     {/* for each elemenet in the sidebarData a anonymous function (lambda functions basically )
                      returns a rendered component with the icon + title name with the link */}
                     {sidebarData.map((item, index) => (
-                        <li key={index} className={item.cName}>
+                        <li key={index} className={item.cName} onClick={() => handleItemClick(item.action)}>
                             <Link to={item.path}>
                                 {item.icon}
                                 <span>{item.title}</span>

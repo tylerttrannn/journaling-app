@@ -4,9 +4,6 @@ import * as IoIcons from "react-icons/io";
 import { TbLogout } from "react-icons/tb";  
 
 
-
-
-
 // cname = classname 
 export const sidebarData = [
     {
@@ -36,9 +33,10 @@ export const sidebarData = [
 
     {
         title: 'Logout',           
-        path: null,
+        path: '#',
         icon: <TbLogout />,       
         cName: 'nav-text',
+        action: 'logout'
     }
 
 ];
