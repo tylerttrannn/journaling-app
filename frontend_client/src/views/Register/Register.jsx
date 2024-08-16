@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection  } from 'firebase/firestore';
+
 import './Register.css';
 
 function Register() {
@@ -16,42 +17,43 @@ function Register() {
         event.preventDefault();
         setErrorMessage(''); // Clear any previous error messages
         setSuccessMessage('');
-
-        // puts all the form data into one object
+    
         const formData = new FormData(event.target);
-        // translates into plain js object (which is just in a like json format) 
         const payload = Object.fromEntries(formData);
-
-        // verifying if the email is in a common format 
+    
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(payload['email'])) {
             setErrorMessage('Invalid email format!');
             return;
         }
-
+    
         if (payload['password'] !== payload['confirm_password']) {
             setErrorMessage('Passwords do not match!');
             return;
         }
-
+    
         try {
-            // Create user with email and password
             const userCredential = await createUserWithEmailAndPassword(auth, payload['email'], payload['password']);
             const user = userCredential.user;
-
+    
             // Save additional user info in Firestore
-
-            
             await setDoc(doc(db, 'users', user.uid), {
                 firstName: payload['first_name'],
                 lastName: payload['last_name'],
                 email: payload['email']
             });
-
+    
+            // Creating a journal subcollection 
+            const journalCollectionRef = collection(db, 'users', user.uid, 'journal');
+            await setDoc(doc(journalCollectionRef, 'entry1'), {
+                title: 'First Journal Entry',
+                content: 'This is your first entry!',
+                createdAt: new Date()
+            });
+    
             setSuccessMessage('Registration successful!');
             navigate('/'); // Redirect to the main page
         } catch (error) {
-            // Handle Firebase errors
             setErrorMessage(error.message);
         }
     };

@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.home,
+.reports,
+.products {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+
+.new-note {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 50%;
+  width: 60px;  /* Ensure the width and height are equal */
+  height: 60px;
+  line-height: 20px;  /* Center the text vertically */
+}
+
+
+
+.select-note-range button {
+  margin: 5px;
+}
+
+.select-note-range button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.notes-content {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+}

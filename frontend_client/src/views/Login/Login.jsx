@@ -20,7 +20,7 @@ function Login() {
         try {
             await signInWithEmailAndPassword(auth, payload['email'], payload['password']);
             setSuccessMessage('Login successful!');
-            navigate('/dashboard');
+            navigate('/journal');
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage(error.message);

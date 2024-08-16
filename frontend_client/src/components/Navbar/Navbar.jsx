@@ -33,13 +33,19 @@ function Navbar() {
         }
     };
 
-    return (
-        <>
-            <div className="navbar">
+    /*
+                <div className="navbar">
                 <Link to="#" className="menu-bars">
                     <FaBars onClick={showSidebar} />
                 </Link>
             </div>
+
+    */
+
+    return (
+        <>
+
+
 
             {/*this nav will take on two different class names depending on if 
             the user clicked on the menu or not to activate different styling 
