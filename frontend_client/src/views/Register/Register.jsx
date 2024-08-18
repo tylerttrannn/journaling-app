@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword,updateProfile  } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection  } from 'firebase/firestore';
 
 import './Register.css';
@@ -35,6 +35,12 @@ function Register() {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, payload['email'], payload['password']);
             const user = userCredential.user;
+
+
+            await updateProfile(user, {
+                displayName: `${payload['first_name']} ${payload['last_name']}`
+            });
+
     
             // Save additional user info in Firestore
             await setDoc(doc(db, 'users', user.uid), {
@@ -50,7 +56,7 @@ function Register() {
                 content: 'This is your first entry!',
                 createdAt: new Date()
             });
-    
+
             setSuccessMessage('Registration successful!');
             navigate('/'); // Redirect to the main page
         } catch (error) {

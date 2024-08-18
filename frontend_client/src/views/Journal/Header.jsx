@@ -9,7 +9,7 @@ function Header() {
         const auth = getAuth();
         const user = auth.currentUser;
 
-        console.log(user);
+        console.log("current user is ", user);
 
         if (user) {
             setUserName(user.displayName);

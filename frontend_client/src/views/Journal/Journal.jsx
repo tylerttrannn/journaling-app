@@ -2,11 +2,18 @@ import './Journal.css';
 import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { getFirestore, doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
+
 
 function Journal() {
   const [noteRange, setNoteRange] = useState('Today');
+  const [notesData, setNotesData] = useState([]);
+
   const navigate = useNavigate();
 
   const newNote = () => {
@@ -28,6 +35,39 @@ function Journal() {
     }
   };
 
+
+  const notes = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const database = getFirestore();
+      const journalCollectionRef = collection(database, 'users', user.uid, 'journal');
+
+      try {
+        const snapshot = await getDocs(journalCollectionRef);
+
+        // look at this later 
+        const notesList = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        setNotesData(notesList);
+        console.log("Notes:", notesList);
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      }
+    } else {
+      console.error("User is not authenticated");
+    }
+  };
+
+  useEffect(() => {
+    notes();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+
   return (
     <div className="Journal">
       <Header />
@@ -41,11 +81,17 @@ function Journal() {
 
       <div className="notes-content">
         {renderNotes()}
+        {notesData.map(note => (
+          <div key={note.id}>
+            <h3>{note.title}</h3>
+            <p>{note.content}</p>
+            <p>{note.createdAt.toDate().toLocaleString()}</p>
+          </div>
+        ))}
       </div>
 
 
       <button className="new-note" onClick={newNote}> + </button>
-
       <Footer />
     </div>
   );
