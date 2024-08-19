@@ -10,15 +10,23 @@ import { getAuth } from 'firebase/auth';
 
 
 
+
 function Journal() {
   const [noteRange, setNoteRange] = useState('Today');
   const [notesData, setNotesData] = useState([]);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
+
 
   const navigate = useNavigate();
 
   const newNote = () => {
     navigate('/journal/new-note');
   };
+
+  const viewNote = (id) => {
+      setSelectedNoteId(id);
+      navigate(`/journal/note/${id}`);
+  }
 
   const renderNotes = () => {
     switch (noteRange) {
@@ -54,7 +62,7 @@ function Journal() {
         }));
 
         setNotesData(notesList);
-        console.log("Notes:", notesList);
+
       } catch (error) {
         console.error("Error fetching notes:", error);
       }
@@ -63,6 +71,7 @@ function Journal() {
     }
   };
 
+  // this loads the note data into notesData 
   useEffect(() => {
     notes();
   }, []); // Empty dependency array ensures this runs only once when the component mounts
@@ -82,9 +91,12 @@ function Journal() {
       <div className="notes-content">
         {renderNotes()}
         {notesData.map(note => (
-          <div key={note.id}>
+          <div
+          key={note.id}
+          className="note-entry"
+          onClick={() => viewNote(note.id)}
+        >
             <h3>{note.title}</h3>
-            <p>{note.content}</p>
             <p>{note.createdAt.toDate().toLocaleString()}</p>
           </div>
         ))}

@@ -9,8 +9,8 @@ import Login from './views/Login/Login.jsx';
 import Register from './views/Register/Register.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
-
-import NewNote from './views/Journal/NewNote.jsx'
+import NewNote from './views/Journal/NewNote.jsx';
+import NoteDetails from './views/Journal/NoteDetails.jsx'
 
 
 const router = createBrowserRouter([
@@ -44,6 +44,11 @@ const router = createBrowserRouter([
  {
   path: '/journal/new-note',
   element: <NewNote/>
+ },
+
+ {
+  path: '/journal/note/:noteId',
+  element: <NoteDetails/>
  }
 
 

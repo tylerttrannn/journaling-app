@@ -44,9 +44,6 @@ function Navbar() {
 
     return (
         <>
-
-
-
             {/*this nav will take on two different class names depending on if 
             the user clicked on the menu or not to activate different styling 
             (to expand the navbar or not) */}
