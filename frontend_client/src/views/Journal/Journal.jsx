@@ -9,8 +9,6 @@ import { getFirestore, doc, setDoc, getDocs, collection } from 'firebase/firesto
 import { getAuth } from 'firebase/auth';
 
 
-
-
 function Journal() {
   const [noteRange, setNoteRange] = useState('Today');
   const [notesData, setNotesData] = useState([]);
