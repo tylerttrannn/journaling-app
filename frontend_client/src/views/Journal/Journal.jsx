@@ -51,6 +51,7 @@ function Journal() {
       const journalCollectionRef = collection(database, 'users', user.uid, 'journal');
 
       try {
+        // this retrives all the documents from the journal collection for that user 
         const snapshot = await getDocs(journalCollectionRef);
 
         // look at this later 
