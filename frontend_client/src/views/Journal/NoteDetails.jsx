@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getFirestore, doc, getDoc, updateDoc} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-function NoteDetails() {
-  // get id from user 
+import Header from './Header.jsx';
+import Navbar from '../../components/Navbar/Navbar.jsx';
 
+function NoteDetails() {
   const params = useParams(); 
   const id = params.noteId;
+
+  const navigate = useNavigate();
+
   const [note, setNote] = useState(null);
+  const [title, setTitle] = useState('');
+  const [entry, setEntry] = useState('');
+  const [edit, setEdit] = useState(false);
+
+
+
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -23,17 +33,16 @@ function NoteDetails() {
           const noteSnapshot = await getDoc(noteRef);
 
           if (noteSnapshot.exists()) {
+            const noteData = noteSnapshot.data();
             setNote({
               id: noteSnapshot.id,
-              ...noteSnapshot.data()
+              ...noteData
             });
-          } 
-
-          else {
+            setTitle(noteData.title);
+            setEntry(noteData.content);
+          } else {
             console.error("No such document!");
           }
-
-
         } catch (error) {
           console.error("Error fetching note:", error);
         }
@@ -43,18 +52,67 @@ function NoteDetails() {
     };
 
     fetchNote();
-  }, [id]); // fetch the note whenever the id changes
+  }, [id]);
 
   if (!note) {
     return <div>Loading...</div>;
   }
 
+  const modifyNote = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const database = getFirestore();
+    const noteRef = doc(database, 'users', user.uid, 'journal', id);
+
+
+    await updateDoc(noteRef, {
+      content: entry,
+      title: title
+    })
+ 
+    setEdit(false);
+    navigate('/journal');
+
+  }
+
   return (
-    <div className="NoteDetails">
-      <h2>{note.title}</h2>
-      <p>{note.createdAt.toDate().toLocaleString()}</p>
-      <div>{note.content}</div>
-    </div>
+    <>
+      <Header/>
+      <Navbar/>
+      <div className="NoteDetails">
+
+        {edit ? (
+          <>
+            <input
+              id="title"
+              name="title-text"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <textarea
+              id="entry"
+              name="entry-text"
+              rows="10"
+              cols="50"
+              value={entry}
+              onChange={(e) => setEntry(e.target.value)}
+            ></textarea>
+            <button onClick={modifyNote}>Save</button>
+
+          </>
+          // other condition is set here if edit is not true 
+        ) :(
+          <>
+            <h2>{note.title}</h2>
+            <p>{note.content}</p>
+            <button onClick={() => setEdit(true)}>Edit</button>
+          </>
+        )}
+
+
+      </div>
+    </>
   );
 }
 
