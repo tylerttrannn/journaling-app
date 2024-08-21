@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar/Navbar.jsx';
 import { useState,useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getFirestore, doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDocs, collection, deleteDoc} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 
@@ -13,6 +13,7 @@ function Journal() {
   const [noteRange, setNoteRange] = useState('Today');
   const [notesData, setNotesData] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const [selectDeleteNote, setSelectDeleteNote] = useState(false);
 
 
   const navigate = useNavigate();
@@ -41,6 +42,33 @@ function Journal() {
     }
   };
 
+  
+  const deleteNote = async (id) => {
+    setSelectDeleteNote(false);
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user){
+      const database = getFirestore();
+      const documentRef = doc(database, 'users', user.uid, 'journal', id);
+
+      try{
+        await deleteDoc(documentRef);
+        const updatedNotes = notesData.filter((note) => note.id !== id);
+        setNotesData(updatedNotes);
+
+        console.log("Document successfully deleted!");
+      }
+      catch(error){
+        console.log("there was an error that occured", error);
+      }
+
+    }
+
+  };
+  
+  
 
   const notes = async () => {
     const auth = getAuth();
@@ -89,20 +117,27 @@ function Journal() {
 
       <div className="notes-content">
         {renderNotes()}
+
         {notesData.map(note => (
           <div
           key={note.id}
-          className="note-entry"
-          onClick={() => viewNote(note.id)}
+          className={`note-entry ${ selectDeleteNote ? 'delete-note' : ''}`}  // if selectDeleteNote is true then each note item's class name will change to delete-note 
+          onClick={
+            selectDeleteNote
+              ? () => deleteNote(note.id)  // delete the note if selectDelteNote
+              : () => viewNote(note.id)  // view the note otherwise 
+          }
         >
-            <h3>{note.title}</h3>
-            <p>{note.createdAt.toDate().toLocaleString()}</p>
-          </div>
-        ))}
+          <h3>{note.title}</h3>
+          <p>{note.createdAt.toDate().toLocaleString()}</p>
+        </div>
+      ))}
+
+
       </div>
 
-
       <button className="new-note" onClick={newNote}> + </button>
+      <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
       <Footer />
     </div>
   );
