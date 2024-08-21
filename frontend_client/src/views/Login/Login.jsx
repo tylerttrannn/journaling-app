@@ -6,20 +6,17 @@ import './Login.css';
 
 function Login() {
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
     const verifyInfo = async (event) => {
         event.preventDefault();
         setErrorMessage('');
-        setSuccessMessage('');
 
         const formData = new FormData(event.target);
         const payload = Object.fromEntries(formData);
 
         try {
             await signInWithEmailAndPassword(auth, payload['email'], payload['password']);
-            setSuccessMessage('Login successful!');
             navigate('/journal');
         } catch (error) {
             console.error('Error:', error);
@@ -46,19 +43,11 @@ function Login() {
             </div>
             <label>Forgot Password?</label>
 
-
             {errorMessage && (
                 <div className="error">
                     <p className="error-message">{errorMessage}</p>
                 </div>
             )}
-
-            {successMessage && (
-                <div className="success">
-                    <p className="success-message">{successMessage}</p>
-                </div>
-            )}
-
 
         </>
     );

@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars } from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { sidebarData } from './sidebarData.jsx'; 
 import { getAuth, signOut } from "firebase/auth";  
 import { useNavigate } from "react-router-dom";
-
-import './Navbar.css';
-
-
 import './Navbar.css';
 
 function Navbar() {
     const navigate = useNavigate();
     const [sidebar, setSidebar] = useState(true);
     const showSidebar = () => setSidebar(sidebar);
-
 
     const handleSignOut = () => {
         const auth = getAuth();
@@ -33,15 +27,6 @@ function Navbar() {
         }
     };
 
-    /*
-                <div className="navbar">
-                <Link to="#" className="menu-bars">
-                    <FaBars onClick={showSidebar} />
-                </Link>
-            </div>
-
-    */
-
     return (
         <>
             {/*this nav will take on two different class names depending on if 
@@ -52,9 +37,9 @@ function Navbar() {
 
                 <ul className="nav-menu-items">
                     <li className="navbar-toggle">
-                        <Link to="#" className="menu-bars">
-                            <AiIcons.AiOutlineClose onClick={showSidebar} />
-                        </Link>
+                            <Link to="#" className="menu-bars">
+                                <AiIcons.AiOutlineClose onClick={showSidebar} />
+                            </Link>
                     </li>
 
                     {/* for each elemenet in the sidebarData a anonymous function (lambda functions basically )
@@ -67,8 +52,6 @@ function Navbar() {
                             </Link>
                         </li>
                     ))}
-
-
                 </ul>
             </nav>
         </>

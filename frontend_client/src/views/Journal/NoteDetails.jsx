@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getFirestore, doc, getDoc, updateDoc} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 
 function NoteDetails() {
   const params = useParams(); 
   const id = params.noteId;
-
   const navigate = useNavigate();
 
   const [note, setNote] = useState(null);
@@ -17,18 +15,15 @@ function NoteDetails() {
   const [entry, setEntry] = useState('');
   const [edit, setEdit] = useState(false);
 
-
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const database = getFirestore();
 
 
   useEffect(() => {
     const fetchNote = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
       if (user) {
-        const database = getFirestore();
         const noteRef = doc(database, 'users', user.uid, 'journal', id);
-
         try {
           const noteSnapshot = await getDoc(noteRef);
 
@@ -59,17 +54,12 @@ function NoteDetails() {
   }
 
   const modifyNote = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const database = getFirestore();
     const noteRef = doc(database, 'users', user.uid, 'journal', id);
-
-
     await updateDoc(noteRef, {
       content: entry,
       title: title
     })
- 
+
     setEdit(false);
     navigate('/journal');
 

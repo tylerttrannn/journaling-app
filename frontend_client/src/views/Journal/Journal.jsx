@@ -1,21 +1,20 @@
-import './Journal.css';
 import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import { useState,useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-import { getFirestore, doc, setDoc, getDocs, collection, deleteDoc} from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { getFirestore, doc, getDocs, collection, deleteDoc} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-
+import './Journal.css';
 
 function Journal() {
   const [noteRange, setNoteRange] = useState('Today');
   const [notesData, setNotesData] = useState([]);
-  const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [selectDeleteNote, setSelectDeleteNote] = useState(false);
 
-
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const database = getFirestore();
   const navigate = useNavigate();
 
   const newNote = () => {
@@ -23,7 +22,6 @@ function Journal() {
   };
 
   const viewNote = (id) => {
-      setSelectedNoteId(id);
       navigate(`/journal/note/${id}`);
   }
 
@@ -42,15 +40,10 @@ function Journal() {
     }
   };
 
-  
   const deleteNote = async (id) => {
     setSelectDeleteNote(false);
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-
     if (user){
-      const database = getFirestore();
       const documentRef = doc(database, 'users', user.uid, 'journal', id);
 
       try{
@@ -68,14 +61,9 @@ function Journal() {
 
   };
   
-  
 
   const notes = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
     if (user) {
-      const database = getFirestore();
       const journalCollectionRef = collection(database, 'users', user.uid, 'journal');
 
       try {
@@ -117,7 +105,6 @@ function Journal() {
 
       <div className="notes-content">
         {renderNotes()}
-
         {notesData.map(note => (
           <div
           key={note.id}
@@ -132,8 +119,6 @@ function Journal() {
           <p>{note.createdAt.toDate().toLocaleString()}</p>
         </div>
       ))}
-
-
       </div>
 
       <button className="new-note" onClick={newNote}> + </button>
