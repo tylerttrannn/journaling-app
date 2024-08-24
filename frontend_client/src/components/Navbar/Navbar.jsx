@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import * as AiIcons from "react-icons/ai";
 import { sidebarData } from './sidebarData.jsx'; 
 import { getAuth, signOut } from "firebase/auth";  
 import { useNavigate } from "react-router-dom";
@@ -33,26 +32,17 @@ function Navbar() {
             the user clicked on the menu or not to activate different styling 
             (to expand the navbar or not) */}
 
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-
-                <ul className="nav-menu-items">
-                    <li className="navbar-toggle">
-                            <Link to="#" className="menu-bars">
-                                <AiIcons.AiOutlineClose onClick={showSidebar} />
-                            </Link>
-                    </li>
-
-                    {/* for each elemenet in the sidebarData a anonymous function (lambda functions basically )
-                     returns a rendered component with the icon + title name with the link */}
-                    {sidebarData.map((item, index) => (
-                        <li key={index} className={item.cName} onClick={() => handleItemClick(item.action)}>
-                            <Link to={item.path}>
-                                {item.icon}
-                                <span>{item.title}</span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+            <nav className='nav-menu'>
+            <ul className='nav-menu-items'>
+                {sidebarData.map((item, index) => (
+                <li key={index} className={item.cName} onClick={() => handleItemClick(item.action)}>
+                    <Link to={item.path}>
+                    <div className='nav-icon'>{item.icon}</div>
+                    <span className='nav-text'>{item.title}</span>
+                    </Link>
+                </li>
+                ))}
+            </ul>
             </nav>
         </>
     );
