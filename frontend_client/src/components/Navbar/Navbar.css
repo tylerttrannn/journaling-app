@@ -7,7 +7,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    transition: 850ms;
+    transition: 300ms;
 }
 
 .nav-text {
@@ -33,7 +33,7 @@
   
 .nav-text a:hover {
     background-color: #e0e0e0; /* Light grey hover effect */
-    padding-right: 100px; /* Adjust right padding on hover */
+    padding-right: 24px; /* Adjust right padding on hover */
 
 }
   
@@ -41,7 +41,7 @@
     width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 860px) {
     .nav-text {
         font-size: 0; /* Hide the text */
         justify-content: center; /* Center the icons */

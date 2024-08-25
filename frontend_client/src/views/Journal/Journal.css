@@ -46,14 +46,21 @@
 }
 
 .notes-content {
+  display: flex;          
+  flex-direction: column; /* Align items in a column  */
+  align-items: center;    /* Center items horizontally */
+  justify-content: center;/* Center items vertically */
   padding: 20px;
   border-top: 1px solid #ddd;
   margin-top: 20px;
 }
 
+
+
 .note-entry {
   cursor: pointer;
   padding: 10px;
+  width: 275px;
   border: 1px solid #2c2929;
   margin-bottom: 10px;
   border-radius: 15px;
@@ -78,4 +85,48 @@
 .delete-note:hover {
   background-color: #ff4d4d; /* A red shade to signify deletion */
   border-color: #ff4d4d; /* Matching border color */
+}
+
+
+@media (max-width: 600px) {
+  .Journal {
+      margin-top: 60px; /* Adjust for smaller screens */
+      padding: 10px;
+  }
+
+  .select-note-range button {
+      margin-bottom: 10px; /* Stack buttons vertically on small screens */
+      flex-shrink: 0; 
+  }
+
+  .notes-content {
+      padding: 10px;
+      margin-top: 10px;
+  }
+
+  .note-entry {
+      padding: 10px;
+      font-size: 0.9rem; /* Adjust font size for smaller screens */
+  }
+
+
+  .delete {
+      width: 70px;
+      height: 50px;
+      font-size: 12px;
+  }
+}
+
+.delete{
+  background-color: #ff4d4d;
+}
+
+.delete:hover{
+  background-color: #ed3131;
+}
+
+.add-delete{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -121,9 +121,14 @@ function Journal() {
       ))}
       </div>
 
-      <button className="new-note" onClick={newNote}> + </button>
-      <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
+      <div className = "add-delete">
+        <button className="new-note" onClick={newNote}> + </button>
+        <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
+      </div>
+
+
       <Footer />
+      
     </div>
   );
 }
