@@ -1,32 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
+/* styling for all of the boxes (dont mess with this) */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
 }
 
-body {
+html, body {
+  height: 100%; /* Ensure the html and body elements take up full height */
   background-color: #EFF2F4;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 .journal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 100px 0 0 250px;
   width: calc(100% - 250px);
   margin: 0 auto;
+  min-height: calc(100vh - 100px); /* Adjust based on your header padding */
 }
 
-.Journal,
-.home,
-.reports,
-.products {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
+.journal-container h1 {
+  padding-top: 50px;
+  color: #5D7285;
 }
 
+/* select note styling */
 .select-note-range {
   display: flex;
 }
@@ -54,16 +60,22 @@ body {
 .delete-note {
   cursor: pointer;
   padding: 10px;
-  width: 275px;
+  width: 475px;
   margin-bottom: 10px;
-  border: 1px solid #2c2929;
-  border-radius: 15px;
-  background-color: #2c2929;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  background-color: #ffffff;
   transition: background-color 0.3s ease;
+}
+
+.note-entry h3,
+.delete-note h3 {
+  color: #5D7285;
 }
 
 .note-entry:hover {
   background-color: #e9e9e9;
+  border-color: #e9e9e9;
 }
 
 .delete-note:hover {
@@ -98,28 +110,31 @@ body {
 }
 
 .add-delete {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width:5px;
+    height:auto;
+    display:inline-block;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 860px) {
   .Journal {
-      margin-top: 60px;
-      padding: 10px;
+    padding: 10px;
   }
 
   .select-note-range button {
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   .notes-content {
-      padding: 10px;
-      margin-top: 10px;
+    padding: 10px;
+    margin-top: 10px;
   }
 
   .note-entry {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
+  .journal-container {
+    padding: 100px 0 0 50px;
+    width: calc(100% - 50px);
+  }
 }

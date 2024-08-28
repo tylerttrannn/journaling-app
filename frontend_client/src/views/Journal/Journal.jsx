@@ -65,6 +65,9 @@ function Journal() {
   return (
     <div className="journal-container">
       <Header />
+      
+      <h1>Journal Entries</h1>
+
       <div className="Journal">
         <Navbar />
         <div className="select-note-range">
@@ -74,6 +77,7 @@ function Journal() {
             </button>
           ))}
         </div>
+
         <div className="notes-content">
           {renderNotes()}
           {notesData.map(note => (
@@ -87,6 +91,7 @@ function Journal() {
             </div>
           ))}
         </div>
+        
         <div className="add-delete">
           <button className="new-note" onClick={newNote}>+</button>
           <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
