@@ -93,8 +93,9 @@ function Journal() {
 
 
   return (
+    <>
+    <Header />
     <div className="Journal">
-      <Header />
       <Navbar />
       <div className="select-note-range">
         <button onClick={() => setNoteRange('Today')}>Today</button>
@@ -130,6 +131,7 @@ function Journal() {
       <Footer />
       
     </div>
+    </>
   );
 }
 

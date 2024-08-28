@@ -24,7 +24,7 @@ const NewNote = () => {
       try {
         // Reference to the user's journal collection
         const journalCollectionRef = collection(database, 'users', user.uid, 'journal');
-
+        
         // Create a new document with an auto-generated ID
         const newDocRef = doc(journalCollectionRef);
 
@@ -35,6 +35,7 @@ const NewNote = () => {
           createdAt: new Date(),
         });
 
+  
         console.log('Entry successfully added with ID: ', newDocRef.id);
 
         // Navigate to a different page (e.g., home or journal page) after submission

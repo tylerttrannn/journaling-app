@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc, updateDoc} from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
+import './NoteDetails.css';
 
 function NoteDetails() {
   const params = useParams(); 
@@ -18,7 +19,6 @@ function NoteDetails() {
   const auth = getAuth();
   const user = auth.currentUser;
   const database = getFirestore();
-
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -58,49 +58,50 @@ function NoteDetails() {
     await updateDoc(noteRef, {
       content: entry,
       title: title
-    })
+    });
 
     setEdit(false);
     navigate('/journal');
-
   }
 
   return (
     <>
-      <Header/>
-      <Navbar/>
-      <div className="NoteDetails">
-
+      <Header />
+      <Navbar />
+      <div className="note-details-container">
         {edit ? (
-          <>
-            <input
-              id="title"
-              name="title-text"
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              id="entry"
-              name="entry-text"
-              rows="10"
-              cols="50"
-              value={entry}
-              onChange={(e) => setEntry(e.target.value)}
-            ></textarea>
+          <div className="edit-mode">
+            <div className="input-group">
+              <input
+                id="title"
+                name="title-text"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="input-group">
+              <textarea
+                id="entry"
+                name="entry-text"
+                rows="10"
+                cols="50"
+                value={entry}
+                onChange={(e) => setEntry(e.target.value)}
+              ></textarea>
+            </div>
             <button onClick={modifyNote}>Save</button>
-
-          </>
-          // other condition is set here if edit is not true 
-        ) :(
-          <>
-            <h2>{note.title}</h2>
-            <p>{note.content}</p>
+          </div> /* end of edit-mode div */
+        ) : (
+          
+          <div className="text-view-mode">
+            <div className="text-container">
+              <h2>{note.title}</h2>
+              <p>{note.content}</p>
+            </div>
             <button onClick={() => setEdit(true)}>Edit</button>
-          </>
+          </div>
         )}
-
-
       </div>
     </>
   );

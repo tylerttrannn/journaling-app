@@ -1,46 +1,16 @@
-.journal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px; /* Added padding for some space around the header */
-    width: 100%;
-    box-sizing: border-box; /* Ensures padding is included in the width */
-    position: relative;
-    z-index: 1; /* Ensures the header stays above other content */
+.journal-header{
+    display:flex;
+    justify-content: right;
+    align-items:center;
+    padding-right: 50px
 }
 
-/* Ensuring the image is responsive */
-.journal-header img {
-    width: 75px; /* Adjust as needed */
-    height: auto;
-    max-width: 100%;
-    flex-shrink: 0; /* Prevents the image from shrinking too much */
+.journal-header img{
+    width: 75px;
+    margin-right: 10px; /* adds some padding between the image and text*/
 }
 
-/* Responsive text */
-.journal-header p {
-    margin: 0;
-    padding-left: 10px;
-    font-size: 1rem; /* Adjust font size */
-    flex-grow: 1; /* Allow the text to take up available space */
-    text-align: right; /* Align the text to the right */
-}
-
-/* Responsive adjustments */
-@media (max-width: 500px) {
-    .journal-header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 15px;
-    }
-
-    .journal-header p {
-        padding-left: 0;
-        text-align: left;
-        font-size: 0.9rem; /* Adjust font size for smaller screens */
-    }
-
-    .journal-header img {
-        width: 50px; /* Reduce image size for smaller screens */
-    }
+.journal-header p{
+    text-align: center;
+    margin: 0; /* removes any default margin if it exists   */
 }

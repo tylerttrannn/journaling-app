@@ -4,10 +4,11 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    position: fixed;
+    position: fixed; /* Keep it fixed */
     top: 0;
     left: 0;
-    transition: 300ms;
+    z-index: 1000; /* Ensure it stays above other elements */
+    transition: width 300ms;
 }
 
 .nav-text {
@@ -34,7 +35,6 @@
 .nav-text a:hover {
     background-color: #e0e0e0; /* Light grey hover effect */
     padding-right: 24px; /* Adjust right padding on hover */
-
 }
   
 .nav-menu-items {
@@ -53,10 +53,10 @@
     }
 
     .nav-menu {
-        width: 50px;
+        width: 50px; /* Collapse the width on smaller screens */
     }
 }
-  
+
 span {
     margin-left: 10px;
     color: #4f4f4f; /* Grey text */

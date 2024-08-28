@@ -1,0 +1,66 @@
+/* Container for the entire NoteDetails component */
+.note-details-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 250px; /* Adjusts for the navbar width */
+    padding-right: 20px; /* Optional: Adds some padding on the right */
+    max-width: 80%; /* Keeps the content within a readable width */
+    margin: 0 auto; /* Centers the container */
+}
+
+/* Edit mode styling */
+.edit-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between input fields and button */
+}
+
+
+
+
+
+/* Grouping of input fields */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; /* Space below each group */
+}
+
+/* Text view mode styling */
+.text-view-mode {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns items to the start */
+}
+
+/* Container for the title and content in view mode */
+.text-container {
+    margin-bottom: 20px; /* Space below the text before the button */
+    word-break: break-all; /* Ensures long text wraps */
+    min-width: 200px; 
+}
+
+/* Button styling */
+button {
+    background-color: #2c2929;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 860px) {
+    .note-details-container {
+        padding-left: 50px;
+        max-width: 90%;
+    }
+}
