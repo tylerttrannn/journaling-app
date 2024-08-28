@@ -1,16 +1,45 @@
-.journal-header{
-    display:flex;
-    justify-content: right;
-    align-items:center;
-    padding-right: 50px
+.journal-header {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    padding-right: 50px;
+    background-color: white;
+    width: calc(100% - 250px); 
+    height: 100px; 
+    box-sizing: border-box; 
+    position: fixed; 
+    top: 0; 
+    right: 0;
+    z-index: 1000; 
 }
 
-.journal-header img{
+
+@media (max-width: 860px){
+    .journal-container {
+        padding: 100px 0 0 250px;
+        width: calc(100% - 50px);
+        margin: 0 auto;
+      }
+
+    .journal-header {
+        width: calc(100% - 50px); /* Adjust header width for smaller navbar */
+    }
+}
+
+.journal-header img {
     width: 75px;
-    margin-right: 10px; /* adds some padding between the image and text*/
+    height: auto; 
+    margin-right: 10px; 
+    max-width: 75px; 
+    max-height: 75px; 
 }
 
-.journal-header p{
+.journal-header p {
     text-align: center;
-    margin: 0; /* removes any default margin if it exists   */
+    margin: 0;
+    color: black;
+    max-width: calc(100% - 85px); 
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
 }

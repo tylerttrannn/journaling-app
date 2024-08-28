@@ -6,6 +6,7 @@
     padding-right: 20px; /* Optional: Adds some padding on the right */
     max-width: 80%; /* Keeps the content within a readable width */
     margin: 0 auto; /* Centers the container */
+    overflow-x: hidden; /* Prevents horizontal overflow */
 }
 
 /* Edit mode styling */
@@ -14,10 +15,6 @@
     flex-direction: column;
     gap: 15px; /* Space between input fields and button */
 }
-
-
-
-
 
 /* Grouping of input fields */
 .input-group {
@@ -36,8 +33,10 @@
 /* Container for the title and content in view mode */
 .text-container {
     margin-bottom: 20px; /* Space below the text before the button */
-    word-break: break-all; /* Ensures long text wraps */
-    min-width: 200px; 
+    word-break: break-word; /* Ensures long text wraps within the container */
+    max-width: 100%; /* Keeps the text container within the parent width */
+    overflow-x: hidden; /* Prevents horizontal overflow due to long text */
+    min-width: 200px;
 }
 
 /* Button styling */
@@ -54,8 +53,6 @@ button {
 button:hover {
     background-color: #444;
 }
-
-
 
 /* Responsive adjustments */
 @media (max-width: 860px) {
