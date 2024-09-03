@@ -3,17 +3,19 @@
     display: flex;
     flex-direction: column;
     padding-left: 250px; /* Adjusts for the navbar width */
-    padding-top: 100px; /* Accounts for the header height plus some spacing */
     max-width: 80%; /* Keeps the content within a readable width */
     margin: 0 auto; /* Centers the container */
     overflow-x: hidden; /* Prevents horizontal overflow */
+    box-sizing: border-box; /* Ensures padding and borders are included in width calculations */
+    padding-top: 8%;
 }
+
 /* Edit mode styling */
 .edit-mode {
     display: flex;
     flex-direction: column;
     gap: 15px; /* Space between input fields and button */
-    padding-top: 5%;
+    padding: 5% 10% 0 10%; /* Top padding for header, side padding for general spacing */
 }
 
 /* Grouping of input fields */
@@ -27,8 +29,8 @@
 .text-view-mode {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Aligns items to the start */
-    padding-top: 15%;
+    align-items: center;
+    padding: 15% 10% 0 10%; /* Top padding for header, side padding for general spacing */
 }
 
 /* Container for the title and content in view mode */
@@ -38,6 +40,8 @@
     max-width: 100%; /* Keeps the text container within the parent width */
     overflow-x: hidden; /* Prevents horizontal overflow due to long text */
     min-width: 100px;
+    padding: 0 20px; /* Even padding on left and right for text container */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 /* Button styling */
@@ -55,71 +59,65 @@ button:hover {
     background-color: #444;
 }
 
+/* Responsive adjustments for screen width <= 860px */
 @media (max-width: 860px) {
-    .note-details-container {
-        padding-left: 10%;
-        padding-top: 130px; /* Increase top padding slightly for smaller screens */
-        max-width: 80%;
-    }
-
+    .edit-mode,
     .text-view-mode {
-        padding-top: 10%;
+        padding-top: 100px; /* Increase top padding slightly for smaller screens */
+        
     }
-}
-
-@media (max-width: 700px) {
-    .note-details-container {
-        padding-left: 10%;
-        padding-top: 130px; /* Maintain adequate spacing below the header */
-        max-width: 80%;
-    }
-
-    .text-view-mode {
+    .note-details-container{
+        padding-left: 50px;
         padding-top: 5%;
     }
 
-    .edit-mode{
+}
+
+/* Responsive adjustments for screen width <= 700px */
+@media (max-width: 700px) {
+    .edit-mode,
+    .text-view-mode {
+        padding-top: 130px; /* Maintain adequate spacing below the header */
+    }
+
+    .note-details-container{
+        padding-left: 50px;
         padding-top: 5%;
     }
 }
 
 /* Responsive adjustments for screen width <= 600px */
 @media (max-width: 600px) {
-    .note-details-container {
-        padding-left: 10%;
+    .edit-mode,
+    .text-view-mode {
         padding-top: 140px; /* Add more top padding for very small screens */
-        max-width: 80%;
     }
-    .edit-mode{
-        padding-top: 5%;
-    }
-}
 
-/* Adjustments for text-container and button sizes for smaller screens */
-@media (max-width: 600px) {
     .text-container {
         font-size: 0.9rem; /* Slightly smaller text for better fit */
+        padding: 0 10px; /* Reduce padding on smaller screens */
     }
 
     button {
         padding: 8px 16px; /* Smaller buttons for smaller screens */
     }
 
-    .edit-mode{
+    .note-details-container{
+        padding-left: 50px;
         padding-top: 5%;
     }
 }
 
 /* Adjustments for screen width <= 400px */
 @media (max-width: 400px) {
-    .note-details-container {
-        padding-left: 10%;
+    .edit-mode,
+    .text-view-mode {
         padding-top: 140px; /* Ensure content doesn't overlap with the header */
-        max-width: 80%;
     }
 
     .text-container {
         font-size: 0.8rem;
+        padding: 0 5px; /* Further reduce padding for very small screens */
     }
 
     button {
@@ -127,7 +125,8 @@ button:hover {
         font-size: 0.9rem;
     }
 
-    .edit-mode{
+    .note-details-container{
+        padding-left: 50px;
         padding-top: 5%;
     }
 }
