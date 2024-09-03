@@ -6,6 +6,7 @@ import { TbLogout } from "react-icons/tb";
 
 // cname = classname 
 export const sidebarData = [
+   
     {
         title: 'Dashboard',
         path: '/asdas',

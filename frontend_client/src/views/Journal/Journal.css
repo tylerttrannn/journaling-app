@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
-/* styling for all of the boxes (dont mess with this) */
+/* Global styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,7 +8,7 @@
 }
 
 html, body {
-  height: 100%; /* Ensure the html and body elements take up full height */
+  height: 100%;
   background-color: #EFF2F4;
 }
 
@@ -17,6 +17,7 @@ body {
   flex-direction: column;
 }
 
+/* Journal container */
 .journal-container {
   display: flex;
   flex-direction: column;
@@ -32,7 +33,7 @@ body {
   color: #5D7285;
 }
 
-/* select note styling */
+/* Select note styling */
 .select-note-range {
   display: flex;
 }
@@ -46,6 +47,7 @@ body {
   color: white;
 }
 
+/* Notes content */
 .notes-content {
   display: flex;
   flex-direction: column;
@@ -83,6 +85,7 @@ body {
   border-color: #ff4d4d;
 }
 
+/* New note button */
 .new-note {
   background-color: #04AA6D;
   border: none;
@@ -98,6 +101,7 @@ body {
   display: inline-block;
 }
 
+/* Delete button */
 .delete {
   background-color: #ff4d4d;
   width: 70px;
@@ -109,19 +113,20 @@ body {
   background-color: #ed3131;
 }
 
-.add-delete {
-  width:5px;
-    height:auto;
-    display:inline-block;
-}
-
+/* medium window w navbar */
 @media (max-width: 860px) {
   .Journal {
     padding: 10px;
   }
 
+  .journal-container {
+    padding: 100px 0 0 50px;
+    width: calc(100% - 50px);
+  }
+
   .select-note-range button {
     margin-bottom: 10px;
+    font-size: 0.9rem;
   }
 
   .notes-content {
@@ -129,12 +134,105 @@ body {
     margin-top: 10px;
   }
 
+  .note-entry h3,
+  .delete-note h3 {
+    font-size: 1.1rem;
+  }
+
   .note-entry {
     font-size: 0.9rem;
   }
 
+  .notes-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* medium window with no navbar  */
+@media (max-width: 600px) {
   .journal-container {
-    padding: 100px 0 0 50px;
-    width: calc(100% - 50px);
+    padding: 100px 0 0 30px;
+    width: calc(100% - 30px);
+  }
+
+  .select-note-range button {
+    font-size: 0.8rem;
+  }
+
+  .note-entry h3,
+  .delete-note h3 {
+    font-size: 1rem;
+  }
+
+  .note-entry {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .new-note {
+    width: 50px;
+    height: 50px;
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .delete {
+    width: 60px;
+    height: 40px;
+    font-size: 10px;
+  }
+}
+
+
+/* Mobile view adjustments 
+smallest window
+
+*/
+@media (max-width: 700px) {
+
+
+  .journal-container {
+    padding: 60px 0 0 50px;
+    width: calc(100% - 10px);
+  }
+
+  .journal-container h1{
+    font-size: 30px;
+  }
+
+  .Journal {
+    padding: 5px;
+  }
+
+  .select-note-range {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .select-note-range button {
+    font-size: 0.8rem;
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .note-entry {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+
+  .new-note,
+  .delete {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .note-entry h3,
+  .delete-note h3 {
+    font-size: 1rem;
   }
 }

@@ -8,7 +8,6 @@ import { getAuth } from 'firebase/auth';
 import './Journal.css';
 
 function Journal() {
-  const [noteRange, setNoteRange] = useState('Today');
   const [notesData, setNotesData] = useState([]);
   const [selectDeleteNote, setSelectDeleteNote] = useState(false);
 
@@ -47,29 +46,15 @@ function Journal() {
     }
   }, [user]);
 
-  const renderNotes = () => {
-    switch (noteRange) {
-      case 'Today':
-        return <div>Notes from Today</div>;
-      case 'Week':
-        return <div>Notes from This Week</div>;
-      case 'Month':
-        return <div>Notes from This Month</div>;
-      case 'Year':
-        return <div>Notes from This Year</div>;
-      default:
-        return null;
-    }
-  };
+
 
   return (
     <div className="journal-container">
       <Header />
-      
+      <Navbar />
       <h1>Journal Entries</h1>
 
       <div className="Journal">
-        <Navbar />
         <div className="select-note-range">
           {['Today', 'Week', 'Month', 'Year'].map(range => (
             <button key={range} onClick={() => setNoteRange(range)}>
@@ -79,7 +64,6 @@ function Journal() {
         </div>
 
         <div className="notes-content">
-          {renderNotes()}
           {notesData.map(note => (
             <div
               key={note.id}
@@ -96,7 +80,6 @@ function Journal() {
           <button className="new-note" onClick={newNote}>+</button>
           <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
         </div>
-        <Footer />
       </div>
     </div>
   );
