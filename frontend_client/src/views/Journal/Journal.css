@@ -17,6 +17,14 @@ body {
   flex-direction: column;
 }
 
+.Journal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
 /* Journal container */
 .journal-container {
   display: flex;

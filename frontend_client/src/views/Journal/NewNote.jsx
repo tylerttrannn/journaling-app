@@ -1,4 +1,5 @@
 import './Journal.css';
+import './NewNote.css';
 import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
@@ -6,8 +7,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, setDoc, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-
-import './NewNote.css'
 
 const NewNote = () => {
   const [title, setTitle] = useState('');
@@ -35,7 +34,6 @@ const NewNote = () => {
           createdAt: new Date(),
         });
 
-  
         console.log('Entry successfully added with ID: ', newDocRef.id);
 
         // Navigate to a different page (e.g., home or journal page) after submission
@@ -48,28 +46,34 @@ const NewNote = () => {
   };
 
   return (
-    <div className="Journal">
+    <div className="new-note-page">
       <Header />
       <Navbar />
-      <label htmlFor="title">Enter your title:</label>
-      <input
-        id="title"
-        name="title-text"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <label htmlFor="entry">Enter your entry:</label>
-      <textarea
-        id="entry"
-        name="entry-text"
-        rows="10"
-        cols="50"
-        value={entry}
-        onChange={(e) => setEntry(e.target.value)}
-      ></textarea>
-      <button onClick={submitEntry}>Submit</button>
-      <Footer />
+      <div className="new-note-content">
+        <div className="new-note-form">
+          <label htmlFor="title" className="form-label">Title:</label>
+          <input
+            id="title"
+            name="title-text"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="form-input"
+          />
+          <label htmlFor="entry" className="form-label">Entry:</label>
+          <textarea
+            id="entry"
+            name="entry-text"
+            rows="10"
+            cols="50"
+            value={entry}
+            onChange={(e) => setEntry(e.target.value)}
+            className="form-textarea"
+          ></textarea>
+          <button onClick={submitEntry} className="form-submit-button">Submit</button>
+        </div>
+        <Footer />
+      </div>
     </div>
   );
 };

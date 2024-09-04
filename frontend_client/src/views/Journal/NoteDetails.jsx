@@ -69,39 +69,41 @@ function NoteDetails() {
       <Header />
       <Navbar />
       <div className="note-details-container">
-        {edit ? (
-          <div className="edit-mode">
-            <div className="input-group">
-              <input
-                id="title"
-                name="title-text"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-            <div className="input-group">
-              <textarea
-                id="entry"
-                name="entry-text"
-                rows="10"
-                cols="50"
-                value={entry}
-                onChange={(e) => setEntry(e.target.value)}
-              ></textarea>
-            </div>
-            <button onClick={modifyNote}>Save</button>
-          </div> /* end of edit-mode div */
-        ) : (
-          
-          <div className="text-view-mode">
-            <div className="text-container">
-              <h2>{note.title}</h2>
-              <p>{note.content}</p>
-            </div>
-            <button onClick={() => setEdit(true)}>Edit</button>
+      {edit ? (
+        <div className="note-details-content">
+          <div className="note-details-form">
+            <label htmlFor="title" className="form-label">Title:</label>
+            <input
+              id="title"
+              name="title-text"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="form-input"
+            />
+            <label htmlFor="entry" className="form-label">Entry:</label>
+            <textarea
+              id="entry"
+              name="entry-text"
+              rows="10"
+              cols="50"
+              value={entry}
+              onChange={(e) => setEntry(e.target.value)}
+              className="form-textarea"
+            ></textarea>
+            <button onClick={modifyNote} className="form-submit-button">Save</button>
           </div>
-        )}
+        </div>
+      ) : (
+        <div className="text-view-mode">
+          <div className="text-container">
+            <h2>{note.title}</h2>
+            <p>{note.content}</p>
+          </div>
+          <button onClick={() => setEdit(true)}>Edit</button>
+        </div>
+      )}
+
       </div>
     </>
   );

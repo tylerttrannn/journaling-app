@@ -1,4 +1,4 @@
-/* Container for the entire NoteDetails component */
+/* General Styling */
 .note-details-container {
     display: flex;
     flex-direction: column;
@@ -6,23 +6,17 @@
     max-width: 80%; /* Keeps the content within a readable width */
     margin: 0 auto; /* Centers the container */
     overflow-x: hidden; /* Prevents horizontal overflow */
-    box-sizing: border-box; /* Ensures padding and borders are included in width calculations */
-    padding-top: 8%;
+    box-sizing: border-box;
+    padding-top: 8%; /* Reasonable padding for general screens */
 }
 
-/* Edit mode styling */
-.edit-mode {
+/* New note content */
+.note-details-content {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between input fields and button */
-    padding: 5% 10% 0 10%; /* Top padding for header, side padding for general spacing */
-}
-
-/* Grouping of input fields */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px; /* Space below each group */
+    gap: 15px;
+    padding: 5% 10%; /* Padding for larger screens */
+    max-width: 100%;
 }
 
 /* Text view mode styling */
@@ -44,53 +38,44 @@
     box-sizing: border-box; /* Include padding in width calculation */
 }
 
-/* Button styling */
-button {
-    background-color: #2c2929;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #444;
-}
-
 /* Responsive adjustments for screen width <= 860px */
 @media (max-width: 860px) {
-    .edit-mode,
-    .text-view-mode {
-        padding-top: 100px; /* Increase top padding slightly for smaller screens */
-        
-    }
-    .note-details-container{
+    .note-details-container {
         padding-left: 50px;
         padding-top: 5%;
     }
 
+    .note-details-content,
+    .text-view-mode {
+        padding-top: 10%; /* Reduced top padding for smaller screens */
+    }
 }
 
 /* Responsive adjustments for screen width <= 700px */
 @media (max-width: 700px) {
-    .edit-mode,
-    .text-view-mode {
-        padding-top: 130px; /* Maintain adequate spacing below the header */
-    }
-
-    .note-details-container{
+    .note-details-container {
         padding-left: 50px;
         padding-top: 5%;
+    }
+
+    .note-details-content,
+    .text-view-mode {
+        padding-top: 10%; /* Keep the padding smaller on these screens */
+        max-width: 95%;
     }
 }
 
 /* Responsive adjustments for screen width <= 600px */
 @media (max-width: 600px) {
-    .edit-mode,
+    .note-details-container {
+        padding-left: 60px;
+        padding-top: 8%;
+        max-width: 100%;
+    }
+
+    .note-details-content,
     .text-view-mode {
-        padding-top: 140px; /* Add more top padding for very small screens */
+        padding-top: 15%; /* Add some top padding for small screens */
     }
 
     .text-container {
@@ -101,18 +86,19 @@ button:hover {
     button {
         padding: 8px 16px; /* Smaller buttons for smaller screens */
     }
-
-    .note-details-container{
-        padding-left: 50px;
-        padding-top: 5%;
-    }
 }
 
 /* Adjustments for screen width <= 400px */
 @media (max-width: 400px) {
-    .edit-mode,
+    .note-details-container {
+        padding-left: 50px;
+        padding-top: 10%;
+        max-width: 100%;
+    }
+
+    .note-details-content,
     .text-view-mode {
-        padding-top: 140px; /* Ensure content doesn't overlap with the header */
+        padding-top: 20%;
     }
 
     .text-container {
@@ -123,10 +109,5 @@ button:hover {
     button {
         padding: 6px 12px;
         font-size: 0.9rem;
-    }
-
-    .note-details-container{
-        padding-left: 50px;
-        padding-top: 5%;
     }
 }
