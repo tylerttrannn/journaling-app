@@ -1,15 +1,17 @@
-import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
+import Popup from '../../components/Popup/Popup.jsx';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, getDocs, collection, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import './Journal.css';
 
+
 function Journal() {
   const [notesData, setNotesData] = useState([]);
-  const [selectDeleteNote, setSelectDeleteNote] = useState(false);
+  const [selectDeleteNote, setSelectDeleteNote] = useState(false); // Control delete state
+  const [noteToDelete, setNoteToDelete] = useState(null); // Store selected note for deletion
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -18,12 +20,15 @@ function Journal() {
 
   const newNote = () => navigate('/journal/new-note');
   const viewNote = id => navigate(`/journal/note/${id}`);
-  const deleteNote = async id => {
-    if (user) {
-      const docRef = doc(database, 'users', user.uid, 'journal', id);
+
+  const deleteNote = async () => {
+    if (user && noteToDelete) {
+      const docRef = doc(database, 'users', user.uid, 'journal', noteToDelete);
       try {
         await deleteDoc(docRef);
-        setNotesData(prev => prev.filter(note => note.id !== id));
+        setNotesData(prev => prev.filter(note => note.id !== noteToDelete));
+        setSelectDeleteNote(false); // Close the popup after deletion
+        setNoteToDelete(null); // Reset note to delete
       } catch (error) {
         console.error("Error deleting note:", error);
       }
@@ -46,8 +51,6 @@ function Journal() {
     }
   }, [user]);
 
-
-
   return (
     <div className="journal-container">
       <Header />
@@ -68,14 +71,32 @@ function Journal() {
             <div
               key={note.id}
               className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
-              onClick={() => selectDeleteNote ? deleteNote(note.id) : viewNote(note.id)}
+              onClick={() => selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)}
             >
               <h3>{note.title}</h3>
               <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
+
+              {/* Render Popup conditionally */}
+              {selectDeleteNote && noteToDelete === note.id && (
+
+                // popup definition 
+                <Popup
+                  isOpen={selectDeleteNote} // open if a note is selected for deletion
+                  onClose={() => setSelectDeleteNote(false)} 
+                  title="Delete Confirmation"
+                  message="Are you sure you want to delete this note?"
+                  actions={[
+                    { label: 'Yes', onClick: deleteNote },
+                    { label: 'No', onClick: () => setSelectDeleteNote(false) }
+                  ]}
+                />
+
+
+              )}
             </div>
           ))}
         </div>
-        
+
         <div className="add-delete">
           <button className="new-note" onClick={newNote}>+</button>
           <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
