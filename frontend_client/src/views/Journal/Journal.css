@@ -7,15 +7,6 @@
   padding: 0;
 }
 
-html, body {
-  height: 100%;
-  background-color: #EFF2F4;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
 
 .Journal{
   display: flex;
@@ -95,18 +86,10 @@ body {
 
 /* New note button */
 .new-note {
-  background-color: #04AA6D;
-  border: none;
-  color: white;
-  padding: 20px;
-  font-size: 16px;
-  margin: 4px 2px;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  line-height: 20px;
-  text-align: center;
-  display: inline-block;
+  background-color: #386910;
+  width: 70px;
+  height: 50px;
+  font-size: 12px;
 }
 
 /* Delete button */

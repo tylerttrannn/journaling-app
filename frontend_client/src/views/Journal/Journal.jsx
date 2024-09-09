@@ -27,8 +27,6 @@ function Journal() {
       try {
         await deleteDoc(docRef);
         setNotesData(prev => prev.filter(note => note.id !== noteToDelete));
-        setSelectDeleteNote(false); // Close the popup after deletion
-        setNoteToDelete(null); // Reset note to delete
       } catch (error) {
         console.error("Error deleting note:", error);
       }
@@ -51,6 +49,7 @@ function Journal() {
     }
   }, [user]);
 
+  
   return (
     <div className="journal-container">
       <Header />
@@ -73,34 +72,39 @@ function Journal() {
               className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
               onClick={() => selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)}
             >
+
               <h3>{note.title}</h3>
               <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
 
               {/* Render Popup conditionally */}
               {selectDeleteNote && noteToDelete === note.id && (
-
                 // popup definition 
                 <Popup
-                  isOpen={selectDeleteNote} // open if a note is selected for deletion
-                  onClose={() => setSelectDeleteNote(false)} 
+                  isOpen={selectDeleteNote} // Only open if a note is selected for deletion
+                  onClose={() => {}} 
                   title="Delete Confirmation"
                   message="Are you sure you want to delete this note?"
                   actions={[
                     { label: 'Yes', onClick: deleteNote },
-                    { label: 'No', onClick: () => setSelectDeleteNote(false) }
+                    { label: 'No', onClick: () => {
+                      setSelectDeleteNote(false);
+                      setNoteToDelete(null); // Clear selected note when pressing 'No'
+                    }}
                   ]}
                 />
-
-
               )}
             </div>
           ))}
         </div>
 
         <div className="add-delete">
-          <button className="new-note" onClick={newNote}>+</button>
-          <button className="delete" onClick={() => setSelectDeleteNote(true)}>Delete</button>
+          <button className="new-note" onClick={newNote}>Add</button>
+          <button className="delete" onClick={() => {
+            setNoteToDelete(null); // Reset the note to delete when the delete button is clicked
+            setSelectDeleteNote(true);
+          }}>Delete</button>
         </div>
+
       </div>
     </div>
   );

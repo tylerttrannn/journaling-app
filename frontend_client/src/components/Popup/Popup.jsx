@@ -10,7 +10,7 @@ function Popup({ isOpen, onClose, title, message, actions }) {
             <div className="popup-content">
                 {title && <h2>{title}</h2>}
                 {message && <p>{message}</p>}
-                <div className="buttons">
+                <div className="popup-buttons">
                     {actions && actions.map((action, index) => (
                         <button key={index} onClick={action.onClick}>
                             {action.label}

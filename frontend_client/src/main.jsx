@@ -12,7 +12,8 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import NewNote from './views/Journal/NewNote.jsx';
 import NoteDetails from './views/Journal/NoteDetails.jsx'
 
-import Popup from './components/Popup/Popup.jsx'
+import Dashboard from './views/Dashboard/Dashboard.jsx'
+
 
 
 const router = createBrowserRouter([
@@ -54,9 +55,12 @@ const router = createBrowserRouter([
  },
 
  {
-  path: '/popup',
-  element: <Popup/>
+  path: '/dashboard', 
+  element: <Dashboard/> 
  }
+
+
+
 
 
 

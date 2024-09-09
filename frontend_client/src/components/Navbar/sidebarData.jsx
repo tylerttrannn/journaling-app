@@ -9,7 +9,7 @@ export const sidebarData = [
    
     {
         title: 'Dashboard',
-        path: '/asdas',
+        path: '/dashboard',
         icon: <AiIcons.AiFillHome />,
         cName: 'nav-text'
     },
@@ -39,5 +39,6 @@ export const sidebarData = [
         cName: 'nav-text',
         action: 'logout'
     }
+
 
 ];
