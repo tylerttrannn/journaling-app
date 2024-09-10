@@ -1,0 +1,19 @@
+.Todolist {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.5);
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    width: 100%; /* Use 100% width for full responsiveness */
+    max-width: 350px; /* Set a maximum width to prevent the component from expanding too much */
+    height: auto; /* Allow height to adjust automatically based on content */
+    transition: background-color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .Todolist {
+        width: 90%; /* Slightly reduce width on smaller screens for better fit */
+    }
+}

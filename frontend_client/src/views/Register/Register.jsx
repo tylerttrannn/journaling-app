@@ -57,6 +57,14 @@ function Register() {
                 createdAt: new Date()
             });
 
+            // creating a recentely viewed collection 
+            const viewedCollectionRef = collection(db, 'users', user.uid, 'viewed');
+            await setDoc(doc(viewedCollectionRef, 'viewedDocs'), { 
+                recentlyViewed: []  // Initializing an empty array
+            });
+
+            
+
             setSuccessMessage('Registration successful!');
             navigate('/'); // Redirect to the main page
         } catch (error) {

@@ -1,9 +1,9 @@
-import Header from './Header.jsx';
+import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import Popup from '../../components/Popup/Popup.jsx';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDocs, collection, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDocs, collection, deleteDoc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import './Journal.css';
 
@@ -11,6 +11,8 @@ import './Journal.css';
 function Journal() {
   const [notesData, setNotesData] = useState([]);
   const [selectDeleteNote, setSelectDeleteNote] = useState(false); // Control delete state
+  const [noteToView, setNoteToView] = useState(null); // Store selected note for deletion
+
   const [noteToDelete, setNoteToDelete] = useState(null); // Store selected note for deletion
 
   const auth = getAuth();
@@ -19,7 +21,60 @@ function Journal() {
   const navigate = useNavigate();
 
   const newNote = () => navigate('/journal/new-note');
-  const viewNote = id => navigate(`/journal/note/${id}`);
+
+  const viewNote = async (id) => {
+    setNoteToView(id);
+  };
+  
+  useEffect(() => {
+    if (noteToView) {
+      modifyRecentlyViewed();
+    }
+  }, [noteToView]);
+  
+  const modifyRecentlyViewed = async () => {
+    if (user && noteToView) {
+      console.log("Modifying recently viewed notes...");
+  
+      const docRef = doc(database, 'users', user.uid, 'viewed', 'viewedDocs');
+      
+      try {
+        const docSnap = await getDoc(docRef);
+  
+        let recentlyViewed = [];
+  
+        if (docSnap.exists()) {
+          recentlyViewed = docSnap.data().recentlyViewed || [];
+          
+          const noteIndex = recentlyViewed.indexOf(noteToView);
+          if (noteIndex !== -1) {
+            recentlyViewed.splice(noteIndex, 1); // Remove from current position
+          }
+          
+          if (recentlyViewed.length >= 4) {
+            recentlyViewed.shift(); // Remove oldest
+          }
+        }
+  
+        recentlyViewed.push(noteToView);
+  
+        // Update Firestore with modified array
+        await updateDoc(docRef, { recentlyViewed });
+  
+        console.log("Note successfully added to recently viewed.");
+  
+
+
+        // Navigate after updating recently viewed notes
+        navigate(`/journal/note/${noteToView}`);
+        setNoteToView(null);
+      } catch (error) {
+        console.error("Error adding note to recently viewed:", error);
+      }
+    }
+  };
+  
+  
 
   const deleteNote = async () => {
     if (user && noteToDelete) {

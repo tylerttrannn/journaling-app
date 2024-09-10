@@ -1,7 +1,7 @@
 import './Journal.css';
 import './NewNote.css';
 import Footer from './Footer.jsx';
-import Header from './Header.jsx';
+import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
