@@ -12,7 +12,10 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import NewNote from './views/Journal/NewNote.jsx';
 import NoteDetails from './views/Journal/NoteDetails.jsx'
 
+
 import Dashboard from './views/Dashboard/Dashboard.jsx'
+
+
 
 
 
@@ -57,11 +60,7 @@ const router = createBrowserRouter([
  {
   path: '/dashboard', 
   element: <Dashboard/> 
- }
-
-
-
-
+ },
 
 
 ]);

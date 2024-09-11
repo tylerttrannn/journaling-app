@@ -2,12 +2,18 @@ import './Dashboard.css';
 import Widget from '../../components/Widget/Widget.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import Todolist from '../../components/Todolist/Todolist.jsx';
+import BasicDateCalendar from '../../components/Calendar/BasicDateCalendar.jsx';
+
+
 import Header from '../../components/Header/Header.jsx';
 import { useState, useEffect } from 'react';
 
 // firebase imports
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+
+import 'react-calendar/dist/Calendar.css';
+
 
 function Dashboard() {
     const [recentlyViewed, setRecentlyViewed] = useState([]);
@@ -79,21 +85,31 @@ function Dashboard() {
         <div className="dashboard">
             <Header />
             <Navbar />
-
+    
             <div className="widgets-container">
-                <h3> Recently Viewed</h3>
+                <h3>Recently Viewed</h3>
                 <div className="widgets">
                     {recentNotesData.map((note, index) => (
-                        <Widget key={index} title={note.title} createdAt={note.createdAt} />
+                        <Widget key={index} title={note.title} createdAt={note.createdAt} id={note.id} />
                     ))}
                 </div>
             </div>
+    
+            <div className="widgets-and-extras">
 
-            <div className="todo-container">
-                <Todolist />
+                <div className="calendar-container">
+                    <BasicDateCalendar />
+                    <h3>You're on a 10 day streak!</h3>
+                </div>
+
+                <div className="todo-container">
+                    <Todolist />
+                </div>
+                
             </div>
         </div>
     );
+    
 }
 
 export default Dashboard;

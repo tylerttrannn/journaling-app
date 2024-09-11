@@ -1,11 +1,9 @@
-import './Todolist.css'
+import CheckboxList from '../Checklist/CheckboxList';
 
 function Todolist(){
     return (
         <div className = "Todolist">
-            <h1>To-Do List</h1>
-
-
+            <CheckboxList/>
         </div>
 
     )

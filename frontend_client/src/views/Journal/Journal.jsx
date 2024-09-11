@@ -40,7 +40,6 @@ function Journal() {
       
       try {
         const docSnap = await getDoc(docRef);
-  
         let recentlyViewed = [];
   
         if (docSnap.exists()) {
@@ -63,8 +62,6 @@ function Journal() {
   
         console.log("Note successfully added to recently viewed.");
   
-
-
         // Navigate after updating recently viewed notes
         navigate(`/journal/note/${noteToView}`);
         setNoteToView(null);

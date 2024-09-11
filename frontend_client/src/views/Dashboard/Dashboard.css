@@ -1,6 +1,9 @@
 .dashboard {
     margin-left: 250px;
     padding-top: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .dashboard-title{ 
@@ -31,3 +34,50 @@
 }
 
 
+.widgets-and-extras {
+    display: flex;
+    flex-direction: row;  /* Ensure they are side-by-side */
+    justify-content: space-evenly;  /* Space between the containers */
+    padding: 20px;
+    gap: 20px;  /* Space between todo and calendar */
+}
+
+
+
+.todo-container, .calendar-container {
+    background-color: #f4f4f4;  /* Example background for contrast */
+    border-radius: 10px;  /* Rounded corners */
+    padding: 20px;
+    width: 100%;  /* Take available width */
+    max-width: 450px;  /* Set a maximum width to avoid too much stretching */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  /* Optional shadow for a clean look */
+    flex-grow: 1;  /* Ensures both containers grow equally */
+
+
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+@media (max-width: 900px) {
+
+    .dashboard {
+        margin-left: 50px;
+        padding-top: 150px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    
+    .widgets-and-extras {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .todo-container, .calendar-container {
+        max-width: 100%;  /* Make them take full width when stacked */
+    }
+}
