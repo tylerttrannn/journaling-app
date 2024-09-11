@@ -1,0 +1,7 @@
+.list-item-text {
+    max-width: 250px; /* Set a fixed width */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide the overflowing text */
+    text-overflow: ellipsis; /* Show the ellipsis (...) */
+  }
+  

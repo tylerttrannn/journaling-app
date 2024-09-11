@@ -7,9 +7,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
+import './CheckboxList.css';
 
 export default function CheckboxList() {
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = React.useState([]);
+  const [tasks, setTasks] = React.useState([]);
+  const [inputValue, setInputValue] = React.useState('');
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -24,36 +31,63 @@ export default function CheckboxList() {
     setChecked(newChecked);
   };
 
-  return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
+  // adds a task to the the tasks state 
+  const handleAddTask = () => {
+    if (inputValue.trim() !== '') {
+      setTasks([...tasks, inputValue]);
+      setInputValue(''); // Clear the input field
+    }
+  };
 
-        return (
-          <ListItem
-            key={value}
-            secondaryAction={
-              <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={checked.indexOf(value) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
+  const handleDeleteTask = (task) => {
+    setTasks(tasks.filter((t) => t !== task));
+  };
+
+  return (
+    <div>
+      {/* text filed to add tasks in */}
+      <TextField
+        label="New Task"
+        variant="outlined"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        sx={{ marginBottom: 2 }}
+      />
+
+      <Button variant="contained" onClick={handleAddTask}>
+        Add Task
+      </Button>
+      
+      {/* leaving bgcolor blank so that the text flows well wit hthe container in the dashboard*/}
+      <List sx={{ width: '100%', maxWidth: 400, bgcolor: '' }}>
+        {tasks.map((task, index) => {
+          const labelId = `checkbox-list-label-${index}`;
+
+          return (
+            <ListItem key={index} disablePadding>
+              <ListItemButton role={undefined} onClick={handleToggle(task)} dense>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={checked.indexOf(task) !== -1}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                </ListItemIcon>
+                <ListItemText 
+                  id={labelId} 
+                  primary={task} 
+                  className="list-item-text" 
                 />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-            </ListItemButton>
-          </ListItem>
-        );
-      })}
-    </List>
+                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(task)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </div>
   );
 }
