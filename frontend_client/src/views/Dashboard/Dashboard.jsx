@@ -1,11 +1,11 @@
 import './Dashboard.css';
 import Widget from '../../components/Widget/Widget.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
+import Header from '../../components/Header/Header.jsx';
+
 import Todolist from '../../components/Todolist/Todolist.jsx';
 import BasicDateCalendar from '../../components/Calendar/BasicDateCalendar.jsx';
 
-
-import Header from '../../components/Header/Header.jsx';
 import { useState, useEffect } from 'react';
 
 // firebase imports

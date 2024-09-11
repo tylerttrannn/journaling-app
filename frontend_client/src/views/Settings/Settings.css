@@ -1,0 +1,19 @@
+.settings{
+    display:flex;
+    flex-direction: column;
+    padding-left: 300px;
+    padding-top: 150px;
+}
+
+.setting-options{
+    display:flex;
+    flex: 1;
+    justify-content: space-evenly;
+}
+
+.settings-content{
+    display:flex;
+    justify-content: center;
+    flex:1;
+    padding-top: 100px;
+}

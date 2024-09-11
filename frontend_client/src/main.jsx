@@ -11,12 +11,8 @@ import NotFoundPage from './NotFoundPage.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
 import NewNote from './views/Journal/NewNote.jsx';
 import NoteDetails from './views/Journal/NoteDetails.jsx'
-
-
 import Dashboard from './views/Dashboard/Dashboard.jsx'
-
-
-
+import Settings from './views/Settings/Settings.jsx'
 
 
 const router = createBrowserRouter([
@@ -61,6 +57,11 @@ const router = createBrowserRouter([
   path: '/dashboard', 
   element: <Dashboard/> 
  },
+
+ {
+  path: '/settings',
+  element: <Settings/>
+ }
 
 
 ]);
