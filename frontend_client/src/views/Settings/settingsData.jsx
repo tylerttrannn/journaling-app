@@ -8,6 +8,14 @@ export const settingsData = [
     category: 'Account Settings',
     settings: [
       {
+        title: 'Preferred name',
+        text: '',
+        icon: <AiIcons.AiOutlineTrophy/>,
+        cName: 'settings-text',
+        action: 'changeName'
+      },
+
+      {
         title: 'Email',
         text: '',
         icon: <AiIcons.AiFillHome />,

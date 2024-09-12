@@ -3,21 +3,25 @@ import Navbar from '../../components/Navbar/Navbar.jsx';
 import Header from '../../components/Header/Header.jsx';
 import { settingsData } from './settingsData.jsx';
 import { useState } from 'react';
+import { handleClick } from './SettingsFunctions'; // Import functions
+import Popup from '../../components/Popup/Popup.jsx';
 
 function Settings() {
     const [currentCategory, setCurrentCategory] = useState('Account Settings');
+    const [isPopupOpen, setPopupOpen] = useState(false); // Manage popup visibility
+    const [popupContent, setPopupContent] = useState({ title: '', message: '', actions: [] }); // Store popup content
 
-    // Find the settings for the currently selected category
     const currentSettings = settingsData.find(
-        (category) => category.category === currentCategory )?.settings || [];
+        (category) => category.category === currentCategory
+    )?.settings || [];
 
-    const handleCategoryChange = (category) => {
-        setCurrentCategory(category);
+    // Updates the popup content and opens it importantly 
+    const openPopup = (content) => {
+        setPopupContent(content);
+        setPopupOpen(true);
     };
 
-    const handleClick = (action) => {
-        console.log('Action clicked:', action);
-    };
+    const closePopup = () => setPopupOpen(false);
 
     return (
         <div className="settings">
@@ -26,7 +30,7 @@ function Settings() {
 
             <div className="setting-options">
                 {settingsData.map((category, index) => (
-                    <button key={index} onClick={() => handleCategoryChange(category.category)}>
+                    <button key={index} onClick={() => setCurrentCategory(category.category)}>
                         {category.category}
                     </button>
                 ))}
@@ -41,11 +45,24 @@ function Settings() {
                             <p>{item.text}</p>
                         </div>
                         <div className="settings-right-side">
-                            <button onClick={() => handleClick(item.action)}>Change</button>
+                            {/* when the handleClick function is ran it generates and passes the content to 
+                            the openPopup function*/}
+                            <button onClick={() => handleClick(item.action, openPopup)}>Change</button>
                         </div>
                     </div>
                 ))}
             </div>
+
+            {/* Popup component */}
+            <Popup 
+                isOpen={isPopupOpen} // basically in the popup compenent nothing will render if false
+                onClose={closePopup}
+                title={popupContent.title}
+                message={popupContent.message}
+                actions={popupContent.actions}
+            />
+
+
         </div>
     );
 }
