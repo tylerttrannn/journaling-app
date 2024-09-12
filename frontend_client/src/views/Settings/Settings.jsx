@@ -6,6 +6,9 @@ import { useState, useEffect } from 'react';
 function Settings(){
     const [setting, setSetting] = useState(null)
 
+    const handleClick = async () => {
+
+    }
 
     return(
         <div className = "settings">
@@ -13,24 +16,22 @@ function Settings(){
             <Header/>
 
             <div className = "setting-options">
-                <h3> Account Settings </h3>
-                <h3> Notification Preferences </h3>
-                <h3> Theme and Appearance  </h3>
-                <h3> Data and Privacy  </h3>
-                <h3> App Preferences </h3>
+                <button> Account Settings </button>
+                <button> Notification Preferences </button>
+                <button> Theme and Appearance  </button>
+                <button> Data and Privacy  </button>
+                <button> App Preferences </button>
             </div>
 
 
             <div className = "settings-content">
                 <div className = "settings-left-side">
-                    <h3> Left Side</h3>
+                    <p> Left Side</p>
                 </div>
 
                 <div className = "settings-right-side">
-                    <h3> Right side</h3>
-
+                    <p> Right side</p>
                 </div>
-
             </div>
 
 
