@@ -1,44 +1,53 @@
-import './Settings.css'
+import './Settings.css';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import Header from '../../components/Header/Header.jsx';
-import { useState, useEffect } from 'react';
+import { settingsData } from './settingsData.jsx';
+import { useState } from 'react';
 
-function Settings(){
-    const [setting, setSetting] = useState(null)
+function Settings() {
+    const [currentCategory, setCurrentCategory] = useState('Account Settings');
 
-    const handleClick = async () => {
+    // Find the settings for the currently selected category
+    const currentSettings = settingsData.find(
+        (category) => category.category === currentCategory )?.settings || [];
 
-    }
+    const handleCategoryChange = (category) => {
+        setCurrentCategory(category);
+    };
 
-    return(
-        <div className = "settings">
-            <Navbar/>
-            <Header/>
+    const handleClick = (action) => {
+        console.log('Action clicked:', action);
+    };
 
-            <div className = "setting-options">
-                <button> Account Settings </button>
-                <button> Notification Preferences </button>
-                <button> Theme and Appearance  </button>
-                <button> Data and Privacy  </button>
-                <button> App Preferences </button>
+    return (
+        <div className="settings">
+            <Navbar />
+            <Header />
+
+            <div className="setting-options">
+                {settingsData.map((category, index) => (
+                    <button key={index} onClick={() => handleCategoryChange(category.category)}>
+                        {category.category}
+                    </button>
+                ))}
             </div>
 
-
-            <div className = "settings-content">
-                <div className = "settings-left-side">
-                    <p> Left Side</p>
-                </div>
-
-                <div className = "settings-right-side">
-                    <p> Right side</p>
-                </div>
+            <div className="settings-content">
+                {currentSettings.map((item, index) => (
+                    <div key={index} className="settings-row">
+                        <div className="settings-left-side">
+                            {item.icon}
+                            <h3>{item.title}</h3>
+                            <p>{item.text}</p>
+                        </div>
+                        <div className="settings-right-side">
+                            <button onClick={() => handleClick(item.action)}>Change</button>
+                        </div>
+                    </div>
+                ))}
             </div>
-
-
         </div>
-    )
-
+    );
 }
 
-
-export default Settings; 
+export default Settings;
