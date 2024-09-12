@@ -25,31 +25,37 @@ function Login() {
     };
 
     return (
-        <>
+        <div className="login-page">
+
+
             <Link to="/">
                 <button className="home-button">Home</button>
             </Link>
-            <div className="register-container">
-                <h1 className="register-title">Login</h1>
-                <form className="register-form" onSubmit={verifyInfo}>
-                    <label className="register-label">Email:</label>
-                    <input type="text" name="email" className="register-input" required />
+            
+            <div className="login-container">
+                <h1 className="login-title">Login</h1>
+                <form className="login-form" onSubmit={verifyInfo}>
+                    <label className="login-label">Email:</label>
+                    <input type="text" name="email" className="login-input" required />
 
-                    <label className="register-label">Password:</label>
-                    <input type="password" name="password" className="register-input" required />
-                    
-                    <button type="submit" className="register-button">Submit</button>
+                    <label className="login-label">Password:</label>
+                    <input type="password" name="password" className="login-input" required />
+
+                    <button type="submit" className="login-button">Submit</button>
+
+
+                    {errorMessage && (
+                        <div className="error">
+                            <p className="error-message">{errorMessage}</p>
+                        </div>
+                    )}
                 </form>
-            </div>
-            <label>Forgot Password?</label>
 
-            {errorMessage && (
-                <div className="error">
-                    <p className="error-message">{errorMessage}</p>
+                <div className="forgot-password">
+                    <label>Forgot Password?</label>
                 </div>
-            )}
-
-        </>
+            </div>
+        </div>
     );
 }
 

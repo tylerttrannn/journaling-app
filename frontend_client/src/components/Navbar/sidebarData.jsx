@@ -19,12 +19,7 @@ export const sidebarData = [
         icon: <IoIcons.IoIosJournal />,
         cName: 'nav-text'
     },
-    {
-        title: 'Media',
-        path: '/media',
-        icon: <IoIcons.IoIosPhotos />,
-        cName: 'nav-text'
-    },
+
     {
         title: 'Settings',
         path: '/settings',

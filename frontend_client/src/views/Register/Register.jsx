@@ -73,7 +73,7 @@ function Register() {
     };
 
     return (
-        <>
+        <div className = "register-page">
             <Link to="/">
                 <button className="home-button">Home</button>
             </Link>
@@ -111,7 +111,7 @@ function Register() {
                     <p className="success-message">{successMessage}</p>
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

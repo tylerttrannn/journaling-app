@@ -62,8 +62,7 @@ export const settingsData = [
 
     // END OF MY SETTINGS 
 
-    
-    
+
     // START OF MY NOTIFICATIONS 
 
     {
