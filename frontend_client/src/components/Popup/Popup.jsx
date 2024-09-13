@@ -27,7 +27,7 @@ function Popup({ isOpen, onClose, title, message, actions, textFields }) {
                     <div key={index} className="popup-text-field">
                         <label className="popup-label">{field.label}</label>
                         <input
-                            type="text"
+                            type= {field.type || "text"} // use 'type' property if avaliable 
                             className="popup-input"
                             value={inputValues[index] || ''} // Use the state to store the input value
                             onChange={(e) => handleInputChange(e, index)}
