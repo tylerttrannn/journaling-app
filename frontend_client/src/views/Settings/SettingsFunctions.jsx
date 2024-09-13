@@ -1,10 +1,9 @@
-import { getAuth, reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail } from 'firebase/auth';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail, updatePassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection  } from 'firebase/firestore';
 
 const auth = getAuth();
 const db = getFirestore();
 const user = auth.currentUser;
-
 
 
 const handleDisplayNameChange = async (newName) => {
@@ -61,7 +60,20 @@ const handleEmailChange = async (newEmail, currentPassword) => {
 };
 
 
+const handlePasswordChange = async (currentPassword, newPassword) => {
 
+    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    await reauthenticateWithCredential(user, credential);
+
+    try{
+        updatePassword(user, newPassword);
+    }
+
+    catch(error){
+        console.log("Failed to change the password")
+    }
+
+}
 
 
 
@@ -116,14 +128,19 @@ export const handleClick = (action, openPopup) => {
                 title: "Set Password",
                 message: "Please enter your new password.",
                 actions: [
-                    { label: 'Confirm', onClick: () => console.log('Password set') },
+                    { label: 'Confirm',
+                         onClick: (inputValues) => handlePasswordChange(inputValues['0'], inputValues['1'])},
                     { label: 'Cancel', onClick: () => console.log('Cancelled') }
                 ],
                 textFields: [
-                    {label: "Enter current password" }, {label: "Enter new password"}, {label: "Confirm new password"}
+                    {label: "Enter current password", type: "password" }, {label: "Enter new password", type: "password"}, {label: "Confirm new password", type: "password"}
                 ]
             });
             break;
+
+
+
+
 
         case 'setVerification':
             openPopup({
