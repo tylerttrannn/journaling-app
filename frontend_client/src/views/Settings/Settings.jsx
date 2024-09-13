@@ -9,7 +9,7 @@ import Popup from '../../components/Popup/Popup.jsx';
 function Settings() {
     const [currentCategory, setCurrentCategory] = useState('Account Settings');
     const [isPopupOpen, setPopupOpen] = useState(false); // Manage popup visibility
-    const [popupContent, setPopupContent] = useState({ title: '', message: '', actions: [] }); // Store popup content
+    const [popupContent, setPopupContent] = useState({ title: '', message: '', actions: [], textFields: [] }); // Store popup content
 
     const currentSettings = settingsData.find(
         (category) => category.category === currentCategory
@@ -21,6 +21,7 @@ function Settings() {
         setPopupOpen(true);
     };
 
+    
     const closePopup = () => setPopupOpen(false);
 
     return (
@@ -60,6 +61,7 @@ function Settings() {
                 title={popupContent.title}
                 message={popupContent.message}
                 actions={popupContent.actions}
+                textFields={popupContent.textFields}
             />
 
 

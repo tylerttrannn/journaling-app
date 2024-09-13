@@ -48,11 +48,24 @@
     transition: background-color 0.3s ease;
 }
 
-popup-buttons {
+.popup-buttons {
     display: flex;
     justify-content: space-evenly; /* Evenly space the buttons */
-    margin-top: 50px;
+    margin-top: 10px;
 
+}
+
+.popup-input{
+    width: 200px;
+    height: 30px;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.popup-label{
+    display:flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .popup-buttons button {
