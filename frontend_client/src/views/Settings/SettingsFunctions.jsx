@@ -1,4 +1,4 @@
-import { getAuth, reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail, updatePassword } from 'firebase/auth';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, verifyBeforeUpdateEmail, updatePassword,updateProfile } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection  } from 'firebase/firestore';
 
 const auth = getAuth();
@@ -76,6 +76,32 @@ const handlePasswordChange = async (currentPassword, newPassword) => {
 }
 
 
+// will write this later when I pay for the premium firebase lol
+const enableVerification = async () => {
+
+
+
+
+
+}
+
+
+
+const handleDelete = async (currentPassword) => {
+
+    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    await reauthenticateWithCredential(user, credential);
+
+    try { 
+        user.delete()
+        console.log("User sucessfully deleted!")
+    }
+    catch (error){
+
+    }
+
+}
+
 
 
 /* based on the action passed in it the handeClick fucntion preps for the appropiate content for the popup 
@@ -139,9 +165,6 @@ export const handleClick = (action, openPopup) => {
             break;
 
 
-
-
-
         case 'setVerification':
             openPopup({
                 title: "2-Step Verification",
@@ -158,8 +181,11 @@ export const handleClick = (action, openPopup) => {
                 title: "Delete Account",
                 message: "Are you sure you want to delete your account?",
                 actions: [
-                    { label: 'Confirm', onClick: () => console.log('Password set') },
+                    { label: 'Confirm', onClick: (inputValues) => handleDelete(inputValues['0']) },
                     { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                ],
+                textFields: [
+                    {label: "Type in your password to confirm", type: "password" }
                 ]
             });
             break;

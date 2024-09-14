@@ -46,6 +46,7 @@ function Register() {
             await setDoc(doc(db, 'users', user.uid), {
                 firstName: payload['first_name'],
                 lastName: payload['last_name'],
+                email: payload['email'],
             });
     
             // Creating a journal subcollection 

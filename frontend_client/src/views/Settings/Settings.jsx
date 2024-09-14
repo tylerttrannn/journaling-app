@@ -63,8 +63,7 @@ function Settings() {
                 actions={popupContent.actions}
                 textFields={popupContent.textFields}
             />
-
-
+            
         </div>
     );
 }
