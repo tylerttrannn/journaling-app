@@ -6,46 +6,68 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useEffect, useState } from 'react';
+import { getDocs, collection, deleteDoc, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
+import { db } from '../../firebase'; 
 
 import './CheckboxList.css';
 
 export default function CheckboxList() {
-  const [checked, setChecked] = React.useState([]);
-  const [tasks, setTasks] = React.useState([]);
-  const [inputValue, setInputValue] = React.useState('');
+  const [checked, setChecked] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
 
-    setChecked(newChecked);
-  };
+  // Fetch tasks from Firestore when the component loads
+  // This just takes a snapshot of the data and then we map it 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const querySnapshot = await getDocs(collection(db, 'users', user.uid, 'todo'));
+      const fetchedTasks = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setTasks(fetchedTasks);
+    };
 
-  // adds a task to the the tasks state 
-  const handleAddTask = () => {
+    fetchTasks();
+  }, [user]);
+
+
+  // adding a item to the array in firebase 
+  const handleAddTask = async () => {
     if (inputValue.trim() !== '') {
-      setTasks([...tasks, inputValue]);
+      const newTask = { label: inputValue, checked: false };
+      const docRef = await addDoc(collection(db, 'users', user.uid, 'todo'), newTask);
+      setTasks([...tasks, { id: docRef.id, ...newTask }]);
       setInputValue(''); // Clear the input field
     }
   };
 
-  const handleDeleteTask = (task) => {
-    setTasks(tasks.filter((t) => t !== task));
+  // updating the checked status in firebase
+  const handleToggle = (task) => async () => {
+    const updatedChecked = !task.checked;
+    const taskRef = doc(db, 'users', user.uid, 'todo', task.id);
+    await updateDoc(taskRef, { checked: updatedChecked });
+    // should look over this again 
+    setTasks(tasks.map(t => (t.id === task.id ? { ...t, checked: updatedChecked } : t)));
+  };
+
+  // deleting task from firebase 
+  const handleDeleteTask = async (task) => {
+    const taskRef = doc(db, 'users', user.uid, 'todo', task.id);
+    await deleteDoc(taskRef);
+    // likewise 
+    setTasks(tasks.filter((t) => t.id !== task.id));
   };
 
   return (
     <div>
-      {/* text filed to add tasks in */}
       <TextField
         label="New Task"
         variant="outlined"
@@ -57,29 +79,24 @@ export default function CheckboxList() {
       <Button variant="contained" onClick={handleAddTask}>
         Add Task
       </Button>
-      
-      {/* leaving bgcolor blank so that the text flows well wit hthe container in the dashboard*/}
+
       <List sx={{ width: '100%', maxWidth: 400, bgcolor: '' }}>
-        {tasks.map((task, index) => {
-          const labelId = `checkbox-list-label-${index}`;
+        {tasks.map((task) => {
+          const labelId = `checkbox-list-label-${task.id}`;
 
           return (
-            <ListItem key={index} disablePadding>
+            <ListItem key={task.id} disablePadding>
               <ListItemButton role={undefined} onClick={handleToggle(task)} dense>
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={checked.indexOf(task) !== -1}
+                    checked={task.checked}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
-                <ListItemText 
-                  id={labelId} 
-                  primary={task} 
-                  className="list-item-text" 
-                />
+                <ListItemText id={labelId} primary={task.label} />
                 <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(task)}>
                   <DeleteIcon />
                 </IconButton>
