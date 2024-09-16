@@ -53,6 +53,7 @@ export default function CheckboxList() {
   const handleToggle = (task) => async () => {
     const updatedChecked = !task.checked;
     const taskRef = doc(db, 'users', user.uid, 'todo', task.id);
+    // updating the checked value to be the opposite
     await updateDoc(taskRef, { checked: updatedChecked });
     // should look over this again 
     setTasks(tasks.map(t => (t.id === task.id ? { ...t, checked: updatedChecked } : t)));

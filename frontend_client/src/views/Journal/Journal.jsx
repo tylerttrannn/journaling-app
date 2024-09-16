@@ -3,66 +3,56 @@ import Navbar from '../../components/Navbar/Navbar.jsx';
 import Popup from '../../components/Popup/Popup.jsx';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDocs, collection, deleteDoc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDocs, collection, deleteDoc, getDoc, updateDoc, query, where, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import './Journal.css';
-
+import dayjs from 'dayjs';
 
 function Journal() {
   const [notesData, setNotesData] = useState([]);
-  const [selectDeleteNote, setSelectDeleteNote] = useState(false); // Control delete state
-  const [noteToView, setNoteToView] = useState(null); // Store selected note for deletion
-
-  const [noteToDelete, setNoteToDelete] = useState(null); // Store selected note for deletion
+  const [selectDeleteNote, setSelectDeleteNote] = useState(false);
+  const [noteToView, setNoteToView] = useState(null);
+  const [noteToDelete, setNoteToDelete] = useState(null);
+  const [noteRange, setNoteRange] = useState('Today'); // Set default range to 'Today'
 
   const auth = getAuth();
   const user = auth.currentUser;
   const database = getFirestore();
   const navigate = useNavigate();
-
   const newNote = () => navigate('/journal/new-note');
 
-  const viewNote = async (id) => {
+  const viewNote = (id) => {
     setNoteToView(id);
   };
-  
+
   useEffect(() => {
     if (noteToView) {
       modifyRecentlyViewed();
     }
   }, [noteToView]);
-  
+
   const modifyRecentlyViewed = async () => {
     if (user && noteToView) {
-      console.log("Modifying recently viewed notes...");
-  
       const docRef = doc(database, 'users', user.uid, 'viewed', 'viewedDocs');
-      
+
       try {
         const docSnap = await getDoc(docRef);
         let recentlyViewed = [];
-  
+
         if (docSnap.exists()) {
           recentlyViewed = docSnap.data().recentlyViewed || [];
-          
           const noteIndex = recentlyViewed.indexOf(noteToView);
           if (noteIndex !== -1) {
-            recentlyViewed.splice(noteIndex, 1); // Remove from current position
+            recentlyViewed.splice(noteIndex, 1);
           }
-          
           if (recentlyViewed.length >= 4) {
-            recentlyViewed.shift(); // Remove oldest
+            recentlyViewed.shift();
           }
         }
-  
+
         recentlyViewed.push(noteToView);
-  
-        // Update Firestore with modified array
+
         await updateDoc(docRef, { recentlyViewed });
-  
-        console.log("Note successfully added to recently viewed.");
-  
-        // Navigate after updating recently viewed notes
         navigate(`/journal/note/${noteToView}`);
         setNoteToView(null);
       } catch (error) {
@@ -70,38 +60,77 @@ function Journal() {
       }
     }
   };
-  
-  
 
-  const deleteNote = async () => {
-    if (user && noteToDelete) {
-      const docRef = doc(database, 'users', user.uid, 'journal', noteToDelete);
-      try {
-        await deleteDoc(docRef);
-        setNotesData(prev => prev.filter(note => note.id !== noteToDelete));
-      } catch (error) {
-        console.error("Error deleting note:", error);
-      }
+  const fetchNotes = async () => {
+    if (!user) return;
+
+    const journalRef = collection(database, 'users', user.uid, 'journal');
+    let journalQuery;
+
+    const now = dayjs();
+
+    switch (noteRange) {
+      case 'Today':
+        const startOfDay = Timestamp.fromDate(now.startOf('day').toDate());
+        const endOfDay = Timestamp.fromDate(now.add(1, 'day').startOf('day').toDate());
+        journalQuery = query(
+          journalRef,
+          where('createdAt', '>=', startOfDay),
+          where('createdAt', '<', endOfDay)
+        );
+        break;
+      case 'Week':
+        const startOfWeek = Timestamp.fromDate(now.startOf('week').toDate());
+        const endOfWeek = Timestamp.fromDate(now.add(1, 'week').startOf('week').toDate());
+        journalQuery = query(
+          journalRef,
+          where('createdAt', '>=', startOfWeek),
+          where('createdAt', '<', endOfWeek)
+        );
+        break;
+      case 'Month':
+        const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
+        const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
+        journalQuery = query(
+          journalRef,
+          where('createdAt', '>=', startOfMonth),
+          where('createdAt', '<', endOfMonth)
+        );
+        break;
+      case 'Year':
+        const startOfYear = Timestamp.fromDate(now.startOf('year').toDate());
+        const endOfYear = Timestamp.fromDate(now.add(1, 'year').startOf('year').toDate());
+        journalQuery = query(
+          journalRef,
+          where('createdAt', '>=', startOfYear),
+          where('createdAt', '<', endOfYear)
+        );
+        break;
+      default:
+        journalQuery = journalRef;
+    }
+
+    try {
+      const snapshot = await getDocs(journalQuery);
+      const notesList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log("NOTES LIST IS ", notesList)
+      setNotesData(notesList);
+    } catch (error) {
+      console.error("Error fetching notes:", error);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      const fetchNotes = async () => {
-        const journalRef = collection(database, 'users', user.uid, 'journal');
-        try {
-          const snapshot = await getDocs(journalRef);
-          const notesList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setNotesData(notesList);
-        } catch (error) {
-          console.error("Error fetching notes:", error);
-        }
-      };
+    if (user && noteRange) {
       fetchNotes();
     }
-  }, [user]);
+  }, [user, noteRange]);
 
-  
+  // Optionally monitor notesData updates
+  useEffect(() => {
+    console.log("Updated notesData:", notesData);
+  }, [notesData]);
+
   return (
     <div className="journal-container">
       <Header />
@@ -110,7 +139,7 @@ function Journal() {
 
       <div className="Journal">
         <div className="select-note-range">
-          {['Today', 'Week', 'Month', 'Year'].map(range => (
+          {['Today', 'Week', 'Month', 'Year'].map((range) => (
             <button key={range} onClick={() => setNoteRange(range)}>
               {range}
             </button>
@@ -118,30 +147,32 @@ function Journal() {
         </div>
 
         <div className="notes-content">
-          {notesData.map(note => (
+          {notesData.map((note) => (
             <div
               key={note.id}
               className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
-              onClick={() => selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)}
+              onClick={() =>
+                selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)
+              }
             >
-
               <h3>{note.title}</h3>
               <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
 
-              {/* Render Popup conditionally */}
               {selectDeleteNote && noteToDelete === note.id && (
-                // popup definition 
                 <Popup
-                  isOpen={selectDeleteNote} // Only open if a note is selected for deletion
-                  onClose={() => {}} 
+                  isOpen={selectDeleteNote}
+                  onClose={() => {}}
                   title="Delete Confirmation"
                   message="Are you sure you want to delete this note?"
                   actions={[
                     { label: 'Yes', onClick: deleteNote },
-                    { label: 'No', onClick: () => {
-                      setSelectDeleteNote(false);
-                      setNoteToDelete(null); // Clear selected note when pressing 'No'
-                    }}
+                    {
+                      label: 'No',
+                      onClick: () => {
+                        setSelectDeleteNote(false);
+                        setNoteToDelete(null);
+                      },
+                    },
                   ]}
                 />
               )}
@@ -150,13 +181,19 @@ function Journal() {
         </div>
 
         <div className="add-delete">
-          <button className="new-note" onClick={newNote}>Add</button>
-          <button className="delete" onClick={() => {
-            setNoteToDelete(null); // Reset the note to delete when the delete button is clicked
-            setSelectDeleteNote(true);
-          }}>Delete</button>
+          <button className="new-note" onClick={newNote}>
+            Add
+          </button>
+          <button
+            className="delete"
+            onClick={() => {
+              setNoteToDelete(null);
+              setSelectDeleteNote(true);
+            }}
+          >
+            Delete
+          </button>
         </div>
-
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, doc, setDoc, collection } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const NewNote = () => {
@@ -21,24 +21,18 @@ const NewNote = () => {
       const database = getFirestore();
 
       try {
-        // Reference to the user's journal collection
         const journalCollectionRef = collection(database, 'users', user.uid, 'journal');
-        
-        // Create a new document with an auto-generated ID
         const newDocRef = doc(journalCollectionRef);
 
-        // Set the document with the provided title, content, and timestamp
+        // Use Firestore Timestamp
         await setDoc(newDocRef, {
           title: title,
           content: entry,
-          createdAt: new Date(),
+          createdAt: Timestamp.now(), // Updated line
         });
 
         console.log('Entry successfully added with ID: ', newDocRef.id);
-
-        // Navigate to a different page (e.g., home or journal page) after submission
         navigate('/journal');
-
       } catch (error) {
         console.error('Error adding document: ', error);
       }
