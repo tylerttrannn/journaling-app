@@ -13,6 +13,7 @@ import NewNote from './views/Journal/NewNote.jsx';
 import NoteDetails from './views/Journal/NoteDetails.jsx'
 import Dashboard from './views/Dashboard/Dashboard.jsx'
 import Settings from './views/Settings/Settings.jsx'
+import ForgotPassword from './views/ForgotPassword/ForgotPassword.jsx'
 
 
 const router = createBrowserRouter([
@@ -61,6 +62,12 @@ const router = createBrowserRouter([
  {
   path: '/settings',
   element: <Settings/>
+ },
+
+ {
+  path: '/forgot-password',
+  element: <ForgotPassword/>
+
  }
 
 

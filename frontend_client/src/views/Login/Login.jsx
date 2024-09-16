@@ -52,7 +52,7 @@ function Login() {
                 </form>
 
                 <div className="forgot-password">
-                    <label>Forgot Password?</label>
+                    <a href="/forgot-password" >Forgot Password?</a>
                 </div>
             </div>
         </div>

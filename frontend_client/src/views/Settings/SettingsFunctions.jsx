@@ -7,6 +7,8 @@ const user = auth.currentUser;
 
 
 const handleDisplayNameChange = async (newName) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     try {
         if (user) {
@@ -97,7 +99,7 @@ const handleDelete = async (currentPassword) => {
         console.log("User sucessfully deleted!")
     }
     catch (error){
-
+        console.log("Failed to delete the user", error);
     }
 
 }
@@ -181,7 +183,8 @@ export const handleClick = (action, openPopup) => {
                 title: "Delete Account",
                 message: "Are you sure you want to delete your account?",
                 actions: [
-                    { label: 'Confirm', onClick: (inputValues) => handleDelete(inputValues['0']) },
+                    // TODO under certain conditions it wont delete, maybe needs to clear
+                    { label: 'Confirm', onClick: (inputValues) => handleDelete(inputValues['1']) },
                     { label: 'Cancel', onClick: () => console.log('Cancelled') }
                 ],
                 textFields: [
@@ -203,11 +206,10 @@ export const handleClick = (action, openPopup) => {
 
         case 'setAppearance':
             openPopup({
-                title: "Logout out of all devices?",
-                message: "All devices will need to login again",
+                title: "Select which theme you would like ",
                 actions: [
-                    { label: 'Confirm', onClick: () => console.log('Password set') },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Light', onClick: () => console.log('Password set') },
+                    { label: 'Drk', onClick: () => console.log('Cancelled') }
                 ]
             });
             break;

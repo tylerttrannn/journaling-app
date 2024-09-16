@@ -63,8 +63,13 @@ function Register() {
                 recentlyViewed: []  // Initializing an empty array
             });
 
-            
 
+             // creating a todo-list  collection 
+             const todoCollectionRef = collection(db, 'users', user.uid, 'todo');
+             await setDoc(doc(todoCollectionRef, 'todoList'), { 
+                 todoList: []  // Initializing an empty array
+             });
+ 
             setSuccessMessage('Registration successful!');
             navigate('/'); // Redirect to the main page
         } catch (error) {
