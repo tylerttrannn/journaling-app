@@ -1,6 +1,5 @@
 import './Journal.css';
 import './NewNote.css';
-import Footer from './Footer.jsx';
 import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import { useState } from 'react';
@@ -66,7 +65,6 @@ const NewNote = () => {
           ></textarea>
           <button onClick={submitEntry} className="form-submit-button">Submit</button>
         </div>
-        <Footer />
       </div>
     </div>
   );

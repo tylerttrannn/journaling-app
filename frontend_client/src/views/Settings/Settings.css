@@ -34,3 +34,38 @@
     flex-direction: row;
 
 }
+
+
+/* for some reason the body shows if the content needs to scroll
+need to fix  */
+
+
+@media (max-width: 860px) {
+    /* overall styling, padding-left is to account for the smaller navbar */
+    .settings{
+        display:flex;
+        flex-direction: column;
+        padding-left: 100px;
+        padding-top: 150px;
+    }
+
+    .setting-options{
+        display:flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-right: 50px;
+    }
+
+    .setting-options button {
+        margin: 10px 0;
+    }
+
+
+    .settings-content{
+        padding-top: 50px;
+    }
+
+
+}
+
+

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, getDocs, collection, deleteDoc, getDoc, updateDoc, query, where, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { FilterData } from './FilterData.jsx';
 import './Journal.css';
 import dayjs from 'dayjs';
 
@@ -14,6 +15,8 @@ function Journal() {
   const [noteToView, setNoteToView] = useState(null);
   const [noteToDelete, setNoteToDelete] = useState(null);
   const [noteRange, setNoteRange] = useState('Today'); // Set default range to 'Today'
+
+  const [renderMonths, setRenderMonths] = useState(null)
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -71,6 +74,7 @@ function Journal() {
 
     switch (noteRange) {
       case 'Today':
+        // leave this the same 
         const startOfDay = Timestamp.fromDate(now.startOf('day').toDate());
         const endOfDay = Timestamp.fromDate(now.add(1, 'day').startOf('day').toDate());
         journalQuery = query(
@@ -78,8 +82,10 @@ function Journal() {
           where('createdAt', '>=', startOfDay),
           where('createdAt', '<', endOfDay)
         );
+        setRenderMonths(null);
         break;
       case 'Week':
+        // we leave this the same 
         const startOfWeek = Timestamp.fromDate(now.startOf('week').toDate());
         const endOfWeek = Timestamp.fromDate(now.add(1, 'week').startOf('week').toDate());
         journalQuery = query(
@@ -87,25 +93,12 @@ function Journal() {
           where('createdAt', '>=', startOfWeek),
           where('createdAt', '<', endOfWeek)
         );
+        setRenderMonths(null);
         break;
+
       case 'Month':
-        const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
-        const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
-        journalQuery = query(
-          journalRef,
-          where('createdAt', '>=', startOfMonth),
-          where('createdAt', '<', endOfMonth)
-        );
-        break;
-      case 'Year':
-        const startOfYear = Timestamp.fromDate(now.startOf('year').toDate());
-        const endOfYear = Timestamp.fromDate(now.add(1, 'year').startOf('year').toDate());
-        journalQuery = query(
-          journalRef,
-          where('createdAt', '>=', startOfYear),
-          where('createdAt', '<', endOfYear)
-        );
-        break;
+        setRenderMonths(true);
+
       default:
         journalQuery = journalRef;
     }
@@ -113,12 +106,26 @@ function Journal() {
     try {
       const snapshot = await getDocs(journalQuery);
       const notesList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      console.log("NOTES LIST IS ", notesList)
       setNotesData(notesList);
     } catch (error) {
       console.error("Error fetching notes:", error);
     }
   };
+
+  const createQuery = (month) => {
+
+    const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
+    const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
+    journalQuery = query(
+      journalRef,
+      where('createdAt', '>=', startOfMonth),
+      where('createdAt', '<', endOfMonth)
+    );
+    setRenderMonths(null);
+
+    return journalQuery;
+
+  }
 
   useEffect(() => {
     if (user && noteRange) {
@@ -126,7 +133,7 @@ function Journal() {
     }
   }, [user, noteRange]);
 
-  // Optionally monitor notesData updates
+  // this is what renders the notes to the users on screen 
   useEffect(() => {
     console.log("Updated notesData:", notesData);
   }, [notesData]);
@@ -138,6 +145,8 @@ function Journal() {
       <h1>Journal Entries</h1>
 
       <div className="Journal">
+        {/* when the user selects a filter eg for month we want to show the months where the notes exist
+        and when they press year it has all of the years  */}
         <div className="select-note-range">
           {['Today', 'Week', 'Month', 'Year'].map((range) => (
             <button key={range} onClick={() => setNoteRange(range)}>
@@ -176,9 +185,30 @@ function Journal() {
                   ]}
                 />
               )}
+
             </div>
           ))}
         </div>
+          
+
+        {/*when rendered the user can pick which month they want to look through and the app
+        will filter out for only that month and likewise for year which goes down to month*/}
+        {renderMonths && <div className = "filter-content">
+          {FilterData.map((month) => (
+            <>
+              {/* rendering each monnth */}
+              <div
+                className={'months-entry'}
+                onClick={createQuery(month)}
+              >
+                {/* month title */}
+                <h3>{month.title}</h3>
+                
+              </div>
+            </>
+          ))}
+        </div>}
+       
 
         <div className="add-delete">
           <button className="new-note" onClick={newNote}>
@@ -200,3 +230,27 @@ function Journal() {
 }
 
 export default Journal;
+
+
+
+/* 
+
+ case 'Month':
+  const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
+  const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
+  journalQuery = query(
+    journalRef,
+    where('createdAt', '>=', startOfMonth),
+    where('createdAt', '<', endOfMonth)
+  );
+  break;
+case 'Year':
+  const startOfYear = Timestamp.fromDate(now.startOf('year').toDate());
+  const endOfYear = Timestamp.fromDate(now.add(1, 'year').startOf('year').toDate());
+  journalQuery = query(
+    journalRef,
+    where('createdAt', '>=', startOfYear),
+    where('createdAt', '<', endOfYear)
+  );
+  break;
+*/

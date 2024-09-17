@@ -5,7 +5,7 @@ import { TbLogout } from 'react-icons/tb';
 
 export const settingsData = [
   {
-    category: 'Account Settings',
+    category: 'Account',
     settings: [
       {
         title: 'Preferred name',
@@ -53,7 +53,7 @@ export const settingsData = [
     ],
   },
   {
-    category: 'Appearance Settings',
+    category: 'Appearance',
     settings: [
       {
         title: 'Appearance',
@@ -65,7 +65,7 @@ export const settingsData = [
     ],
   },
   {
-    category: 'Notifications Settings',
+    category: 'Notifications',
     settings: [
       {
         title: 'Notifications',

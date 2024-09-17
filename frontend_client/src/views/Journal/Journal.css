@@ -58,7 +58,8 @@
 }
 
 .note-entry,
-.delete-note {
+.delete-note,
+.months-entry{
   cursor: pointer;
   padding: 10px;
   width: 475px;
@@ -67,6 +68,17 @@
   border-radius: 10px;
   background-color: #ffffff;
   transition: background-color 0.3s ease;
+}
+
+
+.months-entry{
+  display:flex;
+  justify-content: center;
+}
+
+.months-entry:hover{
+  background-color: #e9e9e9;
+  border-color: #e9e9e9;
 }
 
 .note-entry h3,
