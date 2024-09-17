@@ -1,28 +1,77 @@
+import './Journal.css';
 import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import Popup from '../../components/Popup/Popup.jsx';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDocs, collection, deleteDoc, getDoc, updateDoc, query, where, Timestamp } from 'firebase/firestore';
+import {
+  getFirestore,
+  doc,
+  getDocs,
+  collection,
+  deleteDoc,
+  getDoc,
+  updateDoc,
+  query,
+  where,
+  Timestamp,
+} from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { FilterData } from './FilterData.jsx';
-import './Journal.css';
 import dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+
+import { getDateRange } from './JournalFunctions.jsx';
+
+dayjs.extend(localeData);
 
 function Journal() {
   const [notesData, setNotesData] = useState([]);
   const [selectDeleteNote, setSelectDeleteNote] = useState(false);
   const [noteToView, setNoteToView] = useState(null);
   const [noteToDelete, setNoteToDelete] = useState(null);
-  const [noteRange, setNoteRange] = useState('Today'); // Set default range to 'Today'
 
-  const [renderMonths, setRenderMonths] = useState(null)
+  const [noteRange, setNoteRange] = useState('Today');
+  const [renderMonths, setRenderMonths] = useState(false);
+  const [renderYears, setRenderYears] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
 
   const auth = getAuth();
   const user = auth.currentUser;
   const database = getFirestore();
   const navigate = useNavigate();
+
+  const months = dayjs.months();
+
+  const currentYear = dayjs().year();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+
   const newNote = () => navigate('/journal/new-note');
+
+  const handleNoteRangeChange = (range) => {
+    setNoteRange(range);
+    setNotesData([]); // Clear previous notes data
+  
+    if (range === 'Month') {
+      setRenderMonths(false);
+      setRenderYears(false);
+      setSelectedMonth(null);
+      setSelectedYear(null);
+      fetchNotes('Month'); // Fetch notes immediately for current month
+    } else if (range === 'Year') {
+      setRenderYears(true);
+      setRenderMonths(false);
+      setSelectedYear(null);
+      setSelectedMonth(null);
+    } else {
+      setRenderMonths(false);
+      setRenderYears(false);
+      setSelectedMonth(null);
+      setSelectedYear(null);
+      fetchNotes(range); // Fetch notes immediately for 'Today' and 'Week'
+    }
+  };
+  
 
   const viewNote = (id) => {
     setNoteToView(id);
@@ -59,7 +108,7 @@ function Journal() {
         navigate(`/journal/note/${noteToView}`);
         setNoteToView(null);
       } catch (error) {
-        console.error("Error adding note to recently viewed:", error);
+        console.error('Error adding note to recently viewed:', error);
       }
     }
   };
@@ -69,86 +118,74 @@ function Journal() {
       const docRef = doc(database, 'users', user.uid, 'journal', noteToDelete);
       try {
         await deleteDoc(docRef);
-        setNotesData(prev => prev.filter(note => note.id !== noteToDelete));
+        setNotesData((prev) => prev.filter((note) => note.id !== noteToDelete));
+        setSelectDeleteNote(false);
+        setNoteToDelete(null);
       } catch (error) {
-        console.error("Error deleting note:", error);
+        console.error('Error deleting note:', error);
       }
     }
   };
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (range, monthIndex = null, year = null) => {
     if (!user) return;
-
     const journalRef = collection(database, 'users', user.uid, 'journal');
     let journalQuery;
-
-    const now = dayjs();
-
-    switch (noteRange) {
-      case 'Today':
-        // leave this the same 
-        const startOfDay = Timestamp.fromDate(now.startOf('day').toDate());
-        const endOfDay = Timestamp.fromDate(now.add(1, 'day').startOf('day').toDate());
-        journalQuery = query(
-          journalRef,
-          where('createdAt', '>=', startOfDay),
-          where('createdAt', '<', endOfDay)
+  
+    let startDate, endDate;
+  
+    if (range === 'Today' || range === 'Week') {
+      const dateRange = getDateRange(range);
+      startDate = dateRange.start;
+      endDate = dateRange.end;
+    } else if (range === 'Month') {
+      // Fetch notes for current month
+      const now = dayjs();
+      startDate = Timestamp.fromDate(now.startOf('month').toDate());
+      endDate = Timestamp.fromDate(now.endOf('month').toDate());
+    } 
+    else if (range === 'Year' && year !== null) {
+      if (monthIndex !== null) {
+        // Both year and month are selected
+        startDate = Timestamp.fromDate(
+          dayjs().year(year).month(monthIndex).startOf('month').toDate()
         );
-        setRenderMonths(null);
-        break;
-      case 'Week':
-        // we leave this the same 
-        const startOfWeek = Timestamp.fromDate(now.startOf('week').toDate());
-        const endOfWeek = Timestamp.fromDate(now.add(1, 'week').startOf('week').toDate());
-        journalQuery = query(
-          journalRef,
-          where('createdAt', '>=', startOfWeek),
-          where('createdAt', '<', endOfWeek)
+        endDate = Timestamp.fromDate(
+          dayjs().year(year).month(monthIndex).endOf('month').toDate()
         );
-        setRenderMonths(null);
-        break;
-
-      case 'Month':
-        setRenderMonths(true);
-
-      default:
-        journalQuery = journalRef;
+      } else {
+        // Only year is selected
+        startDate = Timestamp.fromDate(dayjs().year(year).startOf('year').toDate());
+        endDate = Timestamp.fromDate(dayjs().year(year).endOf('year').toDate());
+      }
     }
-
+    else {
+      // Handle cases where date range is not specified properly
+      console.error('Invalid date range specified.');
+      return;
+    }
+  
+    journalQuery = query(
+      journalRef,
+      where('createdAt', '>=', startDate),
+      where('createdAt', '<=', endDate)
+    );
+  
     try {
       const snapshot = await getDocs(journalQuery);
       const notesList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setNotesData(notesList);
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      console.error('Error fetching notes:', error);
     }
   };
-
-  const createQuery = (month) => {
-
-    const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
-    const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
-    journalQuery = query(
-      journalRef,
-      where('createdAt', '>=', startOfMonth),
-      where('createdAt', '<', endOfMonth)
-    );
-    setRenderMonths(null);
-
-    return journalQuery;
-
-  }
-
+  
+  // Fetch notes when component mounts or user changes
   useEffect(() => {
-    if (user && noteRange) {
-      fetchNotes();
+    if (user && (noteRange === 'Today' || noteRange === 'Week')) {
+      fetchNotes(noteRange);
     }
   }, [user, noteRange]);
-
-  // this is what renders the notes to the users on screen 
-  useEffect(() => {
-    console.log("Updated notesData:", notesData);
-  }, [notesData]);
 
   return (
     <div className="journal-container">
@@ -157,70 +194,103 @@ function Journal() {
       <h1>Journal Entries</h1>
 
       <div className="Journal">
-        {/* when the user selects a filter eg for month we want to show the months where the notes exist
-        and when they press year it has all of the years  */}
         <div className="select-note-range">
           {['Today', 'Week', 'Month', 'Year'].map((range) => (
-            <button key={range} onClick={() => setNoteRange(range)}>
+            <button key={range} onClick={() => handleNoteRangeChange(range)}>
               {range}
             </button>
           ))}
         </div>
 
-        <div className="notes-content">
-          {notesData.map((note) => (
-            <div
-              key={note.id}
-              className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
-              onClick={() =>
-                selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)
-              }
-            >
-              <h3>{note.title}</h3>
-              <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
-
-              {selectDeleteNote && noteToDelete === note.id && (
-                <Popup
-                  isOpen={selectDeleteNote}
-                  onClose={() => {}}
-                  title="Delete Confirmation"
-                  message="Are you sure you want to delete this note?"
-                  actions={[
-                    { label: 'Yes', onClick: deleteNote },
-                    {
-                      label: 'No',
-                      onClick: () => {
-                        setSelectDeleteNote(false);
-                        setNoteToDelete(null);
-                      },
-                    },
-                  ]}
-                />
-              )}
-
-            </div>
-          ))}
-        </div>
-          
-
-        {/*when rendered the user can pick which month they want to look through and the app
-        will filter out for only that month and likewise for year which goes down to month*/}
-        {renderMonths && <div className = "filter-content">
-          {FilterData.map((month) => (
-            <>
-              {/* rendering each monnth */}
+        {/* Render years when 'Year' is selected */}
+        {renderYears && selectedYear === null && noteRange === 'Year' && (
+          <div className="filter-content">
+            {years.map((year) => (
               <div
-                className={'months-entry'}
-                onClick={createQuery(month)}
+                key={year}
+                className="years-entry"
+                onClick={() => {
+                  setSelectedYear(year);
+                  setRenderMonths(true);
+                }}
               >
-                {/* month title */}
-                <h3>{month.title}</h3>
-                
+                <h3>{year}</h3>
               </div>
-            </>
-          ))}
-        </div>}
-       
+            ))}
+          </div>
+        )}
+
+        {/* Render months after year is selected */}
+        {renderMonths && selectedMonth === null && selectedYear !== null && noteRange === 'Year' && (
+          <div className="filter-content">
+            {months.map((monthName, index) => (
+              <div
+                key={index}
+                className="months-entry"
+                onClick={() => {
+                  setSelectedMonth(index);
+                  fetchNotes('Year', index, selectedYear);
+                  setRenderMonths(false); 
+                  setRenderYears(false);  
+                }}
+              >
+                <h3>{monthName}</h3>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Display selected month and year */}
+        {selectedYear !== null && selectedMonth !== null && noteRange === 'Year' && (
+          <h2>
+            Notes for {months[selectedMonth]} {selectedYear}
+          </h2>
+        )}
+        {selectedYear !== null && selectedMonth === null && noteRange === 'Year' && (
+          <h2>Notes for {selectedYear}</h2>
+        )}
+
+        <div className="notes-content">
+          {notesData.length > 0 ? (
+            notesData.map((note) => (
+              <div
+                key={note.id}
+                className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
+                onClick={() =>
+                  selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)
+                }
+              >
+                <h3>{note.title}</h3>
+                <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
+              </div>
+            ))
+          ) : (
+            <p>No notes available for the selected period.</p>
+          )}
+        </div>
+
+        {/* Popup for deleting notes */}
+        {selectDeleteNote && noteToDelete && (
+          <Popup
+            isOpen={selectDeleteNote}
+            onClose={() => {
+              setSelectDeleteNote(false);
+              setNoteToDelete(null);
+            }}
+            title="Delete Confirmation"
+            message="Are you sure you want to delete this note?"
+            actions={[
+              { label: 'Yes', onClick: deleteNote },
+              {
+                label: 'No',
+                onClick: () => {
+                  setSelectDeleteNote(false);
+                  setNoteToDelete(null);
+                },
+              },
+            ]}
+          />
+        )}
 
         <div className="add-delete">
           <button className="new-note" onClick={newNote}>
@@ -229,7 +299,6 @@ function Journal() {
           <button
             className="delete"
             onClick={() => {
-              setNoteToDelete(null);
               setSelectDeleteNote(true);
             }}
           >
@@ -242,27 +311,3 @@ function Journal() {
 }
 
 export default Journal;
-
-
-
-/* 
-
- case 'Month':
-  const startOfMonth = Timestamp.fromDate(now.startOf('month').toDate());
-  const endOfMonth = Timestamp.fromDate(now.add(1, 'month').startOf('month').toDate());
-  journalQuery = query(
-    journalRef,
-    where('createdAt', '>=', startOfMonth),
-    where('createdAt', '<', endOfMonth)
-  );
-  break;
-case 'Year':
-  const startOfYear = Timestamp.fromDate(now.startOf('year').toDate());
-  const endOfYear = Timestamp.fromDate(now.add(1, 'year').startOf('year').toDate());
-  journalQuery = query(
-    journalRef,
-    where('createdAt', '>=', startOfYear),
-    where('createdAt', '<', endOfYear)
-  );
-  break;
-*/

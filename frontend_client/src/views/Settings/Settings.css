@@ -1,19 +1,11 @@
-/* for some reason when content needs to scroll from any size a 
-black background overflows the content 
-
-
-+ content overflows the header
-
-
-*/
-
-
 
 .settings{
     display:flex;
     flex-direction: column;
     padding-left: 300px;
     padding-top: 150px;
+    background-color: #EFF2F4; /* Ensure background color is applied to .settings */
+
 }
 
 .setting-options{
@@ -52,7 +44,7 @@ black background overflows the content
 
 @media (max-width: 860px) {
     /* overall styling, padding-left is to account for the smaller navbar */
-    .settings{
+    .settings{ 
         display:flex;
         flex-direction: column;
         padding-left: 100px;

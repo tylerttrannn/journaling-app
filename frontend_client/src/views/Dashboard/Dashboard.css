@@ -3,6 +3,7 @@
     padding-top: 150px;
     display: flex;
     flex-direction: column;
+    background-color: #EFF2F4;
     gap: 20px;
 }
 
