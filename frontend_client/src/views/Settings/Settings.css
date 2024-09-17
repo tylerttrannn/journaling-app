@@ -1,3 +1,14 @@
+/* for some reason when content needs to scroll from any size a 
+black background overflows the content 
+
+
++ content overflows the header
+
+
+*/
+
+
+
 .settings{
     display:flex;
     flex-direction: column;
@@ -36,8 +47,7 @@
 }
 
 
-/* for some reason the body shows if the content needs to scroll
-need to fix  */
+
 
 
 @media (max-width: 860px) {

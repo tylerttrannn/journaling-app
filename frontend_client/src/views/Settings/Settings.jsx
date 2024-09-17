@@ -7,7 +7,7 @@ import { handleClick } from './SettingsFunctions'; // Import functions
 import Popup from '../../components/Popup/Popup.jsx';
 
 function Settings() {
-    const [currentCategory, setCurrentCategory] = useState('Account Settings');
+    const [currentCategory, setCurrentCategory] = useState('Account');
     const [isPopupOpen, setPopupOpen] = useState(false); // Manage popup visibility
     const [popupContent, setPopupContent] = useState({ title: '', message: '', actions: [], textFields: [] }); // Store popup content
 
@@ -46,10 +46,12 @@ function Settings() {
                             <p>{item.text}</p>
                         </div>
                         <div className="settings-right-side">
-                            {/* when the handleClick function is ran it generates and passes the content to 
-                            the openPopup function*/}
-                            <button onClick={() => handleClick(item.action, openPopup)}>Change</button>
+                            <button onClick={() => handleClick(item.action, openPopup, closePopup)}>Select</button>
                         </div>
+
+
+
+
                     </div>
                 ))}
             </div>

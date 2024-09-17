@@ -64,6 +64,18 @@ function Journal() {
     }
   };
 
+  const deleteNote = async () => {
+    if (user && noteToDelete) {
+      const docRef = doc(database, 'users', user.uid, 'journal', noteToDelete);
+      try {
+        await deleteDoc(docRef);
+        setNotesData(prev => prev.filter(note => note.id !== noteToDelete));
+      } catch (error) {
+        console.error("Error deleting note:", error);
+      }
+    }
+  };
+
   const fetchNotes = async () => {
     if (!user) return;
 

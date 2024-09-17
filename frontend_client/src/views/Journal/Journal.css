@@ -96,6 +96,14 @@
   border-color: #ff4d4d;
 }
 
+
+
+.add-delete button{
+  border-radius: 25px;
+  
+}
+
+
 /* New note button */
 .new-note {
   background-color: #386910;
@@ -115,6 +123,9 @@
 
 .delete:hover {
   background-color: #ed3131;
+}
+.new-note:hover{
+  background-color: green;
 }
 
 
@@ -176,18 +187,9 @@
     font-size: 0.8rem;
   }
 
-  .new-note {
-    width: 50px;
-    height: 50px;
-    padding: 15px;
-    font-size: 14px;
-  }
 
-  .delete {
-    width: 60px;
-    height: 40px;
-    font-size: 10px;
-  }
+
+  
 }
 
 
@@ -229,12 +231,6 @@ smallest window
     padding: 15px;
   }
 
-  .new-note,
-  .delete {
-    width: 40px;
-    height: 40px;
-    font-size: 12px;
-  }
 
   .note-entry h3,
   .delete-note h3 {

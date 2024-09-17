@@ -5,6 +5,7 @@ import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import './Login.css';
 
+
 function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -86,3 +87,25 @@ function Login() {
 }
 
 export default Login;
+
+
+
+/* 
+
+
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            required
+          />
+
+        <TextField
+          id="outlined-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+        />
+
+
+*/

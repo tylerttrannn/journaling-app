@@ -109,7 +109,7 @@ const handleDelete = async (currentPassword) => {
 /* based on the action passed in it the handeClick fucntion preps for the appropiate content for the popup 
 the handleClick function passes the data to the openPopup function back in the Settings.jsx file */
 
-export const handleClick = (action, openPopup) => {
+export const handleClick = (action, openPopup, closePopup) => {
     console.log(`Action clicked: ${action}`);
     switch (action) {
         case 'changeName':
@@ -123,7 +123,7 @@ export const handleClick = (action, openPopup) => {
                         // which is what we're accessing now 
                         onClick: (inputValues) => handleDisplayNameChange(inputValues['0'])
                     },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ],
                 textFields: [
                     { label: "New Name" }
@@ -141,7 +141,7 @@ export const handleClick = (action, openPopup) => {
                         label: 'Confirm', 
                         onClick: (inputValues) => handleEmailChange(inputValues['0'], inputValues['1']) // Pass new email and current password
                     },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ],
                 textFields:[
                     { label: "New Email" },
@@ -158,7 +158,7 @@ export const handleClick = (action, openPopup) => {
                 actions: [
                     { label: 'Confirm',
                          onClick: (inputValues) => handlePasswordChange(inputValues['0'], inputValues['1'])},
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ],
                 textFields: [
                     {label: "Enter current password", type: "password" }, {label: "Enter new password", type: "password"}, {label: "Confirm new password", type: "password"}
@@ -173,7 +173,7 @@ export const handleClick = (action, openPopup) => {
                 message: "Please enter your new password.",
                 actions: [
                     { label: 'Confirm', onClick: () => console.log('Password set') },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ]
             });
             break;
@@ -185,7 +185,7 @@ export const handleClick = (action, openPopup) => {
                 actions: [
                     // TODO under certain conditions it wont delete, maybe needs to clear
                     { label: 'Confirm', onClick: (inputValues) => handleDelete(inputValues['1']) },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ],
                 textFields: [
                     {label: "Type in your password to confirm", type: "password" }
@@ -199,7 +199,7 @@ export const handleClick = (action, openPopup) => {
                 message: "All devices will need to login again",
                 actions: [
                     { label: 'Confirm', onClick: () => console.log('Password set') },
-                    { label: 'Cancel', onClick: () => console.log('Cancelled') }
+                    { label: 'Cancel', onClick: () => closePopup() }
                 ]
             });
             break;
@@ -208,8 +208,8 @@ export const handleClick = (action, openPopup) => {
             openPopup({
                 title: "Select which theme you would like ",
                 actions: [
-                    { label: 'Light', onClick: () => console.log('Password set') },
-                    { label: 'Drk', onClick: () => console.log('Cancelled') }
+                    { label: 'Light', onClick: () => console.log('Light Mode Set') },
+                    { label: 'Dark', onClick: () => console.log('Dark Mode Set') }
                 ]
             });
             break;
