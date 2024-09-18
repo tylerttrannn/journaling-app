@@ -1,3 +1,6 @@
+
+
+
 .header-container {
   display: flex;
   align-items: center;
@@ -9,4 +12,15 @@
 .header-container p,
 .header-container .ui.button {
   margin: 0 10px;
+}
+
+.header-extra-info{
+  display:flex;
+  flex-direction: row;
+}
+
+.title-image{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
 }

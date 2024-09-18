@@ -1,0 +1,81 @@
+
+.idk{
+    display: flex;
+    flex-direction:column
+}
+
+.content-intro{
+    display:flex;
+    flex-direction:column;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    width: 50%;
+}
+
+.text{
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.landing-page-widgets-container{
+    
+    padding-left: 125px;
+}
+
+.small-widgets {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between; /* Center the small widgets horizontally */
+    width: 40%;
+}
+
+.large-widget {
+    display: flex;
+    margin-top: 25px;
+    width: 40%;
+}
+
+
+.get-started{
+    width: 30%;
+    height: 60px;
+    border-radius: 30px;
+}
+
+
+
+
+
+
+
+/* widget overriding css styles (need to fix this later)*/
+
+.widget {
+    display: flex;
+    justify-content: space-between; /* Positions content on the left and right sides */
+    flex: 1; /* Flex-grow: 1, flex-shrink: 1, and flex-basis: 0 */
+    padding: 10px;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.5);
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    height: 125px;
+    width: 225px;
+    transition: background-color 0.3s ease; /* Add a smooth hover effect */
+}
+
+.widget:hover {
+    background-color: white; /* Hover effect */
+}
+
+.left, .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 14px;
+    color: rgb(160, 160, 160);
+}

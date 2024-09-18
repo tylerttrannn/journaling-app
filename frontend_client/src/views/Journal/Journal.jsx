@@ -187,13 +187,20 @@ function Journal() {
     }
   }, [user, noteRange]);
 
+
+
+
+
+
+
   return (
     <div className="journal-container">
       <Header />
       <Navbar />
-      <h1>Journal Entries</h1>
 
       <div className="Journal">
+        <h1>Journal Entries</h1>
+
         <div className="select-note-range">
           {['Today', 'Week', 'Month', 'Year'].map((range) => (
             <button key={range} onClick={() => handleNoteRangeChange(range)}>
@@ -204,7 +211,7 @@ function Journal() {
 
         {/* Render years when 'Year' is selected */}
         {renderYears && selectedYear === null && noteRange === 'Year' && (
-          <div className="filter-content">
+          <div className="filter-content-years">
             {years.map((year) => (
               <div
                 key={year}
@@ -214,7 +221,7 @@ function Journal() {
                   setRenderMonths(true);
                 }}
               >
-                <h3>{year}</h3>
+                <h3 className = "years-container">{year}</h3>
               </div>
             ))}
           </div>

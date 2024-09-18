@@ -60,7 +60,8 @@
 
 .note-entry,
 .delete-note,
-.months-entry{
+.months-entry,
+.years-entry{
   cursor: pointer;
   padding: 10px;
   width: 475px;
@@ -101,7 +102,12 @@
 
 .add-delete button{
   border-radius: 25px;
-  
+}
+
+.years-entry{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 
@@ -130,10 +136,18 @@
 }
 
 
+
+
+
+
+
+
+
 /* medium window w navbar */
 @media (max-width: 860px) {
   .Journal {
     padding: 10px;
+    padding-right:200px
   }
 
   .journal-container {
