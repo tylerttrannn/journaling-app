@@ -99,7 +99,6 @@ function Dashboard() {
 
                 <div className="calendar-container">
                     <BasicDateCalendar />
-                    <h3>You're on a 10 day streak!</h3>
                 </div>
 
                 <div className="todo-container">

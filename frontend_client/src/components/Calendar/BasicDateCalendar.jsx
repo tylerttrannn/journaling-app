@@ -7,101 +7,81 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 
-import { getDocs, collection, query, where, Timestamp } from "firebase/firestore"; 
+import { getDocs, collection, query, where, orderBy, Timestamp } from "firebase/firestore"; 
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-
 /**
- * Fetch journal days for the current user in the selected month
+ * Function to calculate the journal streak for the current user
  */
-async function fetchJournalDays(date, { signal }) {
-
+async function calculateStreak() {
   const auth = getAuth();
   const user = auth.currentUser;
-  const database = getFirestore(); 
+  const database = getFirestore();
 
   if (!user) {
     console.error("User is not authenticated");
-    return { daysToHighlight: [] };
+    return 0;
   }
-  
+
   try {
-    const daysInMonth = date.daysInMonth();
-    const startOfMonth = date.startOf('month').toDate();
-    const endOfMonth = date.endOf('month').toDate();
-    
-    // Query Firestore for journal entries within the current month
-    const journalDaysQuery = query(
+    const journalQuery = query(
       collection(database, 'users', user.uid, 'journal'),
-      where('createdAt', '>=', startOfMonth),
-      where('createdAt', '<=', endOfMonth)
+      orderBy('createdAt', 'desc')  // Sorting entries by date in descending order
     );
 
-    const snapshot = await getDocs(journalDaysQuery);
+    const snapshot = await getDocs(journalQuery);
 
-
-    // convering all of the firebase timestamp to a javascript date 
-    const daysToHighlight = snapshot.docs.map(doc => {
-      const entryDate = doc.data().createdAt;  
+    // Convert all Firebase Timestamps to dayjs-compatible dates
+    const journalEntries = snapshot.docs.map(doc => {
+      const entryDate = doc.data().createdAt;
       if (entryDate instanceof Timestamp) {
-        // Convert Firestore Timestamp to JavaScript Date
-        return dayjs(entryDate.toDate()).date();
+        return dayjs(entryDate.toDate());
       }
-      return dayjs(entryDate).date();  
+      return dayjs(entryDate); // If it's already a JS date or string
     });
 
-    
-    return { daysToHighlight };
+    let streak = 0;
+    let currentDate = dayjs();
+
+    for (let i = 0; i < journalEntries.length; i++) {
+      const entryDate = journalEntries[i];
+
+      // If the entry date is exactly one day before the current date, continue the streak
+      if (entryDate.isSame(currentDate, 'day')) {
+        streak++; // Continue the streak
+        currentDate = currentDate.subtract(1, 'day'); // Move the reference date to the previous day
+      } else if (entryDate.isBefore(currentDate, 'day')) {
+        // If the date is not consecutive, break the streak
+        break;
+      }
+    }
+
+    return streak;
   } catch (error) {
-    console.error("Failed to fetch journal days:", error);
-    throw error;
+    console.error("Failed to calculate streak:", error);
+    return 0;
   }
 }
-
-
-// current date 
-const initialValue = dayjs();
-
-/* This function renders the additional info (badge) on the selected days */
-function ServerDay(props) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-
-  const isSelected =
-    !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
-
-  return (
-    <Badge
-      key={props.day.toString()}
-      overlap="circular"
-      badgeContent={isSelected ? '🔴' : undefined}
-    >
-      <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
-    </Badge>
-  );
-}
-
 
 /* Main Calendar Component */
 export default function BasicDateCalendar() {
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([]);
+  const [streak, setStreak] = React.useState(0);  
 
+  const initialValue = dayjs();
 
-
-  // Use the actual fetchJournalDays instead of fakeFetch
+  // Fetch highlighted days
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
-    fetchJournalDays(date, {
-      signal: controller.signal,
-    })
+    fetchJournalDays(date, { signal: controller.signal })
       .then(({ daysToHighlight }) => {
         setHighlightedDays(daysToHighlight);
         setIsLoading(false);
       })
       .catch((error) => {
-        // ignore the error if it's caused by `controller.abort`
         if (error.name !== 'AbortError') {
           console.error(error);
         }
@@ -110,15 +90,22 @@ export default function BasicDateCalendar() {
     requestAbortController.current = controller;
   };
 
+  // Fetch streak on component mount
   React.useEffect(() => {
+    const fetchStreak = async () => {
+      const userStreak = await calculateStreak();  // Fetch the streak
+      setStreak(userStreak);  // Update state with streak value
+    };
+    fetchStreak();
+
     fetchHighlightedDays(initialValue);
-    // abort request on unmount
+    
+    // Abort request on unmount
     return () => requestAbortController.current?.abort();
   }, []);
 
   const handleMonthChange = (date) => {
     if (requestAbortController.current) {
-      // make sure that you are aborting useless requests
       requestAbortController.current.abort();
     }
 
@@ -143,6 +130,65 @@ export default function BasicDateCalendar() {
           },
         }}
       />
+      <h3>You're on a {streak} day streak!</h3> {/* Display the streak */}
     </LocalizationProvider>
   );
+}
+
+/* This function renders the additional info (badge) on the selected days */
+function ServerDay(props) {
+  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+
+  const isSelected =
+    !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
+
+  return (
+    <Badge
+      key={props.day.toString()}
+      overlap="circular"
+      badgeContent={isSelected ? '🔴' : undefined}
+    >
+      <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
+    </Badge>
+  );
+}
+
+/**
+ * Fetch journal days for the current user in the selected month
+ */
+async function fetchJournalDays(date, { signal }) {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const database = getFirestore(); 
+
+  if (!user) {
+    console.error("User is not authenticated");
+    return { daysToHighlight: [] };
+  }
+  
+  try {
+    const startOfMonth = date.startOf('month').toDate();
+    const endOfMonth = date.endOf('month').toDate();
+    
+    const journalDaysQuery = query(
+      collection(database, 'users', user.uid, 'journal'),
+      where('createdAt', '>=', startOfMonth),
+      where('createdAt', '<=', endOfMonth)
+    );
+
+    const snapshot = await getDocs(journalDaysQuery);
+
+    const daysToHighlight = snapshot.docs.map(doc => {
+      const entryDate = doc.data().createdAt;  
+      if (entryDate instanceof Timestamp) {
+        return dayjs(entryDate.toDate()).date();
+      }
+      return dayjs(entryDate).date();  
+    });
+
+    return { daysToHighlight };
+  } catch (error) {
+    console.error("Failed to fetch journal days:", error);
+    throw error;
+  }
 }
