@@ -17,23 +17,25 @@ body {
     display: flex;
     flex-direction: column;
     padding-top: 150px;
-    padding-left: var(--navbar-width);   /* this is the correct way to do it without having to remember navbar width */
-    flex: 1;    /* so that it becomes responsive */
+    padding-left: var(--navbar-width);
+    flex: 1;
     min-height: 100vh;
     background-color: #EFF2F4;
-    transition: padding-left 0.3s ease; /* Smooth transition when the navbar changes size */
+    transition: padding-left 0.3s ease;
 }
 
 /* Adjust dashboard padding when the navbar shrinks */
 @media (max-width: 860px) {
     :root {
-        --navbar-width: 50px; /* Shrink the navbar on smaller screens */
+        --navbar-width: 50px;
     }
 }
 
 .widgets-container {
+    width: 100%;
     margin-bottom: 20px;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .widgets-container h3 {
@@ -48,12 +50,35 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
 }
 
+/* Base styles for widgets */
 .widgets > .widget {
-    flex: 1;
+    flex: 1 1 calc(100% - 40px);
     min-width: 300px;
-    max-width: 400px;
+    max-width: none;
+}
+
+/* For screens wider than 1200px */
+@media (min-width: 1200px) {
+    .widgets > .widget {
+        flex: 1 1 calc(33.333% - 40px);
+    }
+}
+
+/* For screens between 800px and 1199px */
+@media (min-width: 800px) and (max-width: 1199px) {
+    .widgets > .widget {
+        flex: 1 1 calc(50% - 40px);
+    }
+}
+
+/* For screens less than 800px */
+@media (max-width: 799px) {
+    .widgets > .widget {
+        flex: 1 1 calc(100% - 40px);
+    }
 }
 
 /* Calendar and Todo-list container */
@@ -70,11 +95,12 @@ body {
     padding: 20px;
     flex-grow: 1;
     max-width: 400px;
+    box-sizing: border-box;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.calendar-container{
-    display:flex;
+.calendar-container {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -82,27 +108,25 @@ body {
 
 /* Stack the calendar and todo-list vertically on mobile */
 @media (max-width: 600px) {
-
-    .dashboard{
+    .dashboard {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        padding-left: 0; 
-
+        padding-left: 0;
+        padding-bottom: 60px;
     }
 
-
-    .widgets-container{
-        display:flex;
+    .widgets-container {
+        display: flex;
         flex-direction: column;
         align-items: center;
     }
-    .widgets{
-        display:flex;
+
+    .widgets {
+        display: flex;
         flex-direction: column;
-
+        align-items: center;
     }
-
 
     .widgets-and-extras {
         flex-direction: column;
@@ -110,7 +134,7 @@ body {
     }
 
     .todo-container, .calendar-container {
-        max-width: 100%; /* Full width on mobile */
+        max-width: 100%;
     }
 }
 
@@ -122,7 +146,7 @@ body {
 }
 
 .widgets-and-extras,
-.todo-container, 
+.todo-container,
 .calendar-container {
     transition: all 0.3s ease;
 }
