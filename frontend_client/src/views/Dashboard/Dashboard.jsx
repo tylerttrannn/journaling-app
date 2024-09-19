@@ -2,10 +2,8 @@ import './Dashboard.css';
 import Widget from '../../components/Widget/Widget.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import Header from '../../components/Header/Header.jsx';
-
 import Todolist from '../../components/Todolist/Todolist.jsx';
 import BasicDateCalendar from '../../components/Calendar/BasicDateCalendar.jsx';
-
 import { useState, useEffect } from 'react';
 
 // firebase imports
@@ -13,6 +11,14 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 import 'react-calendar/dist/Calendar.css';
+
+
+
+/*  TODO 
+
+- fix fucked up widgets on smaller screen sizes 
+- make to-do list ui better
+*/
 
 
 function Dashboard() {
