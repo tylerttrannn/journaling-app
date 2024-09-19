@@ -190,127 +190,127 @@ function Journal() {
 
 
 
-
-
-
   return (
-    <div className="journal-container">
+    <div className="app-container">
       <Header />
-      <Navbar />
+      
+      <div className="journal-container">
+        <Navbar />
 
-      <div className="Journal">
-        <h1>Journal Entries</h1>
+        <div className="Journal">
+          <h1>Journal Entries</h1>
 
-        <div className="select-note-range">
-          {['Today', 'Week', 'Month', 'Year'].map((range) => (
-            <button key={range} onClick={() => handleNoteRangeChange(range)}>
-              {range}
-            </button>
-          ))}
-        </div>
-
-        {/* Render years when 'Year' is selected */}
-        {renderYears && selectedYear === null && noteRange === 'Year' && (
-          <div className="filter-content-years">
-            {years.map((year) => (
-              <div
-                key={year}
-                className="years-entry"
-                onClick={() => {
-                  setSelectedYear(year);
-                  setRenderMonths(true);
-                }}
-              >
-                <h3 className = "years-container">{year}</h3>
-              </div>
+          <div className="select-note-range">
+            {['Today', 'Week', 'Month', 'Year'].map((range) => (
+              <button key={range} onClick={() => handleNoteRangeChange(range)}>
+                {range}
+              </button>
             ))}
           </div>
-        )}
 
-        {/* Render months after year is selected */}
-        {renderMonths && selectedMonth === null && selectedYear !== null && noteRange === 'Year' && (
-          <div className="filter-content">
-            {months.map((monthName, index) => (
-              <div
-                key={index}
-                className="months-entry"
-                onClick={() => {
-                  setSelectedMonth(index);
-                  fetchNotes('Year', index, selectedYear);
-                  setRenderMonths(false); 
-                  setRenderYears(false);  
-                }}
-              >
-                <h3>{monthName}</h3>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Display selected month and year */}
-        {selectedYear !== null && selectedMonth !== null && noteRange === 'Year' && (
-          <h2>
-            Notes for {months[selectedMonth]} {selectedYear}
-          </h2>
-        )}
-        {selectedYear !== null && selectedMonth === null && noteRange === 'Year' && (
-          <h2>Notes for {selectedYear}</h2>
-        )}
-
-        <div className="notes-content">
-          {notesData.length > 0 ? (
-            notesData.map((note) => (
-              <div
-                key={note.id}
-                className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
-                onClick={() =>
-                  selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)
-                }
-              >
-                <h3>{note.title}</h3>
-                <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
-              </div>
-            ))
-          ) : (
-            <p>No notes available for the selected period.</p>
+          {/* Render years when 'Year' is selected */}
+          {renderYears && selectedYear === null && noteRange === 'Year' && (
+            <div className="filter-content-years">
+              {years.map((year) => (
+                <div
+                  key={year}
+                  className="years-entry"
+                  onClick={() => {
+                    setSelectedYear(year);
+                    setRenderMonths(true);
+                  }}
+                >
+                  <h3 className = "years-container">{year}</h3>
+                </div>
+              ))}
+            </div>
           )}
-        </div>
 
-        {/* Popup for deleting notes */}
-        {selectDeleteNote && noteToDelete && (
-          <Popup
-            isOpen={selectDeleteNote}
-            onClose={() => {
-              setSelectDeleteNote(false);
-              setNoteToDelete(null);
-            }}
-            title="Delete Confirmation"
-            message="Are you sure you want to delete this note?"
-            actions={[
-              { label: 'Yes', onClick: deleteNote },
-              {
-                label: 'No',
-                onClick: () => {
-                  setSelectDeleteNote(false);
-                  setNoteToDelete(null);
+          {/* Render months after year is selected */}
+          {renderMonths && selectedMonth === null && selectedYear !== null && noteRange === 'Year' && (
+            <div className="filter-content">
+              {months.map((monthName, index) => (
+                <div
+                  key={index}
+                  className="months-entry"
+                  onClick={() => {
+                    setSelectedMonth(index);
+                    fetchNotes('Year', index, selectedYear);
+                    setRenderMonths(false); 
+                    setRenderYears(false);  
+                  }}
+                >
+                  <h3>{monthName}</h3>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Display selected month and year */}
+          {selectedYear !== null && selectedMonth !== null && noteRange === 'Year' && (
+            <h2>
+              Notes for {months[selectedMonth]} {selectedYear}
+            </h2>
+          )}
+          {selectedYear !== null && selectedMonth === null && noteRange === 'Year' && (
+            <h2>Notes for {selectedYear}</h2>
+          )}
+
+          <div className="notes-content">
+            {notesData.length > 0 ? (
+              notesData.map((note) => (
+                <div
+                  key={note.id}
+                  className={`note-entry ${selectDeleteNote ? 'delete-note' : ''}`}
+                  onClick={() =>
+                    selectDeleteNote ? setNoteToDelete(note.id) : viewNote(note.id)
+                  }
+                >
+                  <h3>{note.title}</h3>
+                  <p>{new Date(note.createdAt.seconds * 1000).toLocaleString()}</p>
+                </div>
+              ))
+            ) : (
+              <p>No notes available for the selected period.</p>
+            )}
+          </div>
+
+          {/* Popup for deleting notes */}
+          {selectDeleteNote && noteToDelete && (
+            <Popup
+              isOpen={selectDeleteNote}
+              onClose={() => {
+                setSelectDeleteNote(false);
+                setNoteToDelete(null);
+              }}
+              title="Delete Confirmation"
+              message="Are you sure you want to delete this note?"
+              actions={[
+                { label: 'Yes', onClick: deleteNote },
+                {
+                  label: 'No',
+                  onClick: () => {
+                    setSelectDeleteNote(false);
+                    setNoteToDelete(null);
+                  },
                 },
-              },
-            ]}
-          />
-        )}
+              ]}
+            />
+          )}
 
-        <div className="add-delete">
-          <button className="new-note" onClick={newNote}>
-            Add
-          </button>
-          <button
-            className="delete"
-            onClick={() => {
-              setSelectDeleteNote(true);
-            }}
-          >
-            Delete
-          </button>
+          <div className="add-delete">
+            <button className="new-note" onClick={newNote}>
+              Add
+            </button>
+            <button
+              className="delete"
+              onClick={() => {
+                setSelectDeleteNote(true);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

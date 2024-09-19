@@ -32,6 +32,7 @@ function Navbar() {
             <nav className='nav-menu'>
                 <ul className='nav-menu-items'>
                     {/* App Icon and Title as the first item */}
+                    
                     <li className='nav-logo'>
                         <div className='nav-icon'>
                             <IoIcons.IoIosJournal className='app-icon' />
