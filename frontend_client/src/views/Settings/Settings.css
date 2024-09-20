@@ -43,19 +43,29 @@
 
 
 @media (max-width: 860px) {
-    /* overall styling, padding-left is to account for the smaller navbar */
-    .settings{ 
+
+
+    .settings{
+        padding-left: 100px;
+    }
+    .settings-container{
         display:flex;
         flex-direction: column;
-        padding-left: 100px;
-        padding-top: 150px;
+        align-items: center;
+        min-width: 200px;
+        padding-bottom: 60px;
+
+
     }
+
+    
 
     .setting-options{
         display:flex;
         flex-direction: column;
         justify-content: space-between;
         padding-right: 50px;
+        min-width: 400px;
     }
 
     .setting-options button {
@@ -66,8 +76,32 @@
     .settings-content{
         padding-top: 50px;
     }
-
-
 }
 
+
+/* mobile view */
+@media (max-width: 600px) {
+    .settings{
+        padding-left: 50px;
+    }
+
+    .settings-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: 0;
+        padding-bottom: 60px;
+    }
+
+
+    
+}
+
+
+
+.settings-container,
+.setting-options,
+.settings-content {
+    transition: all 0.5s ease;
+}
 

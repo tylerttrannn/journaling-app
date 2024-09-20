@@ -28,44 +28,45 @@ function Settings() {
         <div className="settings">
             <Navbar />
             <Header />
+        
+            <div className = "settings-container"> 
+                <div className="setting-options">
+                    {settingsData.map((category, index) => (
+                        <button key={index} onClick={() => setCurrentCategory(category.category)}>
+                            {category.category}
+                        </button>
+                    ))}
+                </div>
 
-            <div className="setting-options">
-                {settingsData.map((category, index) => (
-                    <button key={index} onClick={() => setCurrentCategory(category.category)}>
-                        {category.category}
-                    </button>
-                ))}
-            </div>
+                <div className="settings-content">
+                    {currentSettings.map((item, index) => (
+                        <div key={index} className="settings-row">
+                            <div className="settings-left-side">
+                                {item.icon}
+                                <h3>{item.title}</h3>
+                                <p>{item.text}</p>
+                            </div>
+                            <div className="settings-right-side">
+                                <button onClick={() => handleClick(item.action, openPopup, closePopup)}>Select</button>
+                            </div>
 
-            <div className="settings-content">
-                {currentSettings.map((item, index) => (
-                    <div key={index} className="settings-row">
-                        <div className="settings-left-side">
-                            {item.icon}
-                            <h3>{item.title}</h3>
-                            <p>{item.text}</p>
+
+
+
                         </div>
-                        <div className="settings-right-side">
-                            <button onClick={() => handleClick(item.action, openPopup, closePopup)}>Select</button>
-                        </div>
+                    ))}
+                </div>
 
-
-
-
-                    </div>
-                ))}
+                {/* Popup component */}
+                <Popup 
+                    isOpen={isPopupOpen} // basically in the popup compenent nothing will render if false
+                    onClose={closePopup}
+                    title={popupContent.title}
+                    message={popupContent.message}
+                    actions={popupContent.actions}
+                    textFields={popupContent.textFields}
+                />
             </div>
-
-            {/* Popup component */}
-            <Popup 
-                isOpen={isPopupOpen} // basically in the popup compenent nothing will render if false
-                onClose={closePopup}
-                title={popupContent.title}
-                message={popupContent.message}
-                actions={popupContent.actions}
-                textFields={popupContent.textFields}
-            />
-            
         </div>
     );
 }

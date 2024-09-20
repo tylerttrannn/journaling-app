@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 /* Global styles */
 * {
@@ -15,13 +14,15 @@ body {
   background-color: #EFF2F4;
 }
 
-/* Journal layout */
+/* -------------------------------- */
+/* Journal Layout */
+/* -------------------------------- */
 .journal-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 100px 0 0 250px; /* Leave space for the navbar */
-  width: calc(100% - 250px);
+  padding: 100px 20px 0 calc(var(--navbar-width) + 20px); /* Adjusted padding */
+  width: calc(100% - var(--navbar-width));
   margin: 0 auto;
   min-height: calc(100vh - 100px); /* Adjust based on your header */
 }
@@ -31,24 +32,37 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
   background-color: #EFF2F4;
+  font-family: Arial, sans-serif;
 }
 
-/* Journal header */
+/* -------------------------------- */
+/* Journal Header */
+/* -------------------------------- */
 .journal-container h1 {
   padding-top: 50px;
   color: #5D7285;
+  font-size: 2.5rem;
 }
 
-/* Select note range */
+/* -------------------------------- */
+/* Select Note Range */
+/* -------------------------------- */
 .select-note-range {
   display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: center; /* Center the buttons */
   margin: 20px 0;
 }
 
 .select-note-range button {
   margin: 5px;
+  padding: 10px 15px;
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .select-note-range button.active {
@@ -56,15 +70,17 @@ body {
   color: white;
 }
 
-/* Notes content */
+/* -------------------------------- */
+/* Notes Content */
+/* -------------------------------- */
 .notes-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px;
   margin-top: 20px;
   border-top: 1px solid #ddd;
+  width: 100%; /* Ensure content takes full available width */
 }
 
 .note-entry,
@@ -72,8 +88,9 @@ body {
 .months-entry,
 .years-entry {
   cursor: pointer;
-  padding: 10px;
-  width: 475px;
+  padding: 15px;
+  width: 100%;
+  max-width: 600px; /* Limit maximum width for readability */
   margin-bottom: 10px;
   border: 1px solid #ffffff;
   border-radius: 10px;
@@ -96,16 +113,21 @@ body {
   border-color: #ff4d4d;
 }
 
-/* Add/Delete buttons */
+/* -------------------------------- */
+/* Add/Delete Buttons */
+/* -------------------------------- */
 .add-delete {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  justify-content: center; /* Center the buttons */
   margin-top: 20px;
 }
 
 .add-delete button {
   border-radius: 25px;
-  padding: 10px;
+  padding: 10px 20px;
+  margin: 10px; /* Add margin between buttons */
+  color: white;
 }
 
 .new-note {
@@ -114,7 +136,6 @@ body {
 
 .delete {
   background-color: #ff4d4d;
-  margin-left: 20px;
 }
 
 /* Adjust new note button hover */
@@ -126,11 +147,19 @@ body {
   background-color: #ed3131;
 }
 
-/* Adjustments for medium window with navbar */
+/* -------------------------------- */
+/* Media Queries */
+/* -------------------------------- */
+
+/* Medium Screens */
 @media (max-width: 860px) {
+  :root {
+    --navbar-width: 50px; /* Shrink navbar width */
+  }
+
   .journal-container {
-    padding: 100px 0 0 50px; /* Shrink padding when navbar is smaller */
-    width: calc(100% - 50px); /* Adjust content width */
+    padding: 100px 10px 0 calc(var(--navbar-width) + 10px); /* Adjust padding */
+    width: calc(100% - var(--navbar-width));
   }
 
   .Journal {
@@ -138,7 +167,6 @@ body {
   }
 
   .select-note-range button {
-    margin-bottom: 10px;
     font-size: 0.9rem;
   }
 
@@ -148,63 +176,50 @@ body {
   }
 
   .note-entry {
-    width: 100%;
     font-size: 0.9rem;
   }
 }
 
-/* Adjustments for mobile window */
+/* Small Screens */
+/* Small Screens */
 @media (max-width: 600px) {
-  .journal-container {
-    padding: 100px 0 0 0; /* No padding for mobile, let content take full width */
-    width: 100%; /* Full width on mobile */
+  :root {
+    --navbar-width: 0px; /* Remove navbar width */
+  }
 
+  .journal-container {
+    padding: 80px 10px 0 10px; /* Adjust padding */
+    max-width: none;
   }
 
   .Journal {
     padding: 10px;
   }
 
-  .select-note-range {
-    flex-direction: row;
-  }
-
-  .select-note-range button {
-    margin-bottom: 10px;
-    font-size: 0.8rem;
-    width: 100%;
+  .Journal h1 {
+    font-size: 2rem;
   }
 
   .note-entry {
-    width: 100%;
+    max-width: 100%; /* Allow full width */
+  }
+
+  /* Adjusted .select-note-range */
+  .select-note-range {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: stretch;   /* Allow buttons to stretch to full width */
+    width: 100%;            /* Ensure the container takes full width */
+  }
+
+  /* Adjusted button styles */
+  .select-note-range button {
+    width: 100%;        /* Buttons take full width */
     font-size: 0.8rem;
+    margin: 5px 0;      /* Adjust vertical margin */
   }
 
   .note-entry h3,
   .delete-note h3 {
     font-size: 1rem;
-  }
-}
-
-/* Mobile navbar adjustment */
-@media (max-width: 600px) {
-  .Journal {
-    max-width: 100%;
-  }
-
-  .note-entry,
-  .delete-note,
-  .months-entry,
-  .years-entry {
-    max-width: 100%;
-  }
-
-  .select-note-range button {
-    flex: 1 1 calc(50% - 10px);
-  }
-
-  .add-delete button {
-    width: 100%;
-    max-width: 300px;
   }
 }
