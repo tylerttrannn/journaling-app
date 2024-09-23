@@ -1,31 +1,90 @@
 import './Header.css';
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import Popup from '../Popup/Popup';
+import MyEditor from '../PhotoEditor/MyEditor';
 
 function Header() {
-    const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [profilePictureURL, setProfilePictureURL] = useState('');
+  const [editProfilePic, setEditProfilePic] = useState(false);
 
-    useEffect(() => {
-        const auth = getAuth();
-        const user = auth.currentUser;
+  const auth = getAuth();
+  const db = getFirestore();
 
-        console.log("current user is ", user);
+  const fetchProfilePic = async () => {
+    const user = auth.currentUser;
 
-        if (user) {
-            setUserName(user.displayName);
+    if (user) {
+      try {
+        // Fetch image reference from main 
+        const docRef = doc(db, 'users', user.uid, 'profilePicture', 'main');
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const { profilePictureURL } = docSnap.data();
+          setProfilePictureURL(profilePictureURL); // Set the state with the fetched URL
         } else {
-            setUserName('Guest');
+          console.log("No such document for profile picture!");
         }
+      } catch (error) {
+        console.error("Error fetching profile picture: ", error);
+      }
+    }
+  };
 
-        
-    }, []);
+  // Open the popup to edit the profile picture
+  const triggerProfileEditor = () => {
+    setEditProfilePic(true); 
+  };
 
-    return (
-        <div className="journal-header">
-            <img src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" alt="React Image" />
-            <p>Welcome {userName}!</p>
-        </div>
-    );
+  const closePopup = () => {
+    setEditProfilePic(false); // Close the popup
+  };
+
+  // called when profile pic updates 
+  const handleProfileUpdate = (newProfilePictureURL) => {
+    setProfilePictureURL(newProfilePictureURL); // updates the profile url 
+    closePopup(); // closes the popup 
+  };
+
+  useEffect(() => {
+    const user = auth.currentUser;
+
+    if (user) {
+      setUserName(user.displayName); // Set the username
+      fetchProfilePic(); // Fetch profile picture
+    } else {
+      setUserName('Guest');
+    }
+  }, []); 
+
+  return (
+    <div className="journal-header">
+      {/* Display profile picture if it exists */}
+      <div onClick={triggerProfileEditor}>
+        {profilePictureURL ? (
+          <img src={profilePictureURL} alt="Profile" className="profile-picture" />
+        ) : (
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Default Profile" />
+        )}
+      </div>
+
+      <p>Welcome {userName}!</p>
+
+      {/* Render the Popup when editing profile picture */}
+      {editProfilePic && (
+        <Popup
+          isOpen={editProfilePic}
+          onClose={closePopup}
+          title="Edit Profile Picture"
+  
+          message={<MyEditor onProfileUpdate={handleProfileUpdate} />} // Pass the callback to MyEditor
+        />
+      )}
+    </div>
+  );
 }
 
 export default Header;

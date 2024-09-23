@@ -15,6 +15,8 @@ import Dashboard from './views/Dashboard/Dashboard.jsx'
 import Settings from './views/Settings/Settings.jsx'
 import ForgotPassword from './views/ForgotPassword/ForgotPassword.jsx'
 
+import MyEditor from './components/Header/MyEditor.jsx';
+
 
 const router = createBrowserRouter([
  {
@@ -67,6 +69,12 @@ const router = createBrowserRouter([
  {
   path: '/forgot-password',
   element: <ForgotPassword/>
+
+ },
+
+ {
+  path: '/MyEditor',
+  element: <MyEditor/>
 
  }
 

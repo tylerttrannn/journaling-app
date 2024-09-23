@@ -68,18 +68,8 @@ export default function CheckboxList() {
   };
 
   return (
-    <div>
-      <TextField
-        label="New Task"
-        variant="outlined"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        sx={{ marginBottom: 2 }}
-      />
+    <div className = "checkbox-container">
 
-      <Button variant="contained" onClick={handleAddTask}>
-        Add Task
-      </Button>
 
       <List sx={{ width: '100%', maxWidth: 400, bgcolor: '' }}>
         {tasks.map((task) => {
@@ -106,6 +96,22 @@ export default function CheckboxList() {
           );
         })}
       </List>
+
+
+      <div className = "todo-fields"> 
+        <TextField
+          label="New Task"
+          variant="outlined"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          sx={{ marginBottom:2}}
+        />
+
+        <Button variant="contained" onClick={handleAddTask}>
+          Add Task
+        </Button>
+      </div>
+
     </div>
   );
 }

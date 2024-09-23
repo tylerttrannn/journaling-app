@@ -2,6 +2,7 @@
   "dependencies": {
     "date-fns": "^3.6.0",
     "firebase": "^10.12.5",
-    "framer-motion": "^11.5.4"
+    "framer-motion": "^11.5.4",
+    "react-avatar-editor": "^13.0.2"
   }
 }

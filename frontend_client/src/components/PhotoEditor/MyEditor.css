@@ -1,0 +1,39 @@
+/* Ensure the container for centering is styled properly */
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Container to center the file input label */
+  .file-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the label that contains the file input */
+  .file-input-label {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hide the actual file input, but still keep it accessible */
+  .file-input {
+    display: none;
+  }
+  
+  /* Hover effect for the label */
+  .file-input-label:hover {
+    background-color: #0056b3;
+  }
+  

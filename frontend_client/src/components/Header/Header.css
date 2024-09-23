@@ -66,3 +66,9 @@
     white-space: nowrap; 
     text-overflow: ellipsis; 
 }
+
+
+.profile-picture{
+    border-radius: 50px;
+}
+

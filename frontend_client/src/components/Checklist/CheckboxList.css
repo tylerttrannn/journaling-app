@@ -4,4 +4,9 @@
     overflow: hidden; /* Hide the overflowing text */
     text-overflow: ellipsis; /* Show the ellipsis (...) */
   }
-  
+
+.todo-fields{
+  display:flex;
+  flex-direction: column;
+
+}
