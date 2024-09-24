@@ -1,65 +1,41 @@
 :root {
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: hsl(0, 0%, 0%); /* Default text color set to black */
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: 'Karla', Helvetica, Arial, sans-serif; /* Updated font stack */
-
+  /* Light mode variables */
+  --base-color: white;
+  --base-variant: #e8e9ed;
+  --text-color: #111528;
+  --secondary-text: #232738;
+  --primary-color: #3a435d;
+  --accent-color: #0071ff;
 }
 
-/* GLOBAL STYLING*/
+.darkmode {
+  /* Dark mode variables */
+  --base-color: #070b1d;
+  --base-variant: #101425;
+  --text-color: #ffffff;
+  --secondary-text: #a4a5b8;
+  --primary-color: #3a435d;
+  --accent-color: #0071ff;
+}
+
+/* GLOBAL STYLING */
 body {
-  display: flex;
-  flex-direction: column;
-  color: #000000; /* Set body text color to black */
+  background-color: var(--base-color); /* Dynamic background color */
+  color: var(--text-color); /* Dynamic text color */
   font-family: 'Karla', 'Times New Roman', Times, serif;
-  font-weight: 400; /* Regular weight */
-
 }
-
-
-html, body {
-  height: 100%;
-  background-color: #EFF2F4;
-
-
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-
-
-
-}
-
-
-
-
-
-
-
 
 h1, h2, h3, h4, h5, h6 {
-  color: #000000; /* Set header colors to black */
+  color: var(--text-color); /* Dynamic heading colors */
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--accent-color); /* Dynamic link color */
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  font-weight: 600; /* Bold weight */
+  color: lighten(var(--accent-color), 10%);
 }
 
 button {
@@ -69,29 +45,16 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--primary-color); /* Dynamic button background */
+  color: var(--base-color); /* Button text color based on the background */
   cursor: pointer;
   transition: border-color 0.25s;
-  color: #ffffff; /* Button text color */
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent-color);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #000000; /* Maintain black text color in light mode */
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-    color: #000000; /* Adjust button text color for light mode */
-  }
 }

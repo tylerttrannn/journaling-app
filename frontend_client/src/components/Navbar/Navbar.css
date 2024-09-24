@@ -1,6 +1,6 @@
-/* Existing styles... */
+/* General Styles */
 .nav-menu {
-    background-color: #ffffff;
+    background-color: var(--base-color);
     width: 250px;
     height: 100vh;
     display: flex;
@@ -10,58 +10,58 @@
     left: 0;
     z-index: 1000;
     transition: width 300ms;
-  }
-  
-  .nav-logo {
+}
+
+.nav-logo {
     display: flex;
     align-items: center;
     padding: 20px 50px !important;
     justify-content: center;
-  }
-  
-  .app-icon {
+}
+
+.app-icon {
     font-size: 30px;
     margin-right: 10px;
-  }
-  
-  .app-title {
+}
+
+.app-title {
     font-size: 24px;
-    color: #4f4f4f;
+    color: var(--text-color);
     margin: 0;
-  }
-  
-  .nav-menu-items {
+}
+
+.nav-menu-items {
     width: 100%;
     display: flex;
     flex-direction: column;
     padding: 0;
-  }
-  
-  .nav-menu-items li {
+}
+
+.nav-menu-items li {
     display: flex;
     align-items: center;
     padding: 5px 5px;
     width: 100%;
-  }
-  
-  .nav-icon {
+}
+
+.nav-icon {
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 50%;
-  }
-  
-  .nav-text {
+}
+
+.nav-text {
     display: flex;
     align-items: center;
     width: 100%;
     padding-left: 0px;
-  }
-  
-  .nav-text a {
+}
+
+.nav-text a {
     text-decoration: none;
-    color: #4f4f4f;
+    color: var(--text-color);
     font-size: 18px;
     width: 100%;
     height: 100%;
@@ -69,88 +69,85 @@
     align-items: center;
     padding: 10px 0px;
     border-radius: 4px;
-  }
-  
-  .nav-menu-items li:hover {
-    background-color: #e0e0e0;
+}
+
+.nav-menu-items li:hover {
+    background-color: var(--base-variant);
     cursor: pointer;
-  }
-  
-  /* Media Queries */
-  @media (max-width: 860px) {
+}
+
+/* Media Queries */
+@media (max-width: 860px) {
     .nav-text {
-      display: none;
+        display: none;
     }
-  
+
     .nav-menu {
-      width: 50px;
+        width: 50px;
     }
-  
+
     .nav-menu-items li {
-      justify-content: center;
+        justify-content: center;
     }
-  
+
     .nav-icon {
-      margin: 0;
-      padding: 0;
-      width: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
     }
-  }
-  
-  @media (max-width: 600px) {
+}
+
+@media (max-width: 600px) {
     .nav-menu {
-      position: fixed;
-      top: auto;     /* Override top positioning */
-      bottom: 0;     /* Position at the bottom */
-      left: 0;
-      width: 100%;
-      height: 60px;  /* Adjust height as needed */
-      background-color: #ffffff;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1000;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: var(--base-color);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
     }
-  
+
     .nav-menu-items {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      width: 100%;
-      padding: 0;
-      margin: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        padding: 0;
+        margin: 0;
     }
-  
+
     .nav-menu-items li {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
     }
-  
+
     .nav-icon {
-      margin: 0;
-      padding: 0;
-      width: auto;
-      font-size: 24px; /* Adjust icon size if needed */
+        margin: 0;
+        padding: 0;
+        width: auto;
+        font-size: 24px;
     }
-  
+
     .nav-text {
-      display: none; /* Hide the text labels to save space */
+        display: none;
     }
-  
-    /* Adjust content to avoid overlapping with the navbar */
+
     .content-container,
     .journal-container {
-      padding-bottom: 60px; /* Add padding equal to navbar height */
+        padding-bottom: 60px;
     }
 
     .nav-logo,
     .app-icon {
-        display: none; /* Hide the Notely logo */
+        display: none;
     }
-  }
-  
-  
+}

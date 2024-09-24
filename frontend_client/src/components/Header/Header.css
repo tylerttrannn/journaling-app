@@ -3,7 +3,7 @@
     justify-content: flex-end; 
     align-items: center;
     padding-right: 50px;
-    background-color: rgba(255, 255, 255, 0.888);
+    background-color: rgba(255, 255, 255, 0.888); /* Consider using variables */
     width: calc(100% - 250px); 
     height: 100px; 
     box-sizing: border-box; 
@@ -11,64 +11,44 @@
     top: 0; 
     right: 0;
     z-index: 1000; 
-}
-
-
-@media (max-width: 860px){
+  }
+  
+  @media (max-width: 860px) {
     .journal-header {
-        width: calc(100% - 50px); /* Adjust header width for smaller navbar */
+      width: calc(100% - 50px); /* Adjust header width for smaller navbar */
     }
-}
-
-.journal-header img {
+  }
+  
+  .journal-header img {
     width: 75px;
     height: auto; 
     margin-right: 10px; 
     max-width: 75px; 
     max-height: 75px; 
-}
-
-.journal-header p {
+  }
+  
+  .journal-header p {
     text-align: center;
     margin: 0;
-    color: black;
+    color: var(--text-color); /* Use variable for text color */
     max-width: calc(100% - 85px); 
     overflow: hidden; 
     white-space: nowrap; 
     text-overflow: ellipsis; 
-}
-
-
-
-
-
-/*  MOBILE VIEW */
-@media (max-width: 600px){
+  }
+  
+  @media (max-width: 600px) {
     .journal-header {
-        width: 100%; /* Adjust header width for smaller navbar */
+      width: 100%; /* Adjust header width for smaller screens */
     }
-}
-
-.journal-header img {
-    width: 75px;
-    height: auto; 
-    margin-right: 10px; 
-    max-width: 75px; 
-    max-height: 75px; 
-}
-
-.journal-header p {
-    text-align: center;
-    margin: 0;
-    color: black;
-    max-width: calc(100% - 85px); 
-    overflow: hidden; 
-    white-space: nowrap; 
-    text-overflow: ellipsis; 
-}
-
-
-.profile-picture{
-    border-radius: 50px;
-}
-
+  
+    .journal-header p {
+      font-size: 0.9em; /* Reduce font size on smaller screens */
+    }
+  
+  }
+  
+  .profile-picture {
+    border-radius: 50%; /* Ensure circular profile picture */
+  }
+  

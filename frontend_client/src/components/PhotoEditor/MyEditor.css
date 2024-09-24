@@ -17,7 +17,7 @@
   
   /* Style the label that contains the file input */
   .file-input-label {
-    background-color: #007bff;
+    background-color: var(--base-color);
     color: white;
     padding: 10px 20px;
     border-radius: 4px;
@@ -34,6 +34,6 @@
   
   /* Hover effect for the label */
   .file-input-label:hover {
-    background-color: #0056b3;
+    background-color: var(--base-color);
   }
   

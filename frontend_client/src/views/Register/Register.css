@@ -1,4 +1,4 @@
-.register-page{
+.register-page {
     display: flex;
     flex-direction: column;
     justify-content: center; /* centers vertically */
@@ -6,40 +6,50 @@
     height: 90vh; /* makes the container take full viewport height */  
 }
 
-
-.register-container{
-    display:flex;
+.register-container {
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-
-.register-form{
-    display:flex;
+.register-form {
+    display: flex;
     flex-direction: column;
     margin-top: 10px; /* adding spacing between login title and form */
 }
 
-.register-input{
+.register-input {
     height: 40px;
-    width: 250px;   
+    width: 250px;
+    padding: 10px;
+    border: 1px solid var(--border-color); /* Use border color from variables */
+    background-color: var(--base-color); /* Use base color */
+    color: var(--text-color); /* Input text color */
+    border-radius: 4px;
+    font-size: 1em;
 }
 
-.register-button{
+.register-button {
     margin-top: 10px;
     margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: var(--accent-color); /* Use accent color */
+    color: var(--base-color); /* Use base color for text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-
 .register-button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-color); /* Hover uses primary color */
 }
 
 .home-button {
     padding: 10px;
-    background-color: #ff6347;
-    color: white;
+    background-color: var(--accent-color); /* Use accent color */
+    color: var(--base-color); /* White text */
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -50,36 +60,32 @@
     right: 20px;
 }
 
-
-
-
-
 .home-button:hover {
-    background-color: #e5533d;
+    background-color: var(--primary-color); /* Hover uses primary color */
 }
 
-.error{
-    background-color: #e5533d; 
+.error {
+    background-color: var(--hover-delete-bg); /* Use delete hover color */
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    border: 2px solid #e5533d;
-    position: center;
-    text-align: center; 
-    margin-top: 15px; 
+    border: 2px solid var(--hover-delete-bg); /* Border matches background */
+    text-align: center;
+    margin-top: 15px;
+    color: var(--base-color); /* Use base color for text */
 }
 
-.success{
-    background-color: green; 
+.success {
+    background-color: green; /* Keep green for success */
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
     border: 2px solid green;
-    position: center;
-    text-align: center; 
-    margin-top: 15px; 
+    text-align: center;
+    margin-top: 15px;
+    color: var(--base-color); /* Use base color for text */
 }
