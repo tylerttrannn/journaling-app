@@ -1,117 +1,86 @@
-/* General Styling */
 .note-details-container {
     display: flex;
     flex-direction: column;
-    padding-left: 250px; /* Adjusts for the navbar width */
-    max-width: 100%; /* Keeps the content within a readable width */
-    margin: 0 auto; /* Centers the container */
-    overflow-x: hidden; /* Prevents horizontal overflow */
+    padding-left: 250px; 
+    max-width: 100%; 
+    margin: 0 auto;
+    overflow-x: hidden; 
     box-sizing: border-box;
-    padding-top: 8%; /* Reasonable padding for general screens */
+    padding-top: 5%;
     background-color: var(--base-variant);
-    min-height: 100vh; /* Full viewport height */
-
-
+    min-height: 100vh; 
+    padding-bottom: 60px;
 }
 
-/* New note content */
 .note-details-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 5% 10%; /* Padding for larger screens */
-    max-width: 100%;
+    gap: 20px; 
+    padding: 4% 8%; 
+    max-width: 90%;
+    margin: 0 auto;
+
 }
 
-/* Text view mode styling */
+.note-details-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-top: 50px;
+}
+
 .text-view-mode {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 15% 10% 0 10%; /* Top padding for header, side padding for general spacing */
+    align-items: flex-start;
+    padding: 8% 10%; 
+    max-width: 90%; 
+    margin: 0 auto; 
 }
 
-/* Container for the title and content in view mode */
 .text-container {
-    margin-bottom: 20px; /* Space below the text before the button */
-    word-break: break-word; /* Ensures long text wraps within the container */
-    max-width: 100%; /* Keeps the text container within the parent width */
-    overflow-x: hidden; /* Prevents horizontal overflow due to long text */
-    min-width: 100px;
-    padding: 0 20px; /* Even padding on left and right for text container */
-    box-sizing: border-box; /* Include padding in width calculation */
+    margin-bottom: 20px; 
+    word-break: break-word;
+    max-width: 100%; 
+    overflow-x: hidden; 
+    padding: 0 20px; 
+    box-sizing: border-box;
 }
 
-/* Responsive adjustments for screen width <= 860px */
 @media (max-width: 860px) {
     .note-details-container {
         padding-left: 50px;
-        padding-top: 5%;
+        padding-top: 4%;
     }
 
     .note-details-content,
     .text-view-mode {
-        padding-top: 10%; /* Reduced top padding for smaller screens */
+        padding: 8% 5%; 
     }
 }
 
-/* Responsive adjustments for screen width <= 700px */
-@media (max-width: 700px) {
-    .note-details-container {
-        padding-left: 50px;
-        padding-top: 5%;
-    }
-
-    .note-details-content,
-    .text-view-mode {
-        padding-top: 10%; /* Keep the padding smaller on these screens */
-        max-width: 95%;
-    }
-}
-
-/* Responsive adjustments for screen width <= 600px */
 @media (max-width: 600px) {
     .note-details-container {
-        padding-left: 60px;
-        padding-top: 8%;
+        padding-top: 5%;
+        padding-left: 0; 
         max-width: 100%;
+        overflow-y: auto; 
+        align-items: center;
     }
 
     .note-details-content,
     .text-view-mode {
-        padding-top: 15%; /* Add some top padding for small screens */
-    }
-
-    .text-container {
-        font-size: 0.9rem; /* Slightly smaller text for better fit */
-        padding: 0 10px; /* Reduce padding on smaller screens */
-    }
-
-    button {
-        padding: 8px 16px; /* Smaller buttons for smaller screens */
-    }
-}
-
-/* Adjustments for screen width <= 400px */
-@media (max-width: 400px) {
-    .note-details-container {
-        padding-left: 50px;
         padding-top: 10%;
-        max-width: 100%;
-    }
-
-    .note-details-content,
-    .text-view-mode {
-        padding-top: 20%;
+        max-width: 95%; 
+        align-items: center; 
     }
 
     .text-container {
-        font-size: 0.8rem;
-        padding: 0 5px; /* Further reduce padding for very small screens */
+        font-size: 0.9rem; 
+        padding: 0 10px; 
     }
 
     button {
-        padding: 6px 12px;
-        font-size: 0.9rem;
+        padding: 8px 16px; 
     }
 }

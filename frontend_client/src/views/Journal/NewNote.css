@@ -23,7 +23,8 @@
 }
 
 .form-label {
-  margin-top: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-size: 1.2em;
   color: var(--text-color); /* Use text color from variables */
 }

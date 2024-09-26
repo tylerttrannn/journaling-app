@@ -13,7 +13,6 @@
 /* Basic editor styles */
 .tiptap {
   /* Optional container styles */
-  margin-top: 50px;
 }
 
 .tiptap > :first-child {
@@ -109,12 +108,13 @@
 
 .button-group {
   display:flex;
+  flex-wrap: wrap;
   flex-direction: row;
   margin-bottom: 5px;
 }
 
 .button-group button{
-  background-color: white;
+  background-color: var(--widget-color);
   color: var(--text-color);
   border-radius: 0px;
 }
@@ -124,12 +124,12 @@
 .editor-content-container {
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: var(--widget-color);
   position: relative;
 }
 
 .editor-content-container .ProseMirror {
-  min-height: 300px;
+  min-height: 100px;
   padding: 12px;
   box-sizing: border-box;
   display: block;
@@ -154,3 +154,4 @@
 .control-group{
   background-color: var(--widget-color);
 }
+

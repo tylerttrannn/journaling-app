@@ -86,7 +86,7 @@ function NoteDetails() {
   };
 
   return (
-    <>
+    <div className = "note-details-page"> 
       <Header />
       <Navbar />
       <div className="note-details-container">
@@ -96,18 +96,33 @@ function NoteDetails() {
               <label htmlFor="title" className="form-label">
                 Title:
               </label>
+              <input
+              id="title"
+              name="title-text"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="form-input"
+            />
 
               <label htmlFor="entry" className="form-label">
                 Entry:
               </label>
               <div className="card">
-                {/* Pass setEntry to Tiptap to update the state */}
-                <Tiptap setEntry={setEntry} content={entry} />
-              </div>
+
+              {/* 
+                setEntry is a function passed from the parent component (NoteDetails) to Tiptap.
+                  - Purpose: It allows Tiptap to update the `entry` state in NoteDetails whenever the editor content changes.
+                  - How it works: Whenever the user types or modifies content in the editor, Tiptap calls `setEntry` with the new content.
+                - `content`: This prop initializes the editor with the current note content from the `entry` state in NoteDetails.
+                - Data Flow:
+                  - From NoteDetails to Tiptap: The current content (`entry`) is passed down to initialize the editor.
+                  - From Tiptap to NoteDetails: Updated content is sent back via `setEntry` whenever the user makes changes.
+              */}
+              <Tiptap setEntry={setEntry} content={entry}/>
+            </div>
 
 
-
-              
               <button onClick={modifyNote} className="form-submit-button">
                 Save
               </button>
@@ -117,14 +132,17 @@ function NoteDetails() {
           <div className="text-view-mode">
             <div className="text-container">
               <h2>{note.title}</h2>
-              {/* Render Tiptap EditorContent here */}
-              <EditorContent editor={editor} />
+
+              <div className = "card"> 
+                <EditorContent editor={editor} />
+              </div>
+
             </div>
             <button onClick={() => setEdit(true)}>Edit</button>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
