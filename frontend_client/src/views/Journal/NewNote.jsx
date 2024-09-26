@@ -10,7 +10,7 @@ import Tiptap from '../../components/Tiptap/Tiptap.jsx';
 
 const NewNote = () => {
   const [title, setTitle] = useState('');
-  const [entry, setEntry] = useState('');
+  const [entry, setEntry] = useState(''); // Entry will store Tiptap content
   const navigate = useNavigate();
 
   const submitEntry = async () => {
@@ -27,8 +27,8 @@ const NewNote = () => {
         // Use Firestore Timestamp
         await setDoc(newDocRef, {
           title: title,
-          content: entry,
-          createdAt: Timestamp.now(), // Updated line
+          content: entry, 
+          createdAt: Timestamp.now(),
         });
 
         console.log('Entry successfully added with ID: ', newDocRef.id);
@@ -43,10 +43,20 @@ const NewNote = () => {
     <div className="new-note-page">
       <Header />
       <Navbar />
-      <div className = "card">
-        <Tiptap/>
+      <div className="card">
+        {/* Pass setEntry to Tiptap to update the state */}
+        <Tiptap setEntry={setEntry} content={entry} />
       </div>
-  
+
+      <div className="note-inputs">
+        <input 
+          type="text" 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)} 
+          placeholder="Note Title" 
+        />
+        <button onClick={submitEntry}>Save Note</button>
+      </div>
     </div>
   );
 };

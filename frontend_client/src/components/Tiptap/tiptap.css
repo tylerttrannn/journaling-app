@@ -13,6 +13,7 @@
 /* Basic editor styles */
 .tiptap {
   /* Optional container styles */
+  margin-top: 50px;
 }
 
 .tiptap > :first-child {
@@ -106,3 +107,50 @@
   margin: 2rem 0;
 }
 
+.button-group {
+  display:flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+
+.button-group button{
+  background-color: white;
+  color: var(--text-color);
+  border-radius: 0px;
+}
+
+/* tiptap.css */
+
+.editor-content-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.editor-content-container .ProseMirror {
+  min-height: 300px;
+  padding: 12px;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* Placeholder styling */
+.editor-content-container .ProseMirror:before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  pointer-events: none;
+}
+
+/* Remove outline on focus */
+.editor-content-container .ProseMirror:focus {
+  outline: none;
+}
+
+
+.control-group{
+  background-color: var(--widget-color);
+}
