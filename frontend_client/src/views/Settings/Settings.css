@@ -3,7 +3,9 @@
     flex-direction: column;
     padding-left: 300px;
     padding-top: 150px;
-    background-color: var(--base-color); /* Use base color for background */
+    background-color: var(--base-variant); /* Use base color for background */
+    min-height: 100vh; /* Full viewport height */
+
 }
 
 .setting-options {

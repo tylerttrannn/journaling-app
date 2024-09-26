@@ -106,6 +106,26 @@ const handleDelete = async (currentPassword) => {
 
 
 
+const handleTheme = async (theme) => {
+    switch (theme) {
+        case 'Light':
+            document.body.classList.remove('darkmode');  // Remove the dark mode class
+            console.log("Light mode activated");
+            break;
+
+        case 'Dark':
+            document.body.classList.add('darkmode');  // Add the dark mode class
+            console.log("Dark mode activated");
+            break;
+
+        default:
+            console.log("Unknown theme");
+            break;
+    }
+};
+
+
+
 /* based on the action passed in it the handeClick fucntion preps for the appropiate content for the popup 
 the handleClick function passes the data to the openPopup function back in the Settings.jsx file */
 
@@ -206,13 +226,14 @@ export const handleClick = (action, openPopup, closePopup) => {
 
         case 'setAppearance':
             openPopup({
-                title: "Select which theme you would like ",
+                title: "Select which theme you would like",
                 actions: [
-                    { label: 'Light', onClick: () => console.log('Light Mode Set') },
-                    { label: 'Dark', onClick: () => console.log('Dark Mode Set') }
+                    { label: 'Light', onClick: () => handleTheme('Light') },
+                    { label: 'Dark', onClick: () => handleTheme('Dark') }
                 ]
             });
             break;
+            
 
 
         // Add other cases for different actions

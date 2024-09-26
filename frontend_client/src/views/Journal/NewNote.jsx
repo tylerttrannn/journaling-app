@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, setDoc, collection, Timestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import Tiptap from '../../components/Tiptap/Tiptap.jsx';
 
 const NewNote = () => {
   const [title, setTitle] = useState('');
@@ -42,30 +43,10 @@ const NewNote = () => {
     <div className="new-note-page">
       <Header />
       <Navbar />
-      <div className="new-note-content">
-        <div className="new-note-form">
-          <label htmlFor="title" className="form-label">Title:</label>
-          <input
-            id="title"
-            name="title-text"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="form-input"
-          />
-          <label htmlFor="entry" className="form-label">Entry:</label>
-          <textarea
-            id="entry"
-            name="entry-text"
-            rows="10"
-            cols="50"
-            value={entry}
-            onChange={(e) => setEntry(e.target.value)}
-            className="form-textarea"
-          ></textarea>
-          <button onClick={submitEntry} className="form-submit-button">Submit</button>
-        </div>
+      <div className = "card">
+        <Tiptap/>
       </div>
+  
     </div>
   );
 };

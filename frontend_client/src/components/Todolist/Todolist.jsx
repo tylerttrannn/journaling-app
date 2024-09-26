@@ -1,4 +1,6 @@
 import CheckboxList from '../Checklist/CheckboxList';
+import "./Todolist.css"
+
 
 function Todolist(){
     return (

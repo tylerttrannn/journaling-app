@@ -11,6 +11,8 @@ import { getDocs, collection, query, where, orderBy, Timestamp } from "firebase/
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+import './BasicDateCalendar.css'
+
 /**
  * Function to calculate the journal streak for the current user
  */
@@ -130,7 +132,22 @@ export default function BasicDateCalendar() {
             highlightedDays,
           },
         }}
+        sx={{
+          '.MuiPickersDay-root': {
+            color: 'var(--text-color)', // Day numbers use text color variable
+          },
+          '.MuiPickersCalendarHeader-root': {
+            color: 'var(--text-color)', // Month and year use text color variable
+          },
+          '.MuiSvgIcon-root': {
+            color: 'var(--text-color)', // Arrows for navigating months use text color
+          },
+          '.MuiTypography-root': {
+            color: 'var(--text-color)', // Use the text color for months and year
+          }
+        }}
       />
+
       <h3>You're on a {streak} day streak!</h3> {/* Display the streak */}
     </LocalizationProvider>
   );

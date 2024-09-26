@@ -79,13 +79,23 @@ export default function CheckboxList() {
             <ListItem key={task.id} disablePadding>
               <ListItemButton role={undefined} onClick={handleToggle(task)} dense>
                 <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={task.checked}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
+                <Checkbox
+                  edge="start"
+                  checked={task.checked}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                  sx={{
+                    color: 'var(--text-color)', // Default color when unchecked
+                    '&.Mui-checked': {
+                      color: 'var(--primary-color)', // Color when checked
+                    },
+                    '&.MuiCheckbox-indeterminate': {
+                      color: 'var(--accent-color)', // Optional for indeterminate state
+                    },
+                  }}
+                />
+
                 </ListItemIcon>
                 <ListItemText id={labelId} primary={task.label} />
                 <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(task)}>
@@ -99,13 +109,38 @@ export default function CheckboxList() {
 
 
       <div className = "todo-fields"> 
-        <TextField
-          label="New Task"
-          variant="outlined"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          sx={{ marginBottom:2}}
-        />
+      <TextField
+        label="New Task"
+        variant="outlined"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        sx={{
+          marginBottom: 2,
+          '& label.Mui-focused': {
+            color: 'var(--text-color)', // Text color for label when focused
+          },
+          '& label': {
+            color: 'var(--text-color)', // Default label color
+          },
+          '& .MuiOutlinedInput-root': {
+            color: 'var(--text-color)', // Input text color
+            '& fieldset': {
+              borderColor: 'var(--secondary-text)', // Border color when not focused
+            },
+            '&:hover fieldset': {
+              borderColor: 'var(--accent-color)', // Border color on hover
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'var(--text-color)', // Border color when focused
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: 'var(--text-color)', // Input text color
+          },
+        }}
+      />
+
+
 
         <Button variant="contained" onClick={handleAddTask}>
           Add Task

@@ -6,6 +6,9 @@
   padding: 50px;
   padding-top: 10%;
   padding-left: 300px; /* Adjust for navbar width */
+  background-color: var(--base-variant);
+  min-height: 100vh; /* Full viewport height */
+
 }
 
 .new-note-content {

@@ -1,16 +1,8 @@
-:root {
-    --navbar-width: 250px;
-}
-
 /* General reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    background-color: #EFF2F4;
 }
 
 .dashboard {
@@ -20,8 +12,9 @@ body {
     padding-left: var(--navbar-width);
     flex: 1;
     min-height: 100vh;
-    background-color: #EFF2F4;
+    background-color: var(--base-variant);
     transition: padding-left 0.3s ease;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Adjust dashboard padding when the navbar shrinks */
@@ -34,7 +27,7 @@ body {
 .widgets-container {
     width: 100%;
     margin-bottom: 20px;
-    padding: 0 20px;
+    padding: 0 10px; /* Reduced horizontal padding */
     box-sizing: border-box;
 }
 
@@ -42,7 +35,7 @@ body {
     margin-bottom: 15px;
     padding-left: 10px;
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-color);
 }
 
 /* Widgets container layout */
@@ -51,33 +44,37 @@ body {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    padding: 0;
+    margin: 0 auto; /* Center the widgets container */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Base styles for widgets */
 .widgets > .widget {
-    flex: 1 1 calc(100% - 40px);
+    flex: 1 1 calc(100% - 20px); /* Adjusted to account for gaps */
     min-width: 300px;
-    max-width: none;
+    max-width: 100%; /* Ensure widgets don't exceed container width */
 }
 
 /* For screens wider than 1200px */
 @media (min-width: 1200px) {
     .widgets > .widget {
-        flex: 1 1 calc(33.333% - 40px);
+        flex: 1 1 calc((100% / 3) - 26.66px); /* Adjusted for 3 columns */
     }
 }
 
 /* For screens between 800px and 1199px */
 @media (min-width: 800px) and (max-width: 1199px) {
     .widgets > .widget {
-        flex: 1 1 calc(50% - 40px);
+        flex: 1 1 calc(50% - 20px); /* Two columns */
     }
 }
 
 /* For screens less than 800px */
 @media (max-width: 799px) {
     .widgets > .widget {
-        flex: 1 1 calc(100% - 40px);
+        flex: 1 1 calc(100% - 20px); /* Single column */
     }
 }
 
@@ -86,11 +83,16 @@ body {
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
-    padding: 20px;
+    padding: 20px 10px; /* Reduced horizontal padding */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto; /* Center the container */
 }
 
-.todo-container, .calendar-container {
-    background-color: #f4f4f4;
+.todo-container,
+.calendar-container {
+    background-color: var(--widget-color);
     border-radius: 10px;
     padding: 20px;
     flex-grow: 1;
@@ -99,31 +101,19 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.calendar-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 /* Stack the calendar and todo-list vertically on mobile */
 @media (max-width: 600px) {
     .dashboard {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         padding-left: 0;
         padding-bottom: 60px;
     }
 
     .widgets-container {
-        display: flex;
-        flex-direction: column;
+        padding: 0 10px;
         align-items: center;
     }
 
     .widgets {
-        display: flex;
         flex-direction: column;
         align-items: center;
     }
@@ -131,10 +121,13 @@ body {
     .widgets-and-extras {
         flex-direction: column;
         padding: 10px;
+        align-items: center;
     }
 
-    .todo-container, .calendar-container {
+    .todo-container,
+    .calendar-container {
         max-width: 100%;
+        width: 100%;
     }
 }
 

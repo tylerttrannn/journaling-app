@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@tiptap/extension-color": "^2.7.3",
+    "@tiptap/extension-list-item": "^2.7.3",
+    "@tiptap/extension-text-style": "^2.7.3",
     "date-fns": "^3.6.0",
     "firebase": "^10.12.5",
     "framer-motion": "^11.5.4",

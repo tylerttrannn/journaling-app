@@ -1,21 +1,26 @@
 :root {
   /* Light mode variables */
-  --base-color: white;
+  --base-color: #f7f9fc; /* Softer white */
   --base-variant: #e8e9ed;
-  --text-color: #111528;
+  --text-color: #2b2f42; /* Slightly lighter for softer contrast */
   --secondary-text: #232738;
   --primary-color: #3a435d;
   --accent-color: #0071ff;
+  --header-color: #eef1f6;
+  --widget-color: white;
 }
 
 .darkmode {
   /* Dark mode variables */
   --base-color: #070b1d;
   --base-variant: #101425;
-  --text-color: #ffffff;
-  --secondary-text: #a4a5b8;
-  --primary-color: #3a435d;
+  --text-color: #e6e6e6; /* Softer white to reduce harshness */
+  --secondary-text: #8c8d99; /* More muted for easier readability */
+  --primary-color: #6f91f4;
   --accent-color: #0071ff;
+  --header-color: #0a112b;
+  --widget-color: #1a1f37;
+
 }
 
 /* GLOBAL STYLING */

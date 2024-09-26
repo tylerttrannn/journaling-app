@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+html, body {
+  height: 100%;
+}
+
+
 :root {
   --navbar-width: 250px;
   --background-color: var(--base-color); /* Use base color for backgrounds */
@@ -32,6 +37,12 @@ body {
   min-height: calc(100vh - 100px); /* Adjust based on your header */
 }
 
+.app-container{
+  min-height: 100vh; /* Full viewport height */
+  background-color: var(--base-variant);
+
+}
+
 .years-container,
 .months-entry {
   display: flex;
@@ -40,13 +51,24 @@ body {
   max-width: 300px;
 }
 
+.years-container{
+  color: var(--text-color);
+}
+
 .Journal {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: var(--background-color); /* Use base color */
+
+  /* remove this*/
+  background-color: var(--base-variant); 
   font-family: Arial, sans-serif;
+  
+}
+
+.Journal  {
+  color: var(--text-color);
 }
 
 /* -------------------------------- */
@@ -54,7 +76,6 @@ body {
 /* -------------------------------- */
 .journal-container h1 {
   padding-top: 50px;
-  color: var(--text-muted); /* Use muted text color */
   font-size: 2.5rem;
 }
 
@@ -96,6 +117,12 @@ body {
   width: 100%; /* Ensure content takes full available width */
 }
 
+
+
+.notes-content p{
+  color: var(--text-color)
+}
+
 .note-entry,
 .delete-note,
 .months-entry,
@@ -105,15 +132,23 @@ body {
   width: 100%;
   max-width: 600px; /* Limit maximum width for readability */
   margin-bottom: 10px;
-  border: 1px solid var(--background-color); /* Use background color for border */
+  border: 1px solid var(--widget-color); /* Use background color for border */
   border-radius: 10px;
-  background-color: var(--background-color); /* Use background color */
+  background-color: var(--widget-color); /* Use background color */
   transition: background-color 0.3s ease;
+
+}
+
+
+.years-entry:hover{
+  background-color: var(--border-color); /* Use border color for hover */
+  border-color: var(--border-color); /* Border changes on hover */
+
 }
 
 .note-entry h3,
 .delete-note h3 {
-  color: var(--text-muted); /* Use muted text color */
+  color: var(--text-color); /* Use muted text color */
 }
 
 .note-entry:hover {

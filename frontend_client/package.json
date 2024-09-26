@@ -15,6 +15,9 @@
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.0",
     "@mui/x-date-pickers": "^7.16.0",
+    "@tiptap/pm": "^2.7.3",
+    "@tiptap/react": "^2.7.3",
+    "@tiptap/starter-kit": "^2.7.3",
     "dayjs": "^1.11.13",
     "firebase": "^10.13.0",
     "firebaseui": "^6.1.0",
@@ -36,6 +39,7 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "sass-embedded": "^1.79.3",
     "vite": "^5.3.1"
   }
 }
