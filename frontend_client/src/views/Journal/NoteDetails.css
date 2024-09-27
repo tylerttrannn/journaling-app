@@ -39,6 +39,7 @@
 }
 
 .text-container {
+    margin-top: 50px;
     margin-bottom: 20px; 
     word-break: break-word;
     max-width: 100%; 
@@ -47,6 +48,9 @@
     box-sizing: border-box;
 }
 
+.text-view-h2{
+    margin-bottom: 25px;
+}
 @media (max-width: 860px) {
     .note-details-container {
         padding-left: 50px;

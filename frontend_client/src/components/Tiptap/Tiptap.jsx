@@ -5,6 +5,8 @@ import { MdTitle, MdCode } from 'react-icons/md';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
+import TextAlign from '@tiptap/extension-text-align'
+
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -69,6 +71,22 @@ const MenuBar = ({ editor }) => {
         >
           <MdCode />
         </button>
+
+
+        <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive('textAlign', { textAlign: 'left' }) ? 'is-active' : ''}>
+          Left
+        </button>
+        <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={editor.isActive('textAlign', { textAlign: 'center' }) ? 'is-active' : ''}>
+          Center
+        </button>
+        <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive('textAlign', { textAlign: 'right' }) ? 'is-active' : ''}>
+          Right
+        </button>
+        <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive('textAlign', { textAlign: 'justify' }) ? 'is-active' : ''}>
+          Justify
+        </button>
+
+
       </div>
     </div>
   );
@@ -87,6 +105,10 @@ const extensions = [
       keepAttributes: false,
     },
   }),
+  TextAlign.configure({
+    types: ['heading', 'paragraph'], 
+  }),
+  
 ];
 
 

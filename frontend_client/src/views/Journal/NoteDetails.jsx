@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar/Navbar.jsx';
 import './NoteDetails.css';
 import Tiptap from '../../components/Tiptap/Tiptap.jsx';
 
+import TextAlign from '@tiptap/extension-text-align'
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -58,6 +59,10 @@ function NoteDetails() {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'], 
+      }),
+      
     ],
     content: entry,  // setting the content with the data we retrieved from earlier 
     editable: edit, // setting to read only mode 
@@ -131,7 +136,7 @@ function NoteDetails() {
         ) : (
           <div className="text-view-mode">
             <div className="text-container">
-              <h2>{note.title}</h2>
+              <h2 className = "text-view-h2">{note.title}</h2>
 
               <div className = "card"> 
                 <EditorContent editor={editor} />
