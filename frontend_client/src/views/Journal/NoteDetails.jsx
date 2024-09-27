@@ -6,8 +6,9 @@ import Header from '../../components/Header/Header.jsx';
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import './NoteDetails.css';
 import Tiptap from '../../components/Tiptap/Tiptap.jsx';
-
 import TextAlign from '@tiptap/extension-text-align'
+import Image from '@tiptap/extension-image'
+
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -62,7 +63,9 @@ function NoteDetails() {
       TextAlign.configure({
         types: ['heading', 'paragraph'], 
       }),
-      
+      Image,
+
+
     ],
     content: entry,  // setting the content with the data we retrieved from earlier 
     editable: edit, // setting to read only mode 

@@ -6,6 +6,8 @@ import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import TextAlign from '@tiptap/extension-text-align'
+import Image from '@tiptap/extension-image'
+
 
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -86,11 +88,23 @@ const MenuBar = ({ editor }) => {
           Justify
         </button>
 
+        <button onClick={() => addImage(editor)}>Add image from URL</button>
 
       </div>
     </div>
   );
 };
+
+
+const addImage = (editor) => {
+  const url = window.prompt('URL')
+
+  if (url) {
+    editor.chain().focus().setImage({ src: url }).run()
+  }
+}
+
+
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -108,6 +122,8 @@ const extensions = [
   TextAlign.configure({
     types: ['heading', 'paragraph'], 
   }),
+  Image,
+
   
 ];
 
