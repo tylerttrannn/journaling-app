@@ -141,7 +141,7 @@ function NoteDetails() {
             <div className="text-container">
               <h2 className = "text-view-h2">{note.title}</h2>
 
-              <div className = "card"> 
+              <div className = "text-view-card"> 
                 <EditorContent editor={editor} />
               </div>
 

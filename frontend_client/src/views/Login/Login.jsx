@@ -1,39 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
-import * as firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 import './Login.css';
-
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const auth = getAuth();
-
-  useEffect(() => {
-    const uiConfig = {
-      signInOptions: [
-        GoogleAuthProvider.PROVIDER_ID,
-      ],
-      callbacks: {
-        signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-          navigate('/dashboard');
-          return false;
-        },
-      },
-    };
-
-    const ui =
-      firebaseui.auth.AuthUI.getInstance() ||
-      new firebaseui.auth.AuthUI(auth);
-
-    ui.start('#firebaseui-auth-container', uiConfig);
-
-    return () => {
-      ui.reset();
-    };
-  }, [auth, navigate]);
 
   const verifyInfo = async (event) => {
     event.preventDefault();
@@ -43,7 +21,22 @@ function Login() {
     const payload = Object.fromEntries(formData);
 
     try {
-      await signInWithEmailAndPassword(auth, payload['email'], payload['password']);
+      await signInWithEmailAndPassword(
+        auth,
+        payload['email'],
+        payload['password']
+      );
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error:', error);
+      setErrorMessage(error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
       navigate('/dashboard');
     } catch (error) {
       console.error('Error:', error);
@@ -61,16 +54,30 @@ function Login() {
         <h1 className="login-title">Login</h1>
         <form className="login-form" onSubmit={verifyInfo}>
           <label className="login-label">Email:</label>
-          <input type="text" name="email" className="login-input" required />
+          <input
+            type="text"
+            name="email"
+            className="login-input"
+            required
+          />
 
           <label className="login-label">Password:</label>
-          <input type="password" name="password" className="login-input" required />
+          <input
+            type="password"
+            name="password"
+            className="login-input"
+            required
+          />
 
-          <button type="submit" className="login-button">Submit</button>
+          <button type="submit" className="login-button">
+            Submit
+          </button>
         </form>
 
-        {/* FirebaseUI Auth Container */}
-        <div id="firebaseui-auth-container"></div>
+        {/* Google Sign-In Button */}
+        <button onClick={handleGoogleSignIn} className="google-sign-in-button">
+          Sign in with Google
+        </button>
 
         {errorMessage && (
           <div className="error">
@@ -87,25 +94,3 @@ function Login() {
 }
 
 export default Login;
-
-
-
-/* 
-
-
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            required
-          />
-
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-
-
-*/

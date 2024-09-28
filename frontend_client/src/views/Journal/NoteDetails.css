@@ -38,6 +38,18 @@
     margin: 0 auto; 
 }
 
+.text-view-card{
+    min-width: 600px;
+    flex: 1;
+
+}
+
+
+
+
+
+
+
 .text-container {
     margin-top: 50px;
     margin-bottom: 20px; 

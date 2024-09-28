@@ -30,3 +30,19 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+
+.google-sign-in-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .google-sign-in-button:hover {
+    background-color: #357ae8;
+  }
+  
