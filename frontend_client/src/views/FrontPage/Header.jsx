@@ -9,8 +9,7 @@ function Header(){
         <div className="header-container">
 
             <div className = "title-image">
-                <img src= "./assets/journaling-icon.png"></img>
-                <h1> Notely</h1>
+                <h1> Journa</h1>
             </div>
 
 

@@ -117,7 +117,7 @@ export default function BasicDateCalendar() {
   };
 
   return (
-  
+    <div className = "basic-date-calendar-container"> 
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         defaultValue={initialValue}
@@ -150,6 +150,7 @@ export default function BasicDateCalendar() {
 
       <h3>You're on a {streak} day streak!</h3> {/* Display the streak */}
     </LocalizationProvider>
+    </div>
   );
 }
 

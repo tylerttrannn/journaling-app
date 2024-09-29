@@ -44,19 +44,26 @@ const NewNote = () => {
       <Header />
       <Navbar />
       <div className="card">
+
+        <div className = "note-details-forms"> 
+          <label htmlFor="title" className="form-label">
+                  Title:
+          </label>
+
+          <input 
+            value={title}   
+            onChange={(e) => setTitle(e.target.value)} 
+            placeholder="Note Title" 
+            className="form-input"
+
+          />
+        </div>
+        
         {/* Pass setEntry to Tiptap to update the state */}
-        <Tiptap setEntry={setEntry} content={entry} />
+        <Tiptap setEntry={setEntry} content={entry} className = "tiptap-newnote" />
       </div>
 
-      <div className="note-inputs">
-        <input 
-          type="text" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          placeholder="Note Title" 
-        />
-        <button onClick={submitEntry}>Save Note</button>
-      </div>
+      <button onClick={submitEntry}>Save Note</button>
     </div>
   );
 };

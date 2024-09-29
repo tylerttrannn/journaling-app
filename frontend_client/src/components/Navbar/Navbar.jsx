@@ -39,7 +39,7 @@ function Navbar() {
                         <div className='nav-icon'>
                             <IoIcons.IoIosJournal className='app-icon' />
                         </div>
-                        <span className='nav-text app-title'>Notely</span>
+                        <span className='nav-text app-title'>Journa</span>
                     </li>
 
                     {sidebarData.map((item, index) => (

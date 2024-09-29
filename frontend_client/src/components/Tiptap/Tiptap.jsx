@@ -84,9 +84,7 @@ const MenuBar = ({ editor }) => {
         <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive('textAlign', { textAlign: 'right' }) ? 'is-active' : ''}>
           Right
         </button>
-        <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive('textAlign', { textAlign: 'justify' }) ? 'is-active' : ''}>
-          Justify
-        </button>
+
 
         <button onClick={() => addImage(editor)}>Add image from URL</button>
 

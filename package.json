@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@coreui/coreui": "^5.1.2",
+    "@coreui/react": "^5.4.0",
     "@tiptap/extension-color": "^2.7.3",
     "@tiptap/extension-image": "^2.7.3",
     "@tiptap/extension-list-item": "^2.7.3",
@@ -7,6 +9,8 @@
     "date-fns": "^3.6.0",
     "firebase": "^10.12.5",
     "framer-motion": "^11.5.4",
-    "react-avatar-editor": "^13.0.2"
+    "react-avatar-editor": "^13.0.2",
+    "react-multi-carousel": "^2.8.5",
+    "use-react-screenshot": "^4.0.0"
   }
 }

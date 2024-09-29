@@ -1,0 +1,49 @@
+.frontpage-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--base-color); /* Assuming you have a CSS variable for base color */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.frontpage-content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items at the top */
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.content-container {
+    flex: 1; /* Allow content to take available space */
+    margin-right: 20px;
+}
+
+.carousel-container {
+    flex: 0.5; /* Set a fixed width for the carousel */
+    max-width: 400px; /* Control the maximum width of the carousel */
+    padding: 15px;
+    background-color: var(--content-bg-color); /* Use your content background color */
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a soft shadow for depth */
+}
+
+.carousel-container img {
+    border-radius: 8px; /* Add rounded corners to the carousel images */
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .frontpage-content-container {
+        flex-direction: column; /* Stack content and carousel on smaller screens */
+        align-items: center;
+    }
+
+    .content-container, .carousel-container {
+        margin-right: 0;
+        max-width: 100%; /* Full width for small screens */
+    }
+}
