@@ -19,7 +19,7 @@ function Header(){
                     <Button primary>Login</Button>
                 </Link>
                 <Link to="/register">
-                <Button secondary>Register</Button>
+                    <Button secondary>Register</Button>
                 </Link>
             </div>
             
