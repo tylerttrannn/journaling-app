@@ -12,6 +12,7 @@
     transition: width 300ms;
 }
 
+
 .nav-logo {
     display: flex;
     align-items: center;
@@ -71,7 +72,8 @@
     border-radius: 4px;
 }
 
-.nav-menu-items li:hover {
+/* Updated hover effect */
+.nav-menu-items li:not(.nav-logo):hover {
     background-color: var(--base-variant);
     cursor: pointer;
 }
@@ -114,6 +116,7 @@
     }
 
     .nav-menu-items {
+        display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-around;
@@ -124,10 +127,17 @@
 
     .nav-menu-items li {
         flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         padding: 0;
+        /* Remove justify-content and align-items to allow <a> to fill the space */
+    }
+
+    .nav-menu-items li a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
     }
 
     .nav-icon {
@@ -144,10 +154,5 @@
     .content-container,
     .journal-container {
         padding-bottom: 60px;
-    }
-
-    .nav-logo,
-    .app-icon {
-        display: none;
     }
 }

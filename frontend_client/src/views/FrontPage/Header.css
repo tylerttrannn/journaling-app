@@ -8,6 +8,11 @@
   padding: 10px;
 }
 
+.user-action{
+  display:flex;
+  
+}
+
 .header-container h1,
 .header-container p,
 .header-container .ui.button {
@@ -22,7 +27,7 @@
 .title-image{
   display: flex;
   justify-content: space-between;
-  margin-left: 50px;
+  margin-left: 25px;
 }
 
 .ui.button {
