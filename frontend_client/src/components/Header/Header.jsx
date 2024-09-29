@@ -67,7 +67,7 @@ function Header() {
         {profilePictureURL ? (
           <img src={profilePictureURL} alt="Profile" className="profile-picture" />
         ) : (
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Default Profile" />
+          <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3467.jpg?w=360" alt="Default Profile" />
         )}
       </div>
 

@@ -43,8 +43,8 @@
 /* Flexbox for buttons */
 .popup-buttons {
     display: flex;
-    justify-content: space-evenly;
     margin-top: 10px;
+    
 }
 
 .popup-input {
@@ -69,11 +69,13 @@
     padding: 10px 20px;
     font-size: 1em;
     background-color: var(--accent-color);
-    color: var(--text-color);
+    color: var(--button-text-color);
     border: none;
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .popup-buttons button:hover {
