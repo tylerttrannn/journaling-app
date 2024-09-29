@@ -1,7 +1,10 @@
 import React from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
+
 import { TbLogout } from 'react-icons/tb';
+import { MdDriveFileRenameOutline, MdEmail, MdOutlinePassword, MdDelete, MdDarkMode} from "react-icons/md";
+
 
 export const settingsData = [
   {
@@ -10,7 +13,7 @@ export const settingsData = [
       {
         title: 'Preferred name',
         text: '',
-        icon: <AiIcons.AiOutlineTrophy/>,
+        icon: <MdDriveFileRenameOutline/>,
         cName: 'settings-text',
         action: 'changeName'
       },
@@ -18,28 +21,22 @@ export const settingsData = [
       {
         title: 'Email',
         text: '',
-        icon: <AiIcons.AiFillHome />,
+        icon: <MdEmail/>,
         cName: 'settings-text',
         action: 'changeEmail',
       },
       {
         title: 'Password',
         text: 'Set a permanent password to login to your account ',
-        icon: <IoIcons.IoIosJournal />,
+        icon: <MdOutlinePassword />,
         cName: 'settings-text',
         action: 'setPassword',
       },
-      {
-        title: '2-Step verification',
-        text: 'Add an additional layer of security to your account during login',
-        icon: <IoIcons.IoIosPhotos />,
-        cName: 'settings-text',
-        action: 'setVerification',
-      },
+
       {
         title: 'Delete my account',
         text: 'Permanently delete my account and remove access from all workspaces',
-        icon: <IoIcons.IoMdSettings />,
+        icon: <MdDelete/>,
         cName: 'settings-text',
         action: 'deleteAccount',
       },
@@ -58,22 +55,11 @@ export const settingsData = [
       {
         title: 'Appearance',
         text: 'Customize how Notion looks on your device.',
-        icon: <TbLogout />,
+        icon: <MdDarkMode/>,
         cName: 'settings-text',
         action: 'setAppearance',
       },
     ],
   },
-  {
-    category: 'Notifications',
-    settings: [
-      {
-        title: 'Notifications',
-        text: 'Receive email reminders, requests, and property changes',
-        icon: <TbLogout />,
-        cName: 'settings-text',
-        action: 'setNotifications',
-      },
-    ],
-  },
+ 
 ];
