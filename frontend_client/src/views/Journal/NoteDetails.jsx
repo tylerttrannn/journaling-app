@@ -59,7 +59,7 @@ function NoteDetails() {
     };
   
     fetchNote();
-  }, [user, id]); // Include 'user' here
+  }, [user, id]); 
   
 
   // iniitalizing the editor 
