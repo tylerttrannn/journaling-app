@@ -8,10 +8,15 @@ import './NoteDetails.css';
 import Tiptap from '../../components/Tiptap/Tiptap.jsx';
 import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
-
-
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+
+
+import { onAuthStateChanged } from 'firebase/auth';
+
+
+
+
 
 function NoteDetails() {
   const params = useParams();
@@ -33,7 +38,7 @@ function NoteDetails() {
         const noteRef = doc(database, 'users', user.uid, 'journal', id);
         try {
           const noteSnapshot = await getDoc(noteRef);
-
+  
           if (noteSnapshot.exists()) {
             const noteData = noteSnapshot.data();
             setNote({
@@ -52,9 +57,10 @@ function NoteDetails() {
         console.error('User is not authenticated');
       }
     };
-
+  
     fetchNote();
-  }, [id]);
+  }, [user, id]); // Include 'user' here
+  
 
   // iniitalizing the editor 
   const editor = useEditor({

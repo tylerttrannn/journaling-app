@@ -75,6 +75,7 @@ function Journal() {
 
   const viewNote = (id) => {
     setNoteToView(id);
+    console.log("note to view id ", id);
   };
 
   useEffect(() => {
