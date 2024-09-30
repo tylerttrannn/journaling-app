@@ -40,14 +40,6 @@ function Register() {
             await updateProfile(user, {
                 displayName: `${payload['first_name']} ${payload['last_name']}`
             });
-
-    
-            // Save additional user info in Firestore
-            await setDoc(doc(db, 'users', user.uid), {
-                firstName: payload['first_name'],
-                lastName: payload['last_name'],
-                email: payload['email'],
-            });
     
             // Creating a journal subcollection 
             const journalCollectionRef = collection(db, 'users', user.uid, 'journal');

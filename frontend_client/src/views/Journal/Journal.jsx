@@ -12,6 +12,7 @@ import {
   deleteDoc,
   getDoc,
   updateDoc,
+  setDoc,
   query,
   where,
   Timestamp,
@@ -105,12 +106,14 @@ function Journal() {
 
         recentlyViewed.push(noteToView);
 
-        await updateDoc(docRef, { recentlyViewed });
-        navigate(`/journal/note/${noteToView}`);
+        await setDoc(docRef, { recentlyViewed }, {merge:true});
         setNoteToView(null);
       } catch (error) {
         console.error('Error adding note to recently viewed:', error);
       }
+
+      navigate(`/journal/note/${noteToView}`);
+
     }
   };
 
