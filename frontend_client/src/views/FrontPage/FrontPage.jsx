@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
+import { Link } from 'react-router-dom';
 
 import 'react-multi-carousel/lib/styles.css';
 import './FrontPage.css';
@@ -28,7 +29,12 @@ function FrontPage() {
             <h3 className="text">
               Our journaling app helps you keep track of your thoughts, tasks, and memories all in one place. Write notes, upload images, and stay productive with built-in features like a to-do list and streak tracking.
             </h3>
-            <button className="get-started">Get Started</button>
+
+
+            <Link to="/register">
+              <button className="get-started">Get Started</button>
+
+            </Link>
 
             <div className="video-container"> 
               <video

@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center; /* centers vertically */
     align-items: center; /* centers horizontally */
-    height: 90vh; /* makes the container take full viewport height */  
+    height: 100vh; /* makes the container take full viewport height */  
 }
 
 .register-container {
@@ -24,7 +24,6 @@
     width: 250px;
     padding: 10px;
     border: 1px solid var(--border-color); /* Use border color from variables */
-    background-color: var(--base-color); /* Use base color */
     color: var(--text-color); /* Input text color */
     border-radius: 4px;
     font-size: 1em;

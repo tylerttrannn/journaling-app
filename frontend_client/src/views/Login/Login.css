@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center; /* centers vertically */
     align-items: center; /* centers horizontally */
-    height: 90vh; /* makes the container take full viewport height */  
+    height: 100vh; /* makes the container take full viewport height */  
 }
 
 

@@ -6,7 +6,7 @@ const db = getFirestore();
 const user = auth.currentUser;
 
 
-const handleDisplayNameChange = async (newName) => {
+const handleDisplayNameChange = async (newName, closePopup) => {
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -16,6 +16,8 @@ const handleDisplayNameChange = async (newName) => {
                 displayName: newName
             });
             console.log("Display name updated successfully!");
+            closePopup();
+            
         } else {
             console.log("No user is currently signed in.");
         }
@@ -25,7 +27,7 @@ const handleDisplayNameChange = async (newName) => {
 };
 
 
-const handleEmailChange = async (newEmail, currentPassword) => {
+const handleEmailChange = async (newEmail, currentPassword, closePopup) => {
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -38,6 +40,7 @@ const handleEmailChange = async (newEmail, currentPassword) => {
             // Send a verification email to the new address
             await verifyBeforeUpdateEmail(user, newEmail);
             console.log("A verification email has been sent to your new email address. Please verify to complete the email change.");
+            closePopup();
         } else {
             console.log("No user is currently signed in.");
         }
@@ -62,13 +65,14 @@ const handleEmailChange = async (newEmail, currentPassword) => {
 };
 
 
-const handlePasswordChange = async (currentPassword, newPassword) => {
+const handlePasswordChange = async (currentPassword, newPassword, closePopup) => {
 
     const credential = EmailAuthProvider.credential(user.email, currentPassword);
     await reauthenticateWithCredential(user, credential);
 
     try{
         updatePassword(user, newPassword);
+        closePopup();
     }
 
     catch(error){
@@ -76,18 +80,6 @@ const handlePasswordChange = async (currentPassword, newPassword) => {
     }
 
 }
-
-
-// will write this later when I pay for the premium firebase lol
-const enableVerification = async () => {
-
-
-
-
-
-}
-
-
 
 const handleDelete = async (currentPassword) => {
 
@@ -103,8 +95,6 @@ const handleDelete = async (currentPassword) => {
     }
 
 }
-
-
 
 const handleTheme = async (theme) => {
     switch (theme) {
@@ -141,7 +131,7 @@ export const handleClick = (action, openPopup, closePopup) => {
                         label: 'Confirm', 
                         // this works as in the popup function we call the onClick function and pass in the input values
                         // which is what we're accessing now 
-                        onClick: (inputValues) => handleDisplayNameChange(inputValues['0'])
+                        onClick: (inputValues) => handleDisplayNameChange(inputValues['0'], closePopup)
                     },
                     { label: 'Cancel', onClick: () => closePopup() }
                 ],
@@ -159,7 +149,7 @@ export const handleClick = (action, openPopup, closePopup) => {
                 actions: [
                     { 
                         label: 'Confirm', 
-                        onClick: (inputValues) => handleEmailChange(inputValues['0'], inputValues['1']) // Pass new email and current password
+                        onClick: (inputValues) => handleEmailChange(inputValues['0'], inputValues['1'], closePopup) // Pass new email and current password
                     },
                     { label: 'Cancel', onClick: () => closePopup() }
                 ],
@@ -177,7 +167,7 @@ export const handleClick = (action, openPopup, closePopup) => {
                 message: "Please enter your new password.",
                 actions: [
                     { label: 'Confirm',
-                         onClick: (inputValues) => handlePasswordChange(inputValues['0'], inputValues['1'])},
+                         onClick: (inputValues) => handlePasswordChange(inputValues['0'], inputValues['1'], closePopup)},
                     { label: 'Cancel', onClick: () => closePopup() }
                 ],
                 textFields: [
