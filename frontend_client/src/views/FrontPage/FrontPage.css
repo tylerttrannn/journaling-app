@@ -10,6 +10,8 @@
 }
 
 .frontpage-container {
+    background-color: var(--base-color);
+
 }
 
 /* Introduction section styling */
